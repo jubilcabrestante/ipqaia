@@ -11,10 +11,10 @@
             "type": "dart"
         },
         {
-            "name": "ipqaia (profile mode)",
+            "name": "ipqaia (debug mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "debug"
         },
         {
             "name": "ipqaia (release mode)",
