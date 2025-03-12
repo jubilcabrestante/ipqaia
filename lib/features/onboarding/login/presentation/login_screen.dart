@@ -126,7 +126,7 @@ class LoginPageState extends State<LoginPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Image.asset("lib/assets/logo.png", height: 100),
+                      Image.asset(Assets.images.logo.path, height: 100),
                       const SizedBox(height: 10),
                       const Text(
                         "IPQAIA",
