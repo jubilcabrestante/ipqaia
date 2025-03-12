@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:ipqaia/app/routes/router.gr.dart';
 import 'package:ipqaia/gen/assets.gen.dart';
 
 @RoutePage()
@@ -41,9 +40,17 @@ class ForgotPasswordPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 50),
-                _buildTextField("Enter new Password", obscureText: true, suffixIcon: Icon(Icons.visibility)),
+                _buildTextField(
+                  "Enter new Password",
+                  obscureText: true,
+                  suffixIcon: const Icon(Icons.visibility),
+                ),
                 const SizedBox(height: 15),
-                _buildTextField("Confirm new Password", obscureText: true, suffixIcon: Icon(Icons.visibility)),
+                _buildTextField(
+                  "Confirm new Password",
+                  obscureText: true,
+                  suffixIcon: const Icon(Icons.visibility_off),
+                ),
                 const SizedBox(height: 20),
                 SizedBox(
                   width: 180,
@@ -56,6 +63,9 @@ class ForgotPasswordPage extends StatelessWidget {
                     child: const Text("Confirm", style: TextStyle(color: Colors.black)),
                   ),
                 ),
+              ],
+            ),
+          ),
           Expanded(
             child: Stack(
               children: [
