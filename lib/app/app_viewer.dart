@@ -1,5 +1,6 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:ipqaia/features/main/account_creation/presentation/account_screen.dart';
 
 @RoutePage()
 class MainAppScreen extends StatefulWidget {
@@ -10,59 +11,66 @@ class MainAppScreen extends StatefulWidget {
 }
 
 class _MainAppScreenState extends State<MainAppScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-class MainScreen extends StatefulWidget {
-  @override
-  _MainScreenState createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
   String selectedMenu = "Account"; // Default selected menu
+
+  // 🔹 Navigation List
+  final List<Map<String, dynamic>> navList = [
+    {"title": "Dashboard", "icon": Icons.home},
+    {"title": "Academic Offerings", "icon": Icons.school},
+    {"title": "Accreditation and COPC", "icon": Icons.assignment},
+    {"title": "Student Life and Facilities", "icon": Icons.people},
+    {"title": "Personnel Profile", "icon": Icons.person},
+    {"title": "SDG", "icon": Icons.public},
+    {"title": "Account", "icon": Icons.account_circle},
+    {"title": "Logout", "icon": Icons.exit_to_app},
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
         children: [
-          // Static Side Menu
+          // Left Sidebar Navigation
           Container(
             width: 250,
             color: Colors.orange.shade200,
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                _buildMenuItem("Dashboard", Icons.home),
-                _buildMenuItem("Academic Offerings", Icons.school),
-                _buildMenuItem("Accreditation and COPC", Icons.assignment),
-                _buildMenuItem("Student Life and Facilities", Icons.people),
-                _buildMenuItem("Personnel Profile", Icons.person),
-                _buildMenuItem("SDG", Icons.public),
-                _buildMenuItem("Account", Icons.account_circle), // Selected by default
-                
-                const Spacer(), // Push logout to bottom
-                _buildMenuItem("Logout", Icons.exit_to_app),
+                // 🔹 Navigation List (Scrollable)
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: navList.length,
+                    itemBuilder: (context, index) {
+                      return _buildMenuItem(navList[index]["title"], navList[index]["icon"]);
+                    },
+                  ),
+                ),
                 const SizedBox(height: 20),
               ],
             ),
           ),
 
-          // Main Content Area
+          // 🔹 Main Content Area (Changes on selection)
           Expanded(
             child: selectedMenu == "Account"
-                ? CreateAccountScreen() // Only show Create Account for now
-                : Center(child: Text("$selectedMenu Page Coming Soon...")),
+                ? CreateAccountScreen()
+                : Center(
+                    child: Text(
+                      "$selectedMenu Page Coming Soon...",
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
           ),
         ],
       ),
     );
   }
 
+  // 🔹 Menu Item Builder
   Widget _buildMenuItem(String title, IconData icon) {
     bool isSelected = selectedMenu == title;
+
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -73,7 +81,7 @@ class _MainScreenState extends State<MainScreen> {
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.redAccent : Colors.transparent,
+          color: isSelected ? Colors.deepOrange : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
@@ -88,140 +96,6 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-// Create Account Screen
-class CreateAccountScreen extends StatelessWidget {
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController roleController = TextEditingController();
-  final TextEditingController genderController = TextEditingController();
-  final TextEditingController ageController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.all(30),
-        width: 700,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              spreadRadius: 5,
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Back Button
-            Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.black),
-                  onPressed: () {
-                    // Handle back action
-                  },
-                ),
-                const Text(
-                  "Account",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.orangeAccent,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-
-            // Title
-            const Center(
-              child: Text(
-                "Create New Account",
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.redAccent,
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            // Input Fields
-            Row(
-              children: [
-                Expanded(child: buildTextField("First Name", firstNameController)),
-                const SizedBox(width: 10),
-                Expanded(child: buildTextField("Last Name", lastNameController)),
-              ],
-            ),
-            buildTextField("Email", emailController),
-            Row(
-              children: [
-                Expanded(child: buildTextField("Role", roleController)),
-                const SizedBox(width: 10),
-                Expanded(child: buildTextField("Age", ageController)),
-              ],
-            ),
-            buildTextField("Gender", genderController),
-            buildTextField("Password", passwordController, obscureText: true),
-            buildTextField("Confirm Password", confirmPasswordController, obscureText: true),
-            
-            const SizedBox(height: 20),
-
-            // Confirm Button
-            Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Handle account creation logic
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: const Text(
-                  "Confirm",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildTextField(String hint, TextEditingController controller, {bool obscureText = false}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: TextFormField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          hintText: hint,
-          filled: true,
-          fillColor: Colors.orange.shade100,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide.none,
-          ),
         ),
       ),
     );

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:ipqaia/gen/assets.gen.dart';
 
 @RoutePage()
-class ForgotPasswordPage extends StatelessWidget {
-  const ForgotPasswordPage({super.key});
+class ChangePassword extends StatelessWidget {
+  const ChangePassword({super.key});
+
 
   Widget _buildTextField(String label, {bool obscureText = false, Widget? suffixIcon}) {
     return SizedBox(
@@ -35,7 +36,7 @@ class ForgotPasswordPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 0, 175, 172),
+                    color: Color.fromARGB(255, 255, 128, 0),
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -57,7 +58,7 @@ class ForgotPasswordPage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 0, 202, 152),
+                      backgroundColor: const Color.fromARGB(255, 255, 128, 0),
                       padding: const EdgeInsets.symmetric(vertical: 10),
                     ),
                     child: const Text("Confirm", style: TextStyle(color: Colors.black)),

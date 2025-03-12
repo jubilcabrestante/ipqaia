@@ -14,7 +14,8 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   bool _obscurePassword = true;
 
-  Widget _buildTextField(String label, {bool obscureText = false, Widget? suffixIcon}) {
+  Widget _buildTextField(String label,
+      {bool obscureText = false, Widget? suffixIcon}) {
     return SizedBox(
       width: 450,
       child: TextField(
@@ -43,7 +44,7 @@ class LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                     fontSize: 70,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 0, 175, 172),
+                    color: Color.fromARGB(255, 255, 77, 0),
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -55,26 +56,35 @@ class LoginPageState extends State<LoginPage> {
                   obscureText: _obscurePassword,
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                      _obscurePassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
                     ),
-                    onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                    onPressed: () =>
+                        setState(() => _obscurePassword = !_obscurePassword),
                   ),
                 ),
-                const SizedBox(height:20),
+                const SizedBox(height: 20),
                 SizedBox(
                   width: 250,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.pushRoute(const MainAppRoute());
+                    },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 0, 202, 152),
+                      backgroundColor: const Color.fromARGB(255, 255, 77, 0),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
-                    child: const Text("Log In", style: TextStyle(color: Colors.black)),
+                    child: const Text("Log In",
+                        style: TextStyle(color: Colors.black)),
                   ),
                 ),
                 TextButton(
-                  onPressed: () => context.router.push(const ForgotPasswordRoute()),
-                  child: const Text("Forgot Password?", style: TextStyle(color: Color.fromARGB(255, 0, 202, 152))),
+                  onPressed: () =>
+                      context.router.push(const ForgotPasswordRoute()),
+                  child: const Text("Forgot Password?",
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 0, 131, 202))),
                 ),
               ],
             ),
