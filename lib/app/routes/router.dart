@@ -14,7 +14,8 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: LoginRoute.page, initial: true),
         AutoRoute(page: MainAppRoute.page, path: '/main'),
         AutoRoute(page: CreateAccountRoute.page, path: '/account'),
-        AutoRoute(page: PersonelProfileRoute.page, path: '/personelprofile')
+        AutoRoute(page: PersonelProfileRoute.page, path: '/personelprofile'),
+        AutoRoute(page: ForgotPasswordRoute.page),
       ];
 
   @override
