@@ -16,7 +16,6 @@ class _MainAppScreenState extends State<MainAppScreen> {
 
   // 🔹 Navigation List
   final List<Map<String, dynamic>> navList = [
-    {"title": "Dashboard", "icon": Icons.home},
     {"title": "Academic Offerings", "icon": Icons.school},
     {"title": "Accreditation and COPC", "icon": Icons.assignment},
     {"title": "Student Life and Facilities", "icon": Icons.people},
