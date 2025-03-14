@@ -12,7 +12,7 @@ class MainAppScreen extends StatefulWidget {
 }
 
 class _MainAppScreenState extends State<MainAppScreen> {
-  String selectedMenu = "Account"; // Default selected menu
+  
 
   // 🔹 Navigation List
   final List<Map<String, dynamic>> navList = [
