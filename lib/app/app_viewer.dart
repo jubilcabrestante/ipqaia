@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ipqaia/features/main/account_creation/presentation/account_screen.dart';
+import 'package:ipqaia/features/main/personel_profile/presentation/personel_profile.dart';
 
 @RoutePage()
 class MainAppScreen extends StatefulWidget {
@@ -52,16 +53,19 @@ class _MainAppScreenState extends State<MainAppScreen> {
           ),
 
           // 🔹 Main Content Area (Changes on selection)
-          Expanded(
-            child: selectedMenu == "Account"
-                ? CreateAccountScreen()
-                : Center(
-                    child: Text(
-                      "$selectedMenu Page Coming Soon...",
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-          ),
+         Expanded(
+  child: selectedMenu == "Account"
+      ? const CreateAccountScreen()
+      : selectedMenu == "Profile"
+          ? const PersonelProfileScreen()
+          : Center(
+              child: Text(
+                "$selectedMenu Page Coming Soon...",
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+),
+
         ],
       ),
     );
