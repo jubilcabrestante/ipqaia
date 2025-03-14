@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ipqaia/features/main/account_creation/presentation/account_screen.dart';
+import 'package:ipqaia/features/main/accreditation/presentation/accreditation_screen.dart';
 import 'package:ipqaia/features/main/personel_profile/presentation/personel_profile.dart';
 
 @RoutePage()
@@ -16,6 +17,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
 
   // 🔹 Navigation List
   final List<Map<String, dynamic>> navList = [
+    {"title": "Dashboard", "icon": Icons.home},
     {"title": "Academic Offerings", "icon": Icons.school},
     {"title": "Accreditation and COPC", "icon": Icons.assignment},
     {"title": "Student Life and Facilities", "icon": Icons.people},
@@ -57,7 +59,10 @@ class _MainAppScreenState extends State<MainAppScreen> {
                 ? const CreateAccountScreen()
                 : selectedMenu == "Personnel Profile" // ✅ Corrected Check
                     ? const PersonelProfileScreen() // ✅ Ensure correct import
-                    : Center(
+                     : selectedMenu == "Accreditation and COPC" // ✅ ACcreditation and COPC
+                        ? const AccreditationScreen() 
+                        
+                        : Center(
                         child: Text(
                           "$selectedMenu Page Coming Soon...",
                           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
