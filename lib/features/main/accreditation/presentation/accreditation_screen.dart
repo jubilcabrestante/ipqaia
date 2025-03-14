@@ -57,7 +57,14 @@ class AccreditationPageState extends State<AccreditationPage> {
             ),
           ),
           Expanded(
-            child: showProfile ? _buildProfileTable() : _buildReportsTable(),
+            child: Column(
+              children: [
+                _buildValiditySection(), // Added validity section here
+                Expanded(
+                  child: showProfile ? _buildProfileTable() : _buildReportsTable(),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -78,6 +85,79 @@ class AccreditationPageState extends State<AccreditationPage> {
     );
   }
 
+  Widget _buildValiditySection() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          const Text(
+            "Validity of Accreditation",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const Text(
+            "(Ref. Accreditation Certificate)",
+            style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
+          ),
+          const SizedBox(height: 10),
+          Table(
+            border: TableBorder.all(color: Colors.black, width: 1),
+            columnWidths: const {
+              0: FlexColumnWidth(1),
+              1: FlexColumnWidth(1),
+            },
+            children: [
+              const TableRow(
+                decoration: BoxDecoration(color: Colors.grey),
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
+                        "Start Date\n(MMM-DD-YYYY)",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
+                        "End Date\n(MMM-DD-YYYY)",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              TableRow(children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(child: Text("Jan-01-2021")),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(child: Text("Dec-31-2024")),
+                ),
+              ]),
+              TableRow(children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(child: Text("Oct-01-2022")),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(child: Text("Sep-30-2023")),
+                ),
+              ]),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildProfileTable() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -85,9 +165,9 @@ class AccreditationPageState extends State<AccreditationPage> {
         columnSpacing: 20,
         headingRowColor: MaterialStateColor.resolveWith((states) => Colors.orange.shade400),
         columns: [
-          DataColumn(label: Text('Name', style: TextStyle(color: Colors.white))),
-          DataColumn(label: Text('Gender', style: TextStyle(color: Colors.white))),
-          DataColumn(label: Text('Civil Status', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('Undergraduate Programs Offered', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('Year of Initial Operation', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('Program Accreditation', style: TextStyle(color: Colors.white))),
           DataColumn(label: Text('Employment Status', style: TextStyle(color: Colors.white))),
           DataColumn(label: Text('Date Started', style: TextStyle(color: Colors.white))),
           DataColumn(label: Text('Department', style: TextStyle(color: Colors.white))),
