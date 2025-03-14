@@ -68,7 +68,6 @@ class _PersonnelProfileReportsScreenState
                       DataCell(Text('')),
                       DataCell(Text("")),
                       DataCell(Text('')),
-                      DataCell(Text('')),
                     ]),
                   ],
                 ),
