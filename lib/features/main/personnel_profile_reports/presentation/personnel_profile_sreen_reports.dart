@@ -1,15 +1,17 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-class PersonnelProfileScreenReports extends StatefulWidget {
-  const PersonnelProfileScreenReports({super.key});
+@RoutePage()
+class PersonnelProfileReportsScreen extends StatefulWidget {
+  const PersonnelProfileReportsScreen({super.key});
 
   @override
-  State<PersonnelProfileScreenReports> createState() =>
-      _PersonnelProfileScreenReportsState();
+  State<PersonnelProfileReportsScreen> createState() =>
+      _PersonnelProfileReportsScreenState();
 }
 
-class _PersonnelProfileScreenReportsState
-    extends State<PersonnelProfileScreenReports> {
+class _PersonnelProfileReportsScreenState
+    extends State<PersonnelProfileReportsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,11 +61,13 @@ class _PersonnelProfileScreenReportsState
                       DataCell(Text('')),
                       DataCell(Text("")),
                       DataCell(Text('')),
+                      DataCell(Text('')),
                     ]),
                     DataRow(cells: [
                       DataCell(Text('')),
                       DataCell(Text('')),
                       DataCell(Text("")),
+                      DataCell(Text('')),
                       DataCell(Text('')),
                     ]),
                   ],
