@@ -12,7 +12,7 @@ class MainAppScreen extends StatefulWidget {
 }
 
 class _MainAppScreenState extends State<MainAppScreen> {
-  
+  String selectedMenu = "Account"; // Default selected menu
 
   // 🔹 Navigation List
   final List<Map<String, dynamic>> navList = [
@@ -20,7 +20,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
     {"title": "Academic Offerings", "icon": Icons.school},
     {"title": "Accreditation and COPC", "icon": Icons.assignment},
     {"title": "Student Life and Facilities", "icon": Icons.people},
-    {"title": "Personnel Profile", "icon": Icons.person},
+    {"title": "Personnel Profile", "icon": Icons.person}, // ✅ Matches the check
     {"title": "SDG", "icon": Icons.public},
     {"title": "Account", "icon": Icons.account_circle},
     {"title": "Logout", "icon": Icons.exit_to_app},
@@ -53,19 +53,18 @@ class _MainAppScreenState extends State<MainAppScreen> {
           ),
 
           // 🔹 Main Content Area (Changes on selection)
-         Expanded(
-  child: selectedMenu == "Account"
-      ? const CreateAccountScreen()
-      : selectedMenu == "Profile"
-          ? const PersonelProfileScreen()
-          : Center(
-              child: Text(
-                "$selectedMenu Page Coming Soon...",
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
-),
-
+          Expanded(
+            child: selectedMenu == "Account"
+                ? const CreateAccountScreen()
+                : selectedMenu == "Personnel Profile" // ✅ Corrected Check
+                    ? const PersonelProfileScreen() // ✅ Ensure correct import
+                    : Center(
+                        child: Text(
+                          "$selectedMenu Page Coming Soon...",
+                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+          ),
         ],
       ),
     );
