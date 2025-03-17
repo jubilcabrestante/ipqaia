@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -24,6 +25,7 @@ class PersonnelProfilePage extends StatefulWidget {
 
 class PersonnelProfilePageState extends State<PersonnelProfilePage> {
   bool showProfile = true;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -81,49 +83,94 @@ class PersonnelProfilePageState extends State<PersonnelProfilePage> {
     );
   }
 
-  Widget _buildProfileTable() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        columnSpacing: 20,
-        headingRowColor:
-            MaterialStateColor.resolveWith((states) => Colors.orange.shade400),
-        columns: [
-          DataColumn(
-              label: Text('Name', style: TextStyle(color: Colors.white))),
-          DataColumn(
-              label: Text('Gender', style: TextStyle(color: Colors.white))),
-          DataColumn(
-              label:
-                  Text('Civil Status', style: TextStyle(color: Colors.white))),
-          DataColumn(
-              label: Text('Employment Status',
-                  style: TextStyle(color: Colors.white))),
-          DataColumn(
-              label:
-                  Text('Date Started', style: TextStyle(color: Colors.white))),
-          DataColumn(
-              label: Text('Department', style: TextStyle(color: Colors.white))),
-          DataColumn(
-              label: Text('Degree', style: TextStyle(color: Colors.white))),
-          DataColumn(
-              label: Text('Specialization',
-                  style: TextStyle(color: Colors.white))),
-        ],
-        rows: [
-          DataRow(cells: [
-            DataCell(Text('Juan Dela Cruz')),
-            DataCell(Text('Male')),
-            DataCell(Text('Single')),
-            DataCell(Text('Permanent')),
-            DataCell(Text('June 20, 2024')),
-            DataCell(Text('CSD')),
-            DataCell(Text('Masters')),
-            DataCell(Text('Data Analyst')),
-          ]),
-        ],
+Widget _buildProfileTable() {
+  return Expanded(
+    
+    child: Scrollbar( // ✅ Adds Scrollbar for horizontal scrolling
+      controller: ScrollController(), // Ensures smooth scrolling
+       thumbVisibility: true,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal, // ✅ Enables left-to-right scrolling
+        child: Scrollbar(
+          controller: ScrollController(), // ✅ Adds vertical scrollbar too
+          thumbVisibility: true,
+          child: DataTable(
+            columnSpacing: 20,
+            headingRowColor: WidgetStateColor.resolveWith(
+                (states) => Colors.orange.shade400),
+            columns: const [
+              DataColumn(
+                  label: Text('Name', style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('Gender', style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('Civil Status',
+                      style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('Employment Status',
+                      style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('Date Started',
+                      style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('Department',
+                      style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('Degree', style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('Specialization',
+                      style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('Date Started',
+                      style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('Department',
+                      style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('Degree', style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('Specialization',
+                      style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('PWD', style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('Senior Citizen',
+                      style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('Action', style: TextStyle(color: Colors.white))),
+            ],
+            rows: [
+              DataRow(cells: [
+                const DataCell(Text('Juan Dela Cruz')),
+                const DataCell(Text('Male')),
+                const DataCell(Text('Single')),
+                const DataCell(Text('Permanent')),
+                const DataCell(Text('June 20, 2024')),
+                const DataCell(Text('CSD')),
+                const DataCell(Text('Masters')),
+                const DataCell(Text('Data Analyst')),
+                     const DataCell(Text('June 20, 2024')),
+            const DataCell(Text('CSD')),
+            const DataCell(Text('Masters')),
+            const DataCell(Text('Data Analyst')),
+            const DataCell(Text('Yes')),
+            const DataCell(Text('No')),
+            DataCell(
+              ElevatedButton(
+                onPressed: ()  {},
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                child: const Text('Delete', style: TextStyle(color: Colors.white)),
+              ),
+            ),
+              ]),
+            ],
+          ),
+      
+    ),
       ),
-    );
+    ),
+  );
+  
   }
 
   Widget _buildReportsTable() {
@@ -132,7 +179,7 @@ class PersonnelProfilePageState extends State<PersonnelProfilePage> {
       child: DataTable(
         columnSpacing: 20,
         headingRowColor:
-            MaterialStateColor.resolveWith((states) => Colors.orange.shade400),
+            WidgetStateColor.resolveWith((states) => Colors.orange.shade400),
         columns: [
           DataColumn(
               label:
