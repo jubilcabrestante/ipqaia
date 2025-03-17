@@ -41,14 +41,14 @@ class AccountScreenState extends State<AccountScreen> {
                   ontab: () {
                     // context.router.push(const )
                   },
-                  text: "List of Articles",
+                  text: "List of Accounts",
                 ),
                 Gap(20),
                 AppCustomButton(
                   ontab: () {
                     // context.router.push(const )
                   },
-                  text: "Manage SDG's",
+                  text: "Create Account",
                 )
               ],
             ),
