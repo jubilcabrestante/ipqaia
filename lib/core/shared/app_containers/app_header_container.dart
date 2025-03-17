@@ -13,9 +13,11 @@ class AppHeaderContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.backgroundSecondary,
-      height: 100,
       width: double.infinity,
-      child: child,
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: child,
+      ),
     );
   }
 }
