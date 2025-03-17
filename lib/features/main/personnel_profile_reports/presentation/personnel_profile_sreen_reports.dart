@@ -1,20 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+@RoutePage()
+class PersonnelProfileScreen extends StatefulWidget {
+  const PersonnelProfileScreen({super.key});
 
-class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: PersonnelProfileScreen(),
-    );
-  }
+  State<PersonnelProfileScreen> createState() => _PersonnelProfileScreenState();
 }
 
-class PersonnelProfileScreen extends StatelessWidget {
+class _PersonnelProfileScreenState extends State<PersonnelProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
