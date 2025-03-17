@@ -15,7 +15,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: DataTable(
-        columnSpacing: 20,
+        columnSpacing: 68,
         headingRowColor:
             WidgetStateColor.resolveWith((states) => Colors.orange.shade400),
         columns: [
