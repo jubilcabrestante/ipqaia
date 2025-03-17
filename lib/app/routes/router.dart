@@ -34,11 +34,20 @@ class AppRouter extends RootStackRouter {
           AutoRoute(
               page: StudentLifeRoute.page,
               path: "student-life-and-facilities",
-              children: []),
+              children: [
+                AutoRoute(page: StudentsRoute.page, path: "students"),
+                AutoRoute(page: BuildingRoute.page, path: "buildings"),
+                AutoRoute(page: DepartmentRoute.page, path: "departments")
+              ]),
 
           //PersonnelProfileRoute
           AutoRoute(
-              page: PersonnelProfileRoute.page, path: "personnel-profile"),
+              page: PersonnelProfileRoute.page,
+              path: "personnel-profile",
+              children: [
+                AutoRoute(page: ProfileRoute.page, path: "profile"),
+                AutoRoute(page: ReportRoute.page, path: "reports")
+              ]),
 
           // Sustainable Development Goals
           AutoRoute(page: SdgRoute.page, path: "sdg", children: [
