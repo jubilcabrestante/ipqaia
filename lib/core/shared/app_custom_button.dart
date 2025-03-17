@@ -25,7 +25,7 @@ class AppCustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: ontab,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
         decoration: BoxDecoration(
           color: isActive!
               ? AppColors.primary
