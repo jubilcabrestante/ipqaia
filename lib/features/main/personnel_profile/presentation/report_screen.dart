@@ -18,7 +18,7 @@ class _ReportScreenState extends State<ReportScreen> {
       child: DataTable(
         columnSpacing: 20,
         headingRowColor:
-            WidgetStateColor.resolveWith((states) => Colors.orange.shade400),
+            WidgetStateColor.resolveWith((states) => AppColors.primary),
         columns: [
           DataColumn(
               label: Text('Date Started',
@@ -53,7 +53,8 @@ class _ReportScreenState extends State<ReportScreen> {
             DataCell(
               ElevatedButton(
                 onPressed: () {},
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary),
                 child: Text('Delete',
                     style: TextStyle(color: AppColors.textSecondary)),
               ),
