@@ -32,7 +32,7 @@ class PersonnelProfileScreen extends StatelessWidget {
                     ontab: () {
                       tabsRouter.setActiveIndex(0);
                     },
-                    text: "List of Articles",
+                    text: "Profile",
                     isActive: tabsRouter.activeIndex == 0,
                   ),
                   const Gap(20),
@@ -40,7 +40,7 @@ class PersonnelProfileScreen extends StatelessWidget {
                     ontab: () {
                       tabsRouter.setActiveIndex(1);
                     },
-                    text: "Manage SDG's",
+                    text: "Reports",
                     isActive: tabsRouter.activeIndex == 1,
                   ),
                 ],
