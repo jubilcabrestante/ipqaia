@@ -22,13 +22,24 @@ class AppRouter extends RootStackRouter {
           AutoRoute(
               page: AcademicOfferingsRoute.page,
               path: "academic-offerings",
-              children: []),
+              children: [
+                AutoRoute(
+                    page: StudentProfileRoute.page, path: "student-profile"),
+                AutoRoute(page: ProgramsRoute.page, path: "program"),
+                AutoRoute(
+                    page: AcademicReportsRoute.page, path: "academic-reports")
+              ]),
 
           // Accreditations
           AutoRoute(
               page: AccreditationRoute.page,
               path: "accreditation-route",
-              children: []),
+              children: [
+                AutoRoute(
+                    page: ListOfAccreditationRoute.page,
+                    path: "list-of-accounts"),
+                AutoRoute(page: CopcRoute.page, path: "copc")
+              ]),
 
           // Student Life and Facilities
           AutoRoute(
@@ -56,7 +67,10 @@ class AppRouter extends RootStackRouter {
           ]),
 
           //Accounts
-          AutoRoute(page: AccountRoute.page, path: "accounts"),
+          AutoRoute(page: AccountRoute.page, path: "accounts", children: [
+            AutoRoute(page: ListOfAccountsRoute.page, path: "list-of-accounts"),
+            AutoRoute(page: CreateAccountRoute.page, path: "create-account")
+          ]),
         ]),
       ];
 
