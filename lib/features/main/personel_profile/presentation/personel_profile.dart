@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class PersonelProfileScreen extends StatelessWidget {
-  const PersonelProfileScreen({super.key});
+class PersonnelProfileScreen extends StatelessWidget {
+  const PersonnelProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,8 @@ class PersonnelProfilePageState extends State<PersonnelProfilePage> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange.shade400,
                   ),
-                  child: Text('Add Profile', style: TextStyle(color: Colors.white)),
+                  child: Text('Add Profile',
+                      style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -72,7 +73,9 @@ class PersonnelProfilePageState extends State<PersonnelProfilePage> {
         });
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: showProfile == isProfile ? Colors.orange.shade400 : Colors.orange.shade100,
+        backgroundColor: showProfile == isProfile
+            ? Colors.orange.shade400
+            : Colors.orange.shade100,
       ),
       child: Text(title, style: TextStyle(color: Colors.black)),
     );
@@ -83,16 +86,29 @@ class PersonnelProfilePageState extends State<PersonnelProfilePage> {
       scrollDirection: Axis.horizontal,
       child: DataTable(
         columnSpacing: 20,
-        headingRowColor: MaterialStateColor.resolveWith((states) => Colors.orange.shade400),
+        headingRowColor:
+            MaterialStateColor.resolveWith((states) => Colors.orange.shade400),
         columns: [
-          DataColumn(label: Text('Name', style: TextStyle(color: Colors.white))),
-          DataColumn(label: Text('Gender', style: TextStyle(color: Colors.white))),
-          DataColumn(label: Text('Civil Status', style: TextStyle(color: Colors.white))),
-          DataColumn(label: Text('Employment Status', style: TextStyle(color: Colors.white))),
-          DataColumn(label: Text('Date Started', style: TextStyle(color: Colors.white))),
-          DataColumn(label: Text('Department', style: TextStyle(color: Colors.white))),
-          DataColumn(label: Text('Degree', style: TextStyle(color: Colors.white))),
-          DataColumn(label: Text('Specialization', style: TextStyle(color: Colors.white))),
+          DataColumn(
+              label: Text('Name', style: TextStyle(color: Colors.white))),
+          DataColumn(
+              label: Text('Gender', style: TextStyle(color: Colors.white))),
+          DataColumn(
+              label:
+                  Text('Civil Status', style: TextStyle(color: Colors.white))),
+          DataColumn(
+              label: Text('Employment Status',
+                  style: TextStyle(color: Colors.white))),
+          DataColumn(
+              label:
+                  Text('Date Started', style: TextStyle(color: Colors.white))),
+          DataColumn(
+              label: Text('Department', style: TextStyle(color: Colors.white))),
+          DataColumn(
+              label: Text('Degree', style: TextStyle(color: Colors.white))),
+          DataColumn(
+              label: Text('Specialization',
+                  style: TextStyle(color: Colors.white))),
         ],
         rows: [
           DataRow(cells: [
@@ -115,15 +131,25 @@ class PersonnelProfilePageState extends State<PersonnelProfilePage> {
       scrollDirection: Axis.horizontal,
       child: DataTable(
         columnSpacing: 20,
-        headingRowColor: MaterialStateColor.resolveWith((states) => Colors.orange.shade400),
+        headingRowColor:
+            MaterialStateColor.resolveWith((states) => Colors.orange.shade400),
         columns: [
-          DataColumn(label: Text('Date Started', style: TextStyle(color: Colors.white))),
-          DataColumn(label: Text('Department', style: TextStyle(color: Colors.white))),
-          DataColumn(label: Text('Degree', style: TextStyle(color: Colors.white))),
-          DataColumn(label: Text('Specialization', style: TextStyle(color: Colors.white))),
+          DataColumn(
+              label:
+                  Text('Date Started', style: TextStyle(color: Colors.white))),
+          DataColumn(
+              label: Text('Department', style: TextStyle(color: Colors.white))),
+          DataColumn(
+              label: Text('Degree', style: TextStyle(color: Colors.white))),
+          DataColumn(
+              label: Text('Specialization',
+                  style: TextStyle(color: Colors.white))),
           DataColumn(label: Text('PWD', style: TextStyle(color: Colors.white))),
-          DataColumn(label: Text('Senior Citizen', style: TextStyle(color: Colors.white))),
-          DataColumn(label: Text('Action', style: TextStyle(color: Colors.white))),
+          DataColumn(
+              label: Text('Senior Citizen',
+                  style: TextStyle(color: Colors.white))),
+          DataColumn(
+              label: Text('Action', style: TextStyle(color: Colors.white))),
         ],
         rows: [
           DataRow(cells: [
