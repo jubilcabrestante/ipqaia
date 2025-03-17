@@ -13,6 +13,20 @@ class _MainAppState extends State<MainApp> {
   final AppRouter _appRouter = AppRouter();
   @override
   Widget build(BuildContext context) {
+    // TODO: Initialize properties here
+
+    //     final userRepository = FirebaseUserRepository(googleSignIn);
+    //  MultiRepositoryProvider(
+    //         providers: [],
+    //         child: MultiBlocProvider(
+    //           providers: [
+    //             BlocProvider(
+    //               create: (context) => SubjectBloc(),
+    //             ),
+    //             BlocProvider(
+    //               create: (context) => SubjectBloc(),
+    //             ),
+    //           ],
     return MaterialApp.router(
       debugShowCheckedModeBanner: true,
       theme: AppThemes.lightTheme,

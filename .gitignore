@@ -46,7 +46,6 @@ app.*.map.json
 windows/flutter/
 macos/Flutter/
 
-
 pubspec.lock
 pubspec.lock
 windows/flutter/generated_plugins.cmake
@@ -55,3 +54,10 @@ windows/flutter/generated_plugin_registrant.cc
 macos/Flutter/GeneratedPluginRegistrant.swift
 windows/flutter/generated_plugins.cmake
 macos/Flutter/GeneratedPluginRegistrant.swift
+
+# FVM Version Cache
+.fvm/
+.fvmrc
+macos/Flutter/GeneratedPluginRegistrant.swift
+windows/flutter/generated_plugins.cmake
+windows/flutter/generated_plugin_registrant.cc

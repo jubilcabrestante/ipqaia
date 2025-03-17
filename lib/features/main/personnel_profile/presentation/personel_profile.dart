@@ -7,15 +7,15 @@ import 'package:ipqaia/core/shared/app_containers/app_header_container.dart';
 import 'package:ipqaia/core/shared/app_custom_button.dart';
 
 @RoutePage()
-class SdgScreen extends StatelessWidget {
-  const SdgScreen({super.key});
+class PersonnelProfileScreen extends StatelessWidget {
+  const PersonnelProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter(
       routes: const [
-        ListArticlesRoute(),
-        ManageSdgRoute(),
+        ProfileRoute(),
+        ReportRoute(),
       ],
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
@@ -32,7 +32,7 @@ class SdgScreen extends StatelessWidget {
                     ontab: () {
                       tabsRouter.setActiveIndex(0);
                     },
-                    text: "List of Articles",
+                    text: "Profile",
                     isActive: tabsRouter.activeIndex == 0,
                   ),
                   const Gap(20),
@@ -40,7 +40,7 @@ class SdgScreen extends StatelessWidget {
                     ontab: () {
                       tabsRouter.setActiveIndex(1);
                     },
-                    text: "Manage SDG's",
+                    text: "Reports",
                     isActive: tabsRouter.activeIndex == 1,
                   ),
                 ],

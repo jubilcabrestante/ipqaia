@@ -6,7 +6,7 @@ part of 'personel_profile_vm.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PersonelVm _$PersonelVmFromJson(Map<String, dynamic> json) => PersonelVm(
+PersonnelVm _$PersonnelVmFromJson(Map<String, dynamic> json) => PersonnelVm(
       name: json['name'] as String,
       contactNumber: json['contactNumber'] as String,
       gender: json['gender'] as String,
@@ -20,7 +20,7 @@ PersonelVm _$PersonelVmFromJson(Map<String, dynamic> json) => PersonelVm(
       specialization: json['specialization'] as String?,
     );
 
-Map<String, dynamic> _$PersonelVmToJson(PersonelVm instance) =>
+Map<String, dynamic> _$PersonnelVmToJson(PersonnelVm instance) =>
     <String, dynamic>{
       'name': instance.name,
       'contactNumber': instance.contactNumber,

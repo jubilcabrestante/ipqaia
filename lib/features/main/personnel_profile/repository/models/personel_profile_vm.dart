@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ipqaia/features/main/personel_profile/repository/models/personel_profile_dto.dart';
+import 'package:ipqaia/features/main/personnel_profile/repository/models/personel_profile_dto.dart';
 part 'personel_profile_vm.g.dart';
 
 @JsonSerializable()
-class PersonelVm {
+class PersonnelVm {
   final String name;
   final String contactNumber;
   final String gender;
@@ -16,7 +16,7 @@ class PersonelVm {
   final String pwd;
   final String seniorCitizen;
 
-  const PersonelVm({
+  const PersonnelVm({
     required this.name,
     required this.contactNumber,
     required this.gender,
@@ -30,18 +30,21 @@ class PersonelVm {
     this.specialization,
   });
 
-factory PersonelVm.fromDto(PersonelDto dto) {
-    return PersonelVm(
-      name: dto.name, contactNumber: dto.contactNumber, 
-      gender: dto.gender, pwd: dto.pwd, seniorCitizen: dto.seniorCitizen, 
-      civilStatus: dto.civilStatus, employmentStatus: dto.employmentStatus,
+  factory PersonnelVm.fromDto(PersonnelDto dto) {
+    return PersonnelVm(
+      name: dto.name,
+      contactNumber: dto.contactNumber,
+      gender: dto.gender,
+      pwd: dto.pwd,
+      seniorCitizen: dto.seniorCitizen,
+      civilStatus: dto.civilStatus,
+      employmentStatus: dto.employmentStatus,
       datestarted: dto.datestarted,
     );
   }
 
+  factory PersonnelVm.fromJson(Map<String, dynamic> json) =>
+      _$PersonnelVmFromJson(json);
 
-  factory PersonelVm.fromJson(Map<String, dynamic> json) =>
-      _$PersonelVmFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PersonelVmToJson(this);
+  Map<String, dynamic> toJson() => _$PersonnelVmToJson(this);
 }
