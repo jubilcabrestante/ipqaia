@@ -1,23 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:ipqaia/app/routes/router.gr.dart';
 import 'package:ipqaia/gen/assets.gen.dart';
 
 @RoutePage()
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class ChangePassword extends StatelessWidget {
+  const ChangePassword({super.key});
 
-  @override
-  LoginPageState createState() => LoginPageState();
-}
 
-class LoginPageState extends State<LoginPage> {
-  bool _obscurePassword = true;
-
-  Widget _buildTextField(String label,
-      {bool obscureText = false, Widget? suffixIcon}) {
+  Widget _buildTextField(String label, {bool obscureText = false, Widget? suffixIcon}) {
     return SizedBox(
-      width: 450,
+      width: 280,
       child: TextField(
         obscureText: obscureText,
         decoration: InputDecoration(
@@ -40,51 +32,37 @@ class LoginPageState extends State<LoginPage> {
               children: [
                 const SizedBox(height: 20),
                 const Text(
-                  "Sign in",
+                  "Change Password",
                   style: TextStyle(
-                    fontSize: 70,
+                    fontSize: 50,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 255, 77, 0),
+                    color: Color.fromARGB(255, 255, 128, 0),
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 75),
-                _buildTextField("PSU Email"),
+                const SizedBox(height: 50),
+                _buildTextField(
+                  "Enter new Password",
+                  obscureText: true,
+                  suffixIcon: const Icon(Icons.visibility),
+                ),
                 const SizedBox(height: 15),
                 _buildTextField(
-                  "Password",
-                  obscureText: _obscurePassword,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                    ),
-                    onPressed: () =>
-                        setState(() => _obscurePassword = !_obscurePassword),
-                  ),
+                  "Confirm new Password",
+                  obscureText: true,
+                  suffixIcon: const Icon(Icons.visibility_off),
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
-                  width: 250,
+                  width: 180,
                   child: ElevatedButton(
-                    onPressed: () {
-                      context.pushRoute(const MainAppRoute());
-                    },
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 255, 77, 0),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      backgroundColor: const Color.fromARGB(255, 255, 128, 0),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                     ),
-                    child: const Text("Log In",
-                        style: TextStyle(color: Colors.black)),
+                    child: const Text("Confirm", style: TextStyle(color: Colors.black)),
                   ),
-                ),
-                TextButton(
-                  onPressed: () =>
-                      context.router.push(const ForgotPasswordRoute()),
-                  child: const Text("Forgot Password?",
-                      style:
-                          TextStyle(color: Color.fromARGB(255, 0, 131, 202))),
                 ),
               ],
             ),
@@ -108,12 +86,12 @@ class LoginPageState extends State<LoginPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Image.asset(Assets.images.logo.path, height: 300),
+                      Image.asset(Assets.images.logo.path, height: 200),
                       const SizedBox(height: 10),
                       const Text(
                         "IPQAIA",
                         style: TextStyle(
-                          fontSize: 70,
+                          fontSize: 40,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),

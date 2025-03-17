@@ -8,8 +8,8 @@ class AppThemes {
       primary: AppColors.primary,
       secondary: AppColors.backgroundSecondary,
       surface: AppColors.backgroundPrimary,
-      error: AppColors.wrongAnswer,
-      tertiary: AppColors.accent,
+      error: AppColors.delete,
+      tertiary: AppColors.secondary,
       onPrimary: AppColors.textPrimary,
       onSurface: AppColors.textPrimary,
       onError: Colors.white,
@@ -36,8 +36,8 @@ class AppThemes {
     ),
 
     // InkWell Theme
-    splashColor: AppColors.accent.withValues(alpha: 0.2),
-    highlightColor: AppColors.accent.withValues(alpha: 0.1),
+    splashColor: AppColors.secondary.withValues(alpha: 0.2),
+    highlightColor: AppColors.secondary.withValues(alpha: 0.1),
 
     // SnackBar Theme
     snackBarTheme: SnackBarThemeData(
@@ -91,7 +91,7 @@ class AppThemes {
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: AppColors.accent,
+        foregroundColor: AppColors.secondary,
         textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
     ),

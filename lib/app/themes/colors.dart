@@ -2,22 +2,20 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // Background colors
-  static const Color backgroundPrimary = Color(0xFFFFFFFF); // White
-  static const Color backgroundSecondary =
-      Color.fromARGB(255, 255, 245, 229); // Light Beige
+  static const Color backgroundPrimary = Color(0xFFFFF6EA);
+  static const Color backgroundSecondary = Color(0xFFffffff); // White
 
   // Text colors
   static const Color textPrimary = Color(0xFF212121); // Dark Gray (Title)
   static const Color textSecondary = Color(0xFFFFFFFF); // White
 
   // Theme colors
-  static const Color primary = Color(0xFFFFD54F); // Yellow (Main Theme)
-  static const Color accent =
-      Color.fromARGB(255, 73, 158, 255); // Light Blue (Accent)
+  static const Color primary = Color(0xFFff502d); // Yellow (Main Theme)ffd4aa
+  static const Color secondary = Color(0xFFffd4aa); // Light Blue (Accent)
 
   // Feedback colors
   static const Color correctAnswer = Color(0xFF09D343); // Green
-  static const Color wrongAnswer = Color(0xFFF90909); // Red
+  static const Color delete = Color(0xFFF90909); // Red
 
   // Miscellaneous
   static const Color gray = Color.fromARGB(255, 156, 155, 155); // Gray
