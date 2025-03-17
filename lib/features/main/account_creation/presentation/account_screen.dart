@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:ipqaia/core/shared/app_containers/app_body_container.dart';
+import 'package:ipqaia/core/shared/app_containers/app_header_container.dart';
 
 // Create Account Screen
 @RoutePage()
@@ -23,107 +25,121 @@ class AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.all(30),
-        width: 900,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              spreadRadius: 5,
-            ),
-          ],
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        titleSpacing: 0,
+        centerTitle: false,
+        title: const PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: AppHeaderContainer(),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Title
-            const Center(
-              child: Text(
-                "Create New Account",
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 255, 160, 82),
+      ),
+      body: AppBodyContainer(
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.all(30),
+            width: 900,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 10,
+                  spreadRadius: 5,
                 ),
-              ),
+              ],
             ),
-            const SizedBox(height: 20),
-
-            // Input Fields
-            buildTextField("Full Name", fullNameController),
-            const SizedBox(height: 15),
-            buildTextField("Email", emailController),
-            const SizedBox(height: 15),
-            buildTextField("Age", ageController),
-            const SizedBox(height: 15),
-
-            // Dropdown Fields in a Row
-            Row(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: buildDropdownField(
-                    "Role",
-                    ["Staff", "Admin"],
-                    selectedRole,
-                    (value) {
-                      setState(() {
-                        selectedRole = value;
-                      });
-                    },
+                // Title
+                const Center(
+                  child: Text(
+                    "Create New Account",
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 160, 82),
+                    ),
                   ),
                 ),
-                const SizedBox(width: 15),
-                Expanded(
-                  child: buildDropdownField(
-                    "Gender",
-                    ["Male", "Female"],
-                    selectedGender,
-                    (value) {
-                      setState(() {
-                        selectedGender = value;
-                      });
+                const SizedBox(height: 20),
+
+                // Input Fields
+                buildTextField("Full Name", fullNameController),
+                const SizedBox(height: 15),
+                buildTextField("Email", emailController),
+                const SizedBox(height: 15),
+                buildTextField("Age", ageController),
+                const SizedBox(height: 15),
+
+                // Dropdown Fields in a Row
+                Row(
+                  children: [
+                    Expanded(
+                      child: buildDropdownField(
+                        "Role",
+                        ["Staff", "Admin"],
+                        selectedRole,
+                        (value) {
+                          setState(() {
+                            selectedRole = value;
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 15),
+                    Expanded(
+                      child: buildDropdownField(
+                        "Gender",
+                        ["Male", "Female"],
+                        selectedGender,
+                        (value) {
+                          setState(() {
+                            selectedGender = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15),
+
+                // Password Fields
+                buildTextField("Password", passwordController,
+                    obscureText: true),
+                const SizedBox(height: 15),
+                buildTextField("Confirm Password", confirmPasswordController,
+                    obscureText: true),
+                const SizedBox(height: 20),
+
+                // Confirm Button
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Handle account creation logic
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 255, 160, 82),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    child: const Text(
+                      "Confirm",
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 15),
-
-            // Password Fields
-            buildTextField("Password", passwordController, obscureText: true),
-            const SizedBox(height: 15),
-            buildTextField("Confirm Password", confirmPasswordController,
-                obscureText: true),
-            const SizedBox(height: 20),
-
-            // Confirm Button
-            Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Handle account creation logic
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 255, 160, 82),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: const Text(
-                  "Confirm",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

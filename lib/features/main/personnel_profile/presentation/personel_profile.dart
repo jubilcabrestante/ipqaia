@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:ipqaia/core/shared/app_containers/app_body_container.dart';
+import 'package:ipqaia/core/shared/app_containers/app_header_container.dart';
 
 @RoutePage()
 class PersonnelProfileScreen extends StatelessWidget {
@@ -28,39 +30,43 @@ class PersonnelProfilePageState extends State<PersonnelProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
-        title: Text('Personnel Profile', style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
+        automaticallyImplyLeading: false,
+        titleSpacing: 0,
+        centerTitle: false,
+        title: const PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: AppHeaderContainer(),
+        ),
       ),
-      body: Column(
-        children: [
-          Container(
-            color: Colors.white,
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            child: Row(
-              children: [
-                _buildTabButton('Profile', true),
-                SizedBox(width: 10),
-                _buildTabButton('Reports', false),
-                Spacer(),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange.shade400,
+      body: AppBodyContainer(
+        child: Column(
+          children: [
+            Container(
+              color: Colors.white,
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: Row(
+                children: [
+                  _buildTabButton('Profile', true),
+                  SizedBox(width: 10),
+                  _buildTabButton('Reports', false),
+                  Spacer(),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange.shade400,
+                    ),
+                    child: Text('Add Profile',
+                        style: TextStyle(color: Colors.white)),
                   ),
-                  child: Text('Add Profile',
-                      style: TextStyle(color: Colors.white)),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: showProfile ? _buildProfileTable() : _buildReportsTable(),
-          ),
-        ],
+            Expanded(
+              child: showProfile ? _buildProfileTable() : _buildReportsTable(),
+            ),
+          ],
+        ),
       ),
     );
   }

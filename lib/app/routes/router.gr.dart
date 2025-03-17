@@ -19,7 +19,7 @@ import 'package:ipqaia/features/main/accreditation/presentation/accreditation_sc
     as _i3;
 import 'package:ipqaia/features/main/dashboard/presentation/dashboard_screen.dart'
     as _i5;
-import 'package:ipqaia/features/main/personel_profile/presentation/personel_profile.dart'
+import 'package:ipqaia/features/main/personnel_profile/presentation/personel_profile.dart'
     as _i9;
 import 'package:ipqaia/features/main/sdg/presentation/sdg_screen.dart' as _i10;
 import 'package:ipqaia/features/main/students_life_and_facilties/presentation/slf_presentation.dart'

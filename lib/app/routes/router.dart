@@ -12,10 +12,11 @@ class AppRouter extends RootStackRouter {
         // HomeScreen is generated as HomeRoute because
         // of the replaceInRouteName property
         AutoRoute(page: LoginRoute.page, path: '/', initial: true),
-        AutoRoute(page: ForgotPasswordRoute.page),
+        AutoRoute(page: ForgotPasswordRoute.page, path: '/'),
         AutoRoute(page: MainAppRoute.page, path: '/', children: [
           //Dashboard
-          AutoRoute(page: DashboardRoute.page, path: "dashboard"),
+          AutoRoute(
+              page: DashboardRoute.page, path: "dashboard", initial: true),
 
           // Academic Offerings
           AutoRoute(
@@ -36,7 +37,8 @@ class AppRouter extends RootStackRouter {
               children: []),
 
           //PersonnelProfileRoute
-          AutoRoute(page: PersonnelProfileRoute.page, path: "personel-profile"),
+          AutoRoute(
+              page: PersonnelProfileRoute.page, path: "personnel-profile"),
 
           // Sustainable Development Goals
           AutoRoute(page: SdgRoute.page, path: "sdg"),

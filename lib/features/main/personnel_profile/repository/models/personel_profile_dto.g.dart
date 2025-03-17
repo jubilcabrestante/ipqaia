@@ -6,7 +6,7 @@ part of 'personel_profile_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PersonelDto _$PersonelDtoFromJson(Map<String, dynamic> json) => PersonelDto(
+PersonnelDto _$PersonnelDtoFromJson(Map<String, dynamic> json) => PersonnelDto(
       uid: json['uid'] as String,
       name: json['name'] as String,
       contactNumber: json['contactNumber'] as String,
@@ -21,7 +21,7 @@ PersonelDto _$PersonelDtoFromJson(Map<String, dynamic> json) => PersonelDto(
       specialization: json['specialization'] as String?,
     );
 
-Map<String, dynamic> _$PersonelDtoToJson(PersonelDto instance) =>
+Map<String, dynamic> _$PersonnelDtoToJson(PersonnelDto instance) =>
     <String, dynamic>{
       'uid': instance.uid,
       'name': instance.name,
