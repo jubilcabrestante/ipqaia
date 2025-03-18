@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ipqaia/features/main/accreditation/repository/models/accreditation_dto.dart';
-part 'accreditation_vm.g.dart';
+import 'package:ipqaia/features/main/students_life_and_facilties/repository/models/slf_dto.dart';
+part 'slf_vm.g.dart';
 
 @JsonSerializable()
-class AccreditationVm {
+class SlfVm {
   final String name;
   final String contactNumber;
   final String gender;
@@ -16,7 +16,7 @@ class AccreditationVm {
   final String pwd;
   final String seniorCitizen;
 
-  const AccreditationVm({
+  const SlfVm({
     required this.name,
     required this.contactNumber,
     required this.gender,
@@ -30,8 +30,8 @@ class AccreditationVm {
     this.specialization,
   });
 
-factory AccreditationVm.fromDto(AccreditationDto dto) {
-    return AccreditationVm(
+factory SlfVm.fromDto(SlfDto dto) {
+    return SlfVm(
       name: dto.name, contactNumber: dto.contactNumber, 
       gender: dto.gender, pwd: dto.pwd, seniorCitizen: dto.seniorCitizen, 
       civilStatus: dto.civilStatus, employmentStatus: dto.employmentStatus,
@@ -40,8 +40,8 @@ factory AccreditationVm.fromDto(AccreditationDto dto) {
   }
 
 
-  factory AccreditationVm.fromJson(Map<String, dynamic> json) =>
-      _$AccreditationVmFromJson(json);
+  factory SlfVm.fromJson(Map<String, dynamic> json) =>
+      _$SlfVmFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AccreditationVmToJson(this);
+  Map<String, dynamic> toJson() => _$SlfVmToJson(this);
 }
