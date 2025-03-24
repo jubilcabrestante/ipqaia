@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'personel_profile_dto.g.dart';
 
 @JsonSerializable()
-class PersonelDto {
+class PersonnelDto {
   final String uid;
   final String name;
   final String contactNumber;
@@ -17,7 +17,7 @@ class PersonelDto {
   final String pwd;
   final String seniorCitizen;
 
-  const PersonelDto({
+  const PersonnelDto({
     required this.uid,
     required this.name,
     required this.contactNumber,
@@ -30,15 +30,10 @@ class PersonelDto {
     this.department,
     this.degree,
     this.specialization,
-  
-   
   });
 
-  factory PersonelDto.fromJson(Map<String, dynamic> json) =>
-      _$PersonelDtoFromJson(json);
+  factory PersonnelDto.fromJson(Map<String, dynamic> json) =>
+      _$PersonnelDtoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PersonelDtoToJson(this);
+  Map<String, dynamic> toJson() => _$PersonnelDtoToJson(this);
 }
-
-
-

@@ -1,11 +1,5 @@
-import 'dart:developer';
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:ipqaia/app/themes/colors.dart';
-import 'package:ipqaia/core/extensions/theme_extensions.dart';
-import 'package:ipqaia/core/shared/app_custom_button.dart';
-import 'package:ipqaia/core/shared/search_bar.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
@@ -16,13 +10,20 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+>>>>>>> 6258fb22b39ab5f06f3cab5b5261671cb4016cea
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: DataTable(
+<<<<<<< HEAD
         columnSpacing: 68,
+=======
+        columnSpacing: 20,
+>>>>>>> 6258fb22b39ab5f06f3cab5b5261671cb4016cea
         headingRowColor:
             WidgetStateColor.resolveWith((states) => Colors.orange.shade400),
         columns: [
@@ -58,6 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             DataCell(Text('Masters')),
             DataCell(Text('Data Analyst')),
           ]),
+<<<<<<< HEAD
 =======
   TextEditingController searchController = TextEditingController();
 
@@ -108,10 +110,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: const Text("Delete", style: TextStyle(color: Colors.red)),
           ),
 >>>>>>> Stashed changes
+=======
+>>>>>>> 6258fb22b39ab5f06f3cab5b5261671cb4016cea
         ],
       ),
     );
   }
+<<<<<<< HEAD
 
   // Delete Personnel
   void _deletePersonnel(Map<String, String> personnel) {
@@ -191,4 +196,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+=======
+>>>>>>> 6258fb22b39ab5f06f3cab5b5261671cb4016cea
 }

@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:ipqaia/app/routes/router.gr.dart';
 import 'package:ipqaia/app/themes/colors.dart';
-import 'package:ipqaia/core/shared/app_container.dart';
+import 'package:ipqaia/core/extensions/theme_extensions.dart';
+import 'package:ipqaia/core/shared/app_containers/app_container.dart';
+import 'package:ipqaia/gen/assets.gen.dart';
 
 @RoutePage()
 class MainAppScreen extends StatefulWidget {
@@ -56,7 +59,23 @@ class _MainAppScreenState extends State<MainAppScreen> {
                 color: AppColors.secondary,
                 child: Column(
                   children: [
-                    const SizedBox(height: 20),
+                    Gap(20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          Assets.images.logo.path,
+                          width: 65,
+                          height: 65,
+                        ),
+                        Text(
+                          "IPQAIA SYSTEM",
+                          style: context.textTheme.titleMedium!.copyWith(
+                              fontWeight: FontWeight.bold, fontSize: 21),
+                        )
+                      ],
+                    ),
+                    Gap(20),
                     Expanded(
                       child: ListView.builder(
                         itemCount: navList.length,
@@ -70,7 +89,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: isSelected
-                                    ? Colors.deepOrange
+                                    ? AppColors.primary
                                     : Colors.transparent,
                               ),
                               child: Container(
@@ -104,7 +123,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    Gap(20),
                   ],
                 ),
               ),

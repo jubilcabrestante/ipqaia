@@ -10,10 +10,11 @@ class AppContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Container(
-        padding: EdgeInsets.only(left: 20, top: 20),
-        child: Text(title!),
-      )),
+            padding: EdgeInsets.only(left: 20, top: 20),
+            child: Text(title!),
+          )),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(40, 0, 40, 40),
         child: Container(
