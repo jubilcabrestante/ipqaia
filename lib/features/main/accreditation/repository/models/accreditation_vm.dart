@@ -30,16 +30,6 @@ class AccreditationVm {
     this.specialization,
   });
 
-factory AccreditationVm.fromDto(AccreditationDto dto) {
-    return AccreditationVm(
-      name: dto.name, contactNumber: dto.contactNumber, 
-      gender: dto.gender, pwd: dto.pwd, seniorCitizen: dto.seniorCitizen, 
-      civilStatus: dto.civilStatus, employmentStatus: dto.employmentStatus,
-      datestarted: dto.datestarted,
-    );
-  }
-
-
   factory AccreditationVm.fromJson(Map<String, dynamic> json) =>
       _$AccreditationVmFromJson(json);
 
