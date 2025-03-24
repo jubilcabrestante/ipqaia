@@ -131,7 +131,7 @@ class _ListOfAccountsScreenState extends State<ListOfAccountsScreen> {
           headingRowColor: WidgetStateProperty.all(AppColors.primary),
           headingTextStyle: context.textTheme.titleSmall!.copyWith(color: AppColors.textSecondary),
           columns: ["Name", "Email", "Role", "Gender", "Age", "Actions"]
-              .map((col) => DataColumn(label: Center(child: Text(col, textAlign: TextAlign.center))))
+              .map((col) => DataColumn(label: Center(child: Text(col, textAlign: TextAlign.center)))) 
               .toList(),
           rows: filteredAccounts.map((account) {
             return DataRow(cells: [

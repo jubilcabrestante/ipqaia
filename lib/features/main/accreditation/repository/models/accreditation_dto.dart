@@ -3,32 +3,24 @@ part 'accreditation_dto.g.dart';
 
 @JsonSerializable()
 class AccreditationDto {
-  final String uid;
-  final String name;
-  final String contactNumber;
-  final String gender;
-  final String civilStatus;
-  final String employmentStatus;
-  final bool datestarted;
-  final String? department;
-  final String? degree;
-  final String? specialization;
-  final String pwd;
-  final String seniorCitizen;
+  final String undergraduateProgramsOffered;
+final String yearOfInitialOperation;
+final String programAccreditationStatus;
+final String? validityOfAccreditationStartDate;
+final String? validityOfAccreditationEndDate;
+final String? recommendation;
+final String? supportingDocuments;
+final String? remarks;
 
   const AccreditationDto({
-    required this.uid,
-    required this.name,
-    required this.contactNumber,
-    required this.gender,
-    required this.pwd,
-    required this.seniorCitizen,
-    required this.civilStatus,
-    required this.employmentStatus,
-    required this.datestarted,
-    this.department,
-    this.degree,
-    this.specialization,
+   required this.undergraduateProgramsOffered,
+   required this.yearOfInitialOperation,
+   required this.programAccreditationStatus,
+   this.validityOfAccreditationStartDate,
+   this.validityOfAccreditationEndDate,
+   this.recommendation,
+   this.supportingDocuments,
+   this.remarks,
   
    
   });

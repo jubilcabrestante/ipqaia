@@ -17,64 +17,78 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController searchController = TextEditingController();
-
-  List<Map<String, String>> personnelList = [
-    {
-      "Name": "John Doe",
-      "Gender": "Male",
-      "Civil Status": "Single",
-      "Employment Status": "Full-Time",
-      "Date Started": "2022-01-15",
-      "Department": "IT",
-      "Degree": "BSc Computer Science",
-      "Specialization": "Cybersecurity",
-      "PWD": "No",
-      "Senior Citizen": "No"
-    },
-    {
-      "Name": "Jane Smith",
-      "Gender": "Female",
-      "Civil Status": "Married",
-      "Employment Status": "Part-Time",
-      "Date Started": "2020-06-10",
-      "Department": "HR",
-      "Degree": "MBA",
-      "Specialization": "Recruitment",
-      "PWD": "No",
-      "Senior Citizen": "No"
-    }
-  ];
-  
+  List<Map<String, String>> personnelList = [];
   List<Map<String, String>> filteredAccounts = [];
 
   @override
   void initState() {
     super.initState();
+    personnelList = [
+      {
+        "Name": "John Doe",
+        "Gender": "Male",
+        "Civil Status": "Single",
+        "Employment Status": "Full-Time",
+        "Date Started": "2022-01-15",
+        "Department": "IT",
+        "Degree": "BSc Computer Science",
+        "Specialization": "Cybersecurity",
+        "PWD": "No",
+        "Senior Citizen": "No"
+      },
+    ];
     filteredAccounts = List.from(personnelList);
   }
 
-  // Search Functionality
   void _filterAccounts(String query) {
     setState(() {
-      if (query.isEmpty) {
-        filteredAccounts = List.from(personnelList);
-      } else {
-        filteredAccounts = personnelList.where((account) {
-          return account.values.any(
-            (value) => value.toLowerCase().contains(query.toLowerCase()),
-          );
-        }).toList();
-      }
+      filteredAccounts = query.isEmpty
+          ? List.from(personnelList)
+          : personnelList.where((account) =>
+              account.values.any((value) => value.toLowerCase().contains(query.toLowerCase()))).toList();
     });
   }
 
-  // Show Delete Confirmation Dialog
-  void _showDeleteConfirmationDialog(Map<String, String> personnel) {
+  void _showAddPersonnelDialog() {
+    final _formKey = GlobalKey<FormState>();
+    Map<String, String> newPersonnel = {
+      "Name": "",
+      "Gender": "",
+      "Civil Status": "",
+      "Employment Status": "",
+      "Date Started": "",
+      "Department": "",
+      "Degree": "",
+      "Specialization": "",
+      "PWD": "No",
+      "Senior Citizen": "No"
+    };
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Delete Personnel"),
-        content: Text("Are you sure you want to delete ${personnel["Name"]}?"),
+        title: const Text("Add New Personnel"),
+        content: SizedBox(
+          width: 500, // Increased width
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: newPersonnel.keys.map((key) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: TextFormField(
+                      decoration: InputDecoration(labelText: key),
+                      onChanged: (value) => newPersonnel[key] = value,
+                      validator: (value) => (value == null || value.isEmpty) ? 'Required' : null,
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -82,23 +96,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           TextButton(
             onPressed: () {
-              _deletePersonnel(personnel);
-              Navigator.pop(context);
+              if (_formKey.currentState!.validate()) {
+                setState(() {
+                  personnelList.add(newPersonnel);
+                  _filterAccounts(searchController.text);
+                });
+                Navigator.pop(context);
+              }
             },
-            child: const Text("Delete", style: TextStyle(color: Colors.red)),
+            child: const Text("Add", style: TextStyle(color: Colors.green)),
           ),
         ],
       ),
     );
-  }
-
-  // Delete Personnel
-  void _deletePersonnel(Map<String, String> personnel) {
-    setState(() {
-      personnelList.remove(personnel);
-      _filterAccounts(searchController.text); // Ensure the list updates
-    });
-    log("Deleted personnel: ${personnel["Name"]}");
   }
 
   @override
@@ -115,14 +125,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               width: 350,
               child: CustomSearchBar(
                 controller: searchController,
-                onChanged: _filterAccounts, // Fix applied here
+                onChanged: _filterAccounts,
               ),
             ),
             Row(
               children: [
                 const Gap(20),
                 AppCustomButton(
-                  ontab: () {},
+                  ontab: _showAddPersonnelDialog,
                   backgroundColor: AppColors.primary,
                   text: "Add New Personnel",
                 ),
@@ -138,19 +148,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           headingRowColor: WidgetStateProperty.all(AppColors.primary),
           headingTextStyle: context.textTheme.titleSmall!.copyWith(color: AppColors.textSecondary),
           columns: [
-            "Name",
-            "Gender",
-            "Civil Status",
-            "Employment Status",
-            "Date Started",
-            "Department",
-            "Degree",
-            "Specialization",
-            "PWD",
-            "Senior Citizen",
-            "Action"
+            "Name", "Gender", "Civil Status", "Employment Status", "Date Started", "Department", "Degree", "Specialization", "PWD", "Senior Citizen", "Action"
           ].map((col) => DataColumn(label: Center(child: Text(col)))).toList(),
-          rows: filteredAccounts.map((personnel) { // Now using filteredAccounts
+          rows: filteredAccounts.map((personnel) {
             return DataRow(cells: [
               ...personnel.entries.map((entry) => DataCell(Center(child: Text(entry.value)))).toList(),
               DataCell(
@@ -158,7 +158,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     AppCustomButton(
-                      ontab: () => _showDeleteConfirmationDialog(personnel),
+                      ontab: () {},
                       backgroundColor: AppColors.delete,
                       text: "Delete",
                     ),
