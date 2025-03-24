@@ -1,19 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ipqaia/features/main/sdg/domain/i_sdg_repository.dart';
+import 'package:ipqaia/features/main/sdg/repository/article_model/article_vm.dart';
 import 'package:ipqaia/features/main/sdg/repository/sdg_model/sdg_vm.dart';
 
 class SdgRepository implements ISdgRepository {
   final FirebaseFirestore _firestore;
-  final String dbName;
+  final String dbNameSdg;
+  final String dbNameArticle;
 
-  SdgRepository({required FirebaseFirestore firestore, this.dbName = "sdg"})
+  SdgRepository(
+      {required FirebaseFirestore firestore,
+      this.dbNameSdg = "sdg",
+      this.dbNameArticle = "article"})
       : _firestore = firestore;
 
   @override
   Future<List<SdgVm>> getSdg(String selectedType) async {
     try {
       final querySnapshot = await _firestore
-          .collection(dbName)
+          .collection(dbNameSdg)
           .where('type', isEqualTo: selectedType)
           .get();
 
@@ -26,15 +31,10 @@ class SdgRepository implements ISdgRepository {
   }
 
   @override
-  Future<List<SdgVm>> addSdg(String selectedType) async {
+  Future<void> addSdg(SdgVm sdg) async {
     try {
-      final querySnapshot = await _firestore
-          .collection(dbName)
-          .where('type', isEqualTo: selectedType)
-          .get();
-      return querySnapshot.docs
-          .map((doc) => SdgVm.fromJson(doc.data()))
-          .toList();
+      await _firestore.collection(dbNameSdg).add(sdg.toJson());
+      // Document added successfully
     } catch (e) {
       throw e.toString();
     }
@@ -43,7 +43,7 @@ class SdgRepository implements ISdgRepository {
   @override
   Future<void> updateSdg(SdgVm sdg) async {
     try {
-      await _firestore.collection(dbName).doc(sdg.sdgId).update({
+      await _firestore.collection(dbNameSdg).doc(sdg.sdgId).update({
         ...sdg.toJson(),
       });
     } catch (e) {
@@ -53,6 +53,51 @@ class SdgRepository implements ISdgRepository {
 
   @override
   Future<void> deleteReport(String sdgId) async {
-    await _firestore.collection(dbName).doc(sdgId).delete();
+    await _firestore.collection(dbNameSdg).doc(sdgId).delete();
+  }
+
+  @override
+  Future<List<ArticleVm>> getArticles(String sdg) async {
+    try {
+      final querySnapshot = await _firestore
+          .collection(dbNameArticle)
+          .where(dbNameSdg, isEqualTo: sdg)
+          .get();
+      return querySnapshot.docs
+          .map((doc) => ArticleVm.fromJson(doc.data()))
+          .toList();
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<void> addArticle(ArticleVm article) async {
+    try {
+      await _firestore.collection(dbNameArticle).add(article.toJson());
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<void> updateArticle(String articleId, ArticleVm article) async {
+    try {
+      await _firestore
+          .collection(dbNameArticle)
+          .doc(articleId)
+          .update(article.toJson());
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<void> deleteArticle(String articleId) async {
+    try {
+      await _firestore.collection(dbNameArticle).doc(articleId).delete();
+    } catch (e) {
+      throw e.toString();
+    }
   }
 }
