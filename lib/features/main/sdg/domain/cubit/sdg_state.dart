@@ -7,5 +7,6 @@ abstract class SdgState with _$SdgState {
     @Default(false) bool isSuccess,
     @Default('') String errorMessage,
     @Default([]) List<SdgVm> sdg,
+    @Default([]) List<ArticleVm> articles,
   }) = _SdgState;
 }

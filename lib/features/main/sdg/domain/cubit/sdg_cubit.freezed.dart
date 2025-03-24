@@ -19,6 +19,7 @@ mixin _$SdgState {
   bool get isSuccess;
   String get errorMessage;
   List<SdgVm> get sdg;
+  List<ArticleVm> get articles;
 
   /// Create a copy of SdgState
   /// with the given fields replaced by the non-null parameter values.
@@ -38,16 +39,22 @@ mixin _$SdgState {
                 other.isSuccess == isSuccess) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
-            const DeepCollectionEquality().equals(other.sdg, sdg));
+            const DeepCollectionEquality().equals(other.sdg, sdg) &&
+            const DeepCollectionEquality().equals(other.articles, articles));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, isSuccess,
-      errorMessage, const DeepCollectionEquality().hash(sdg));
+  int get hashCode => Object.hash(
+      runtimeType,
+      isLoading,
+      isSuccess,
+      errorMessage,
+      const DeepCollectionEquality().hash(sdg),
+      const DeepCollectionEquality().hash(articles));
 
   @override
   String toString() {
-    return 'SdgState(isLoading: $isLoading, isSuccess: $isSuccess, errorMessage: $errorMessage, sdg: $sdg)';
+    return 'SdgState(isLoading: $isLoading, isSuccess: $isSuccess, errorMessage: $errorMessage, sdg: $sdg, articles: $articles)';
   }
 }
 
@@ -57,7 +64,11 @@ abstract mixin class $SdgStateCopyWith<$Res> {
       _$SdgStateCopyWithImpl;
   @useResult
   $Res call(
-      {bool isLoading, bool isSuccess, String errorMessage, List<SdgVm> sdg});
+      {bool isLoading,
+      bool isSuccess,
+      String errorMessage,
+      List<SdgVm> sdg,
+      List<ArticleVm> articles});
 }
 
 /// @nodoc
@@ -76,6 +87,7 @@ class _$SdgStateCopyWithImpl<$Res> implements $SdgStateCopyWith<$Res> {
     Object? isSuccess = null,
     Object? errorMessage = null,
     Object? sdg = null,
+    Object? articles = null,
   }) {
     return _then(_self.copyWith(
       isLoading: null == isLoading
@@ -94,6 +106,10 @@ class _$SdgStateCopyWithImpl<$Res> implements $SdgStateCopyWith<$Res> {
           ? _self.sdg
           : sdg // ignore: cast_nullable_to_non_nullable
               as List<SdgVm>,
+      articles: null == articles
+          ? _self.articles
+          : articles // ignore: cast_nullable_to_non_nullable
+              as List<ArticleVm>,
     ));
   }
 }
@@ -105,8 +121,10 @@ class _SdgState implements SdgState {
       {this.isLoading = false,
       this.isSuccess = false,
       this.errorMessage = '',
-      final List<SdgVm> sdg = const []})
-      : _sdg = sdg;
+      final List<SdgVm> sdg = const [],
+      final List<ArticleVm> articles = const []})
+      : _sdg = sdg,
+        _articles = articles;
 
   @override
   @JsonKey()
@@ -124,6 +142,15 @@ class _SdgState implements SdgState {
     if (_sdg is EqualUnmodifiableListView) return _sdg;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_sdg);
+  }
+
+  final List<ArticleVm> _articles;
+  @override
+  @JsonKey()
+  List<ArticleVm> get articles {
+    if (_articles is EqualUnmodifiableListView) return _articles;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_articles);
   }
 
   /// Create a copy of SdgState
@@ -145,16 +172,22 @@ class _SdgState implements SdgState {
                 other.isSuccess == isSuccess) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
-            const DeepCollectionEquality().equals(other._sdg, _sdg));
+            const DeepCollectionEquality().equals(other._sdg, _sdg) &&
+            const DeepCollectionEquality().equals(other._articles, _articles));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, isSuccess,
-      errorMessage, const DeepCollectionEquality().hash(_sdg));
+  int get hashCode => Object.hash(
+      runtimeType,
+      isLoading,
+      isSuccess,
+      errorMessage,
+      const DeepCollectionEquality().hash(_sdg),
+      const DeepCollectionEquality().hash(_articles));
 
   @override
   String toString() {
-    return 'SdgState(isLoading: $isLoading, isSuccess: $isSuccess, errorMessage: $errorMessage, sdg: $sdg)';
+    return 'SdgState(isLoading: $isLoading, isSuccess: $isSuccess, errorMessage: $errorMessage, sdg: $sdg, articles: $articles)';
   }
 }
 
@@ -166,7 +199,11 @@ abstract mixin class _$SdgStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isLoading, bool isSuccess, String errorMessage, List<SdgVm> sdg});
+      {bool isLoading,
+      bool isSuccess,
+      String errorMessage,
+      List<SdgVm> sdg,
+      List<ArticleVm> articles});
 }
 
 /// @nodoc
@@ -185,6 +222,7 @@ class __$SdgStateCopyWithImpl<$Res> implements _$SdgStateCopyWith<$Res> {
     Object? isSuccess = null,
     Object? errorMessage = null,
     Object? sdg = null,
+    Object? articles = null,
   }) {
     return _then(_SdgState(
       isLoading: null == isLoading
@@ -203,6 +241,10 @@ class __$SdgStateCopyWithImpl<$Res> implements _$SdgStateCopyWith<$Res> {
           ? _self._sdg
           : sdg // ignore: cast_nullable_to_non_nullable
               as List<SdgVm>,
+      articles: null == articles
+          ? _self._articles
+          : articles // ignore: cast_nullable_to_non_nullable
+              as List<ArticleVm>,
     ));
   }
 }

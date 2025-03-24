@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ipqaia/features/main/sdg/domain/i_sdg_repository.dart';
+import 'package:ipqaia/features/main/sdg/repository/article_model/article_vm.dart';
 import 'package:ipqaia/features/main/sdg/repository/sdg_model/sdg_vm.dart';
 
 part 'sdg_state.dart';
@@ -55,6 +56,61 @@ class SdgCubit extends Cubit<SdgState> {
       emit(state.copyWith(isLoading: false));
     } catch (e) {
       emit(state.copyWith(isLoading: false));
+    }
+  }
+
+  Future<void> getArticles(String sdg) async {
+    emit(state.copyWith(isLoading: true, isSuccess: false));
+    try {
+      final result = await _iSdgRepository.getArticles(sdg);
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: true,
+        articles: result,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> addArticle(ArticleVm article) async {
+    emit(state.copyWith(isLoading: true, isSuccess: false));
+    try {
+      await _iSdgRepository.addArticle(article);
+      emit(state.copyWith(isLoading: false, isSuccess: true));
+      getArticles(article.sdg); // Refresh
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> updateArticle(String id, ArticleVm article) async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      await _iSdgRepository.updateArticle(id, article);
+      emit(state.copyWith(isLoading: false, isSuccess: true));
+      getArticles(article.sdg); // Refresh
+    } catch (e) {
+      emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
+    }
+  }
+
+  Future<void> deleteArticle(String id, String sdg) async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      await _iSdgRepository.deleteArticle(id);
+      emit(state.copyWith(isLoading: false, isSuccess: true));
+      getArticles(sdg); // Refresh
+    } catch (e) {
+      emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
     }
   }
 }
