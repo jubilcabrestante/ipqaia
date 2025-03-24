@@ -7,12 +7,14 @@ part of 'sdg_dto.dart';
 // **************************************************************************
 
 SdgDto _$SdgDtoFromJson(Map<String, dynamic> json) => SdgDto(
+      sdgId: json['sdgId'] as String,
       sdgNumber: (json['sdgNumber'] as num).toInt(),
       sdgTitle: json['sdgTitle'] as String,
       words: json['words'] as String,
     );
 
 Map<String, dynamic> _$SdgDtoToJson(SdgDto instance) => <String, dynamic>{
+      'sdgId': instance.sdgId,
       'sdgNumber': instance.sdgNumber,
       'sdgTitle': instance.sdgTitle,
       'words': instance.words,

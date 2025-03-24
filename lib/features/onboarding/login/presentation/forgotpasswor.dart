@@ -17,31 +17,37 @@ class ForgotPasswordPage extends StatelessWidget {
               children: [
                 const Text(
                   "Forgot Password",
-                  style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold, color: Color(0xFFFF4D00)),
+                  style: TextStyle(
+                      fontSize: 60,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFFFF4D00)),
                 ),
                 const SizedBox(height: 30),
                 SizedBox(
                   width: 390,
                   child: TextField(
-                    decoration: const InputDecoration(labelText: "PSU Email", border: OutlineInputBorder()),
+                    decoration: const InputDecoration(
+                        labelText: "PSU Email", border: OutlineInputBorder()),
                   ),
                 ),
                 const SizedBox(height: 20),
-
                 SizedBox(
                   width: 200,
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFFF4D00),
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 12),
                     ),
-                    child: const Text("Send Reset Link", style: TextStyle(color: Colors.black)),
+                    child: const Text("Send Reset Link",
+                        style: TextStyle(color: Colors.black)),
                   ),
                 ),
                 TextButton(
                   onPressed: () => context.router.pop(),
-                  child: const Text("Back to Login", style: TextStyle(color: Color(0xFF0062CA))),
+                  child: const Text("Back to Login",
+                      style: TextStyle(color: Color(0xFF0062CA))),
                 ),
               ],
             ),
@@ -50,13 +56,20 @@ class ForgotPasswordPage extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                Image.asset(Assets.images.background.path, fit: BoxFit.cover, colorBlendMode: BlendMode.darken, color: Colors.black.withOpacity(0.6)),
+                Image.asset(Assets.images.background.path,
+                    fit: BoxFit.cover,
+                    colorBlendMode: BlendMode.darken,
+                    color: Colors.black.withValues(alpha: 0.6)),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(Assets.images.logo.path, height: 300),
                     const SizedBox(height: 10),
-                    const Text("IPQAIA", style: TextStyle(fontSize: 70, fontWeight: FontWeight.bold, color: Colors.white)),
+                    const Text("IPQAIA",
+                        style: TextStyle(
+                            fontSize: 70,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
                   ],
                 ),
               ],

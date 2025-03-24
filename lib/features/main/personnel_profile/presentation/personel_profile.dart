@@ -113,7 +113,7 @@ class PersonnelProfilePageState extends State<PersonnelProfilePage> {
       child: DataTable(
         columnSpacing: 20,
         headingRowColor:
-            MaterialStateColor.resolveWith((states) => Colors.orange.shade400),
+            WidgetStateColor.resolveWith((states) => Colors.orange.shade400),
         columns: [
           DataColumn(
               label: Text('Name', style: TextStyle(color: Colors.white))),
@@ -158,7 +158,7 @@ class PersonnelProfilePageState extends State<PersonnelProfilePage> {
       child: DataTable(
         columnSpacing: 20,
         headingRowColor:
-            MaterialStateColor.resolveWith((states) => Colors.orange.shade400),
+            WidgetStateColor.resolveWith((states) => Colors.orange.shade400),
         columns: [
           DataColumn(
               label:

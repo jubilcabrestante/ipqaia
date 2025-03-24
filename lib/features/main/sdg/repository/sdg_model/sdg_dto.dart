@@ -4,11 +4,13 @@ part 'sdg_dto.g.dart';
 
 @JsonSerializable()
 class SdgDto {
+  final String sdgId;
   final int sdgNumber;
   final String sdgTitle;
   final String words;
 
   const SdgDto({
+    required this.sdgId,
     required this.sdgNumber,
     required this.sdgTitle,
     required this.words,

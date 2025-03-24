@@ -4,17 +4,32 @@ part 'sdg_vm.g.dart';
 
 @JsonSerializable()
 class SdgVm {
-  final int sdgNumber;
-  final String sdgTitle;
-  final String words;
+  final String? sdgId;
+  final int? sdgNumber;
+  final String? sdgTitle;
+  final String? words;
 
-  const SdgVm({
-    required this.sdgNumber,
-    required this.sdgTitle,
-    required this.words,
+  SdgVm({
+    this.sdgId,
+    this.sdgNumber,
+    this.sdgTitle,
+    this.words,
   });
 
   factory SdgVm.fromJson(Map<String, dynamic> json) => _$SdgVmFromJson(json);
-
   Map<String, dynamic> toJson() => _$SdgVmToJson(this);
+
+  SdgVm copyWith({
+    String? sdgId,
+    int? sdgNumber,
+    String? sdgTitle,
+    String? words,
+  }) {
+    return SdgVm(
+      sdgId: sdgId ?? this.sdgId,
+      sdgNumber: sdgNumber ?? this.sdgNumber,
+      sdgTitle: sdgTitle ?? this.sdgTitle,
+      words: words ?? this.words,
+    );
+  }
 }

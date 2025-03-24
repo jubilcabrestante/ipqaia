@@ -6,8 +6,8 @@ import 'package:ipqaia/gen/assets.gen.dart';
 class ChangePassword extends StatelessWidget {
   const ChangePassword({super.key});
 
-
-  Widget _buildTextField(String label, {bool obscureText = false, Widget? suffixIcon}) {
+  Widget _buildTextField(String label,
+      {bool obscureText = false, Widget? suffixIcon}) {
     return SizedBox(
       width: 280,
       child: TextField(
@@ -61,7 +61,8 @@ class ChangePassword extends StatelessWidget {
                       backgroundColor: const Color.fromARGB(255, 255, 128, 0),
                       padding: const EdgeInsets.symmetric(vertical: 10),
                     ),
-                    child: const Text("Confirm", style: TextStyle(color: Colors.black)),
+                    child: const Text("Confirm",
+                        style: TextStyle(color: Colors.black)),
                   ),
                 ),
               ],
@@ -76,7 +77,7 @@ class ChangePassword extends StatelessWidget {
                       image: AssetImage(Assets.images.background.path),
                       fit: BoxFit.cover,
                       colorFilter: ColorFilter.mode(
-                        Colors.black.withOpacity(0.6),
+                        Colors.black.withValues(alpha: 0.6),
                         BlendMode.darken,
                       ),
                     ),
