@@ -17,7 +17,7 @@ class AppCustomButton extends StatelessWidget {
     this.backgroundColor,
     this.textColor,
     this.child,
-    this.isActive = false, // Default to false
+    this.isActive = false,
   });
 
   @override
@@ -25,14 +25,18 @@ class AppCustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: ontab,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+        padding: const EdgeInsets.symmetric(
+            horizontal: 12, vertical: 6), // Reduced padding
         decoration: BoxDecoration(
           color: isActive!
               ? AppColors.primary
               : backgroundColor ?? AppColors.secondary,
           borderRadius: BorderRadius.circular(10),
         ),
-        alignment: Alignment.center,
+        constraints: const BoxConstraints(
+          minWidth: 0, // Allows it to shrink to fit content
+          minHeight: 0,
+        ),
         child: child ??
             Text(
               text ?? '',
