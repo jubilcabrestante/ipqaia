@@ -135,7 +135,7 @@ class _ListOfAccountsScreenState extends State<ListOfAccountsScreen> {
               .toList(),
           rows: filteredAccounts.map((account) {
             return DataRow(cells: [
-              ...account.entries.map((entry) => DataCell(Center(child: Text(entry.value)))).toList(),
+              ...account.entries.map((entry) => DataCell(Center(child: Text(entry.value)))),
               DataCell(
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -33,12 +33,12 @@ import 'package:ipqaia/features/main/accreditation/presentation/list_of_accredit
     as _i14;
 import 'package:ipqaia/features/main/dashboard/presentation/dashboard_screen.dart'
     as _i9;
-import 'package:ipqaia/features/main/personnel_profile/presentation/personel_profile.dart'
-    as _i18;
 import 'package:ipqaia/features/main/personnel_profile/presentation/profile_screen.dart'
     as _i19;
 import 'package:ipqaia/features/main/personnel_profile/presentation/report_screen.dart'
     as _i21;
+import 'package:ipqaia/features/main/personnel_profile_reports/presentation/personnel_profile_sreen_reports.dart'
+    as _i18;
 import 'package:ipqaia/features/main/sdg/presentation/list_articles_screen.dart'
     as _i12;
 import 'package:ipqaia/features/main/sdg/presentation/manage_sdg_screen.dart'

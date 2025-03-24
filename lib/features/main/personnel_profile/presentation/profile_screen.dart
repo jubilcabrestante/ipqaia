@@ -76,19 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
   void _showAddPersonnelDialog() {
-    final _formKey = GlobalKey<FormState>();
-    
-    // Dropdown options
-    List<String> genderOptions = ["Male", "Female", "Other"];
-    List<String> civilStatusOptions = ["Single", "Married", "Divorced", "Widowed"];
-    List<String> employmentStatusOptions = ["Full-Time", "Part-Time", "Contract"];
-    List<String> departmentOptions = ["IT", "CSD", "Math", "Science"];
-    List<String> degreeOptions = ["Bachelor", "Masters", "Doctorate"];
-    List<String> specializationOptions = ["Cybersecurity", "Data Analyst", "Developer"];
-    List<String> pwdOptions = ["Yes","No"];
-    List<String> seniorOptions = ["Yes","No"];
-
-
+    final formKey = GlobalKey<FormState>();
     Map<String, String> newPersonnel = {
       "Name": "",
       "Gender": "", // Default value
@@ -110,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           width: 500,
           child: SingleChildScrollView(
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -221,7 +209,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           TextButton(
             onPressed: () {
-              if (_formKey.currentState!.validate()) {
+              if (formKey.currentState!.validate()) {
                 setState(() {
                   personnelList.add(newPersonnel);
                   _filterAccounts(searchController.text);
@@ -277,21 +265,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ].map((col) => DataColumn(label: Center(child: Text(col)))).toList(),
           rows: filteredAccounts.map((personnel) {
             return DataRow(cells: [
-              ...personnel.entries.map((entry) => DataCell(Center(child: Text(entry.value)))).toList(),
-            DataCell(
-              
-  Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: [
-      AppCustomButton(
-        ontab: () => _deletePersonnel(filteredAccounts.indexOf(personnel)), 
-        backgroundColor: AppColors.delete,
-        text: "Delete",
-      ),
-    ],
-  ),
-),
-
+              ...personnel.entries.map((entry) => DataCell(Center(child: Text(entry.value)))),
+              DataCell(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    AppCustomButton(
+                      ontab: () {},
+                      backgroundColor: AppColors.delete,
+                      text: "Delete",
+                    ),
+                  ],
+                ),
+              ),
             ]);
           }).toList(),
         ),
