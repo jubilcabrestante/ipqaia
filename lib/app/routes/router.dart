@@ -1,7 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'router.gr.dart';
-// ignore: duplicate_import
-import 'package:ipqaia/app/routes/router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AppRouter extends RootStackRouter {
@@ -26,7 +24,7 @@ class AppRouter extends RootStackRouter {
               path: "academic-offerings",
               children: [
                 AutoRoute(
-                    page: StudentProfileRoute.page, path: "student-profile"),
+                    page: AcademicOfferingsRoute.page, path: "student-profile"),
                 AutoRoute(page: ProgramsRoute.page, path: "program"),
                 AutoRoute(
                     page: AcademicReportsRoute.page, path: "academic-reports")
