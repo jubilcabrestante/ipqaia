@@ -40,81 +40,82 @@ class _ReportScreenState extends State<ReportScreen> {
                 Gap(25),
                 AppCustomButton(
                   ontab: () {},
-                  child: const Text('grabe mo ka bakla'),
+                  child: const Text('College of Science'),
                 ),
               ],
             ),
           ],
         ),
       ),
-      body: Column(
-        children: [
-          SingleChildScrollView(
+      body: Expanded(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: DataTable(
-              columnSpacing: 100,
-              headingRowColor: WidgetStateColor.resolveWith(
-                  (states) => Colors.orange.shade400),
-              columns: const [
+              border: TableBorder.all(width: 1, color: Colors.black26),
+              columnSpacing: 20,
+              headingRowColor:
+                  WidgetStateColor.resolveWith((states) => Colors.orange),
+              columns: [
                 DataColumn(
-                    label: Text('Department Name',
-                        style: TextStyle(color: Colors.white))),
+                    label: Text("Department Name",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white))),
                 DataColumn(
-                    label: Text('Date Started',
-                        style: TextStyle(color: Colors.white))),
+                    label: Text("Date Started",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white))),
                 DataColumn(
-                    label: Text('With Bachelors Degree',
-                        style: TextStyle(color: Colors.white))),
+                    label: Text("Bachelor's Degree",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white))),
                 DataColumn(
-                    label: Text('With Masters Degree',
-                        style: TextStyle(color: Colors.white))),
+                    label: Text("Master's Degree",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white))),
                 DataColumn(
-                    label: Text('With Doctorate',
-                        style: TextStyle(color: Colors.white))),
+                    label: Text("Doctorate",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white))),
                 DataColumn(
-                    label:
-                        Text('LGBTQ', style: TextStyle(color: Colors.white))),
+                    label: Text("LGBTQ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white))),
                 DataColumn(
-                    label: Text('Senior Citizen',
-                        style: TextStyle(color: Colors.white))),
+                    label: Text("Senior Citizen",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white))),
                 DataColumn(
-                    label: Text('Male/Female',
-                        style: TextStyle(color: Colors.white))),
+                    label: Text("Male/Female",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white))),
                 DataColumn(
-                    label: Text('Number of Personnel',
-                        style: TextStyle(color: Colors.white))),
+                    label: Text("Number of Personnel",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white))),
                 DataColumn(
-                    label: Text('PWD', style: TextStyle(color: Colors.white))),
-                DataColumn(
-                    label:
-                        Text('Actions', style: TextStyle(color: Colors.white))),
+                    label: Text("PWD",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white))),
               ],
               rows: [
                 DataRow(cells: [
-                  DataCell(Text('bakla')),
-                  DataCell(Text('bakla')),
-                  DataCell(Text('bakla')),
-                  DataCell(Text('bakla')),
-                  DataCell(Text('bakla')),
-                  DataCell(Text('bakla')),
-                  DataCell(Text('bakla')),
-                  DataCell(Text('bakla')),
-                  DataCell(Text('bakla')),
-                  DataCell(Text('bakla')),
-                  DataCell(
-                    ElevatedButton(
-                      onPressed: () {},
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                      child: const Text('Delete',
-                          style: TextStyle(color: Colors.white)),
-                    ),
-                  ),
+                  DataCell(Text("")),
+                  DataCell(Text("")),
+                  DataCell(Text("")),
+                  DataCell(Text("")),
+                  DataCell(Text("")),
+                  DataCell(Text("")),
+                  DataCell(Text("")),
+                  DataCell(Text("")),
+                  DataCell(Text("")),
+                  DataCell(Text("")),
                 ]),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
