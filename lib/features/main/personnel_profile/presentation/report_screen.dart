@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:ipqaia/app/themes/colors.dart';
+import 'package:gap/gap.dart';
+import 'package:ipqaia/core/extensions/theme_extensions.dart';
+import 'package:ipqaia/core/shared/app_custom_button.dart';
 
 @RoutePage()
 class ReportScreen extends StatefulWidget {
