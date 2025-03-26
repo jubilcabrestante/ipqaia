@@ -20,7 +20,7 @@ class _AcademicOfferingsScreenState extends State<AcademicOfferingsScreen> {
   Widget build(BuildContext context) {
     return AutoTabsRouter(
       routes: const [
-        StudentProfileRoute(),
+        AcademicOfferingsRoute(),
         ProgramsRoute(),
         AcademicReportsRoute(),
       ],
