@@ -4,20 +4,24 @@ import 'package:ipqaia/core/extensions/theme_extensions.dart';
 
 class CustomSearchBar extends StatelessWidget {
   final TextEditingController controller;
-  final ValueChanged<String> onChanged;
+  final VoidCallback? onSearchPressed;
+  final ValueChanged<String>? onSubmitted;
 
   const CustomSearchBar({
     super.key,
     required this.controller,
-    required this.onChanged,
+    this.onSearchPressed,
+    this.onSubmitted,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 40,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         color: AppColors.secondary,
-        borderRadius: BorderRadius.circular(25), // Adjust as needed
+        borderRadius: BorderRadius.circular(35),
       ),
       child: TextFormField(
         controller: controller,
@@ -25,14 +29,18 @@ class CustomSearchBar extends StatelessWidget {
         style: context.textTheme.bodyLarge?.copyWith(
           color: AppColors.textPrimary,
         ),
+        onFieldSubmitted: onSubmitted,
         decoration: InputDecoration(
           hintText: "Search here...",
-          prefixIcon: const Icon(Icons.search),
-          border: InputBorder.none, // Removes default border
+          suffixIcon: IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: onSearchPressed,
+          ),
+          border: InputBorder.none,
+          isCollapsed: true,
           contentPadding:
-              const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         ),
-        onChanged: onChanged, // Calls Cubit when text changes
       ),
     );
   }

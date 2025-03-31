@@ -53,19 +53,17 @@ class _ManageSdgScreenState extends State<ManageSdgScreen> {
                           label: "Word",
                         ),
                         Gap(10),
-                        BlocBuilder<SdgCubit, SdgState>(
-                          builder: (context, state) {
-                            return Center(
-                              child: Wrap(
-                                alignment: WrapAlignment.center,
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: state.newWords
-                                    .map((word) => Chip(label: Text(word)))
-                                    .toList(),
-                              ),
-                            );
-                          },
+                        Center(
+                          child: Wrap(
+                            alignment: WrapAlignment.center,
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: state.newWords
+                                .map(
+                                  (word) => Chip(label: Text(word)),
+                                )
+                                .toList(),
+                          ),
                         ),
                         Gap(20),
                         AppCustomButton(
@@ -213,64 +211,42 @@ class _ManageSdgScreenState extends State<ManageSdgScreen> {
                                                                         "Title"),
                                                                 Gap(10),
                                                                 AppCustomTextfield(
-                                                                    controller:
-                                                                        wordInputController,
+                                                                    controller: TextEditingController(
+                                                                        text: sdg.words !=
+                                                                                null
+                                                                            ? sdg.words!.join(
+                                                                                ', ')
+                                                                            : ''),
                                                                     label:
                                                                         "Word"),
-                                                                BlocBuilder<
-                                                                    SdgCubit,
-                                                                    SdgState>(
-                                                                  builder:
-                                                                      (context,
-                                                                          state) {
-                                                                    // Ensure at least one SDG is selected
-                                                                    if (state
-                                                                        .sdg
-                                                                        .isEmpty) {
-                                                                      return const Center(
-                                                                          child:
-                                                                              Text('No SDG data available.'));
-                                                                    }
-
-                                                                    // Get the selected SDG or the first one
-                                                                    final selectedSdg =
-                                                                        state
-                                                                            .sdg
-                                                                            .firstWhere(
-                                                                      (sdg) =>
-                                                                          sdg.sdgNumber
-                                                                              .toString() ==
-                                                                          state
-                                                                              .selectedSdg,
-                                                                      orElse: () => state
-                                                                          .sdg
-                                                                          .first, // Default to first SDG
-                                                                    );
-
-                                                                    return Center(
-                                                                      child:
-                                                                          Wrap(
-                                                                        alignment:
-                                                                            WrapAlignment.center,
-                                                                        spacing:
-                                                                            8,
-                                                                        runSpacing:
-                                                                            8,
-                                                                        children: selectedSdg
-                                                                            .words!
-                                                                            .map((word) =>
-                                                                                Chip(
-                                                                                    label: Row(
-                                                                                  mainAxisSize: MainAxisSize.min,
-                                                                                  children: [
-                                                                                    Text(word),
-                                                                                    InkWell(onTap: () => sdgCubit.removeWord(word), child: Icon(Icons.close))
-                                                                                  ],
-                                                                                )))
-                                                                            .toList(),
-                                                                      ),
-                                                                    );
-                                                                  },
+                                                                Center(
+                                                                  child: Wrap(
+                                                                    alignment:
+                                                                        WrapAlignment
+                                                                            .center,
+                                                                    spacing: 8,
+                                                                    runSpacing:
+                                                                        8,
+                                                                    children: state
+                                                                        .newWords
+                                                                        .map((word) =>
+                                                                            Container(
+                                                                              child: ListTile(
+                                                                                leading: Text(word),
+                                                                                trailing: GestureDetector(
+                                                                                  onTap: () {
+                                                                                    final updatedWords = List<String>.from(sdg.words ?? []);
+                                                                                    updatedWords.add(word);
+                                                                                    sdgCubit.updateWord(word, updatedWords.join(', '));
+                                                                                  },
+                                                                                  child: Icon(
+                                                                                    Icons.edit,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ))
+                                                                        .toList(),
+                                                                  ),
                                                                 ),
                                                                 Gap(20),
                                                                 AppCustomButton(
@@ -281,8 +257,11 @@ class _ManageSdgScreenState extends State<ManageSdgScreen> {
                                                                             .trim();
                                                                     if (word
                                                                         .isNotEmpty) {
-                                                                      sdgCubit.addNewWord(
-                                                                          word);
+                                                                      context
+                                                                          .read<
+                                                                              SdgCubit>()
+                                                                          .addNewWord(
+                                                                              word);
                                                                       wordInputController
                                                                           .clear();
                                                                     }

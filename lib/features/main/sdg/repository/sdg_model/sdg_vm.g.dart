@@ -10,7 +10,8 @@ SdgVm _$SdgVmFromJson(Map<String, dynamic> json) => SdgVm(
       sdgId: json['sdgId'] as String?,
       sdgNumber: (json['sdgNumber'] as num?)?.toInt(),
       sdgTitle: json['sdgTitle'] as String?,
-      words: json['words'] as String?,
+      words:
+          (json['words'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$SdgVmToJson(SdgVm instance) => <String, dynamic>{

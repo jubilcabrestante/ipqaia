@@ -7,7 +7,7 @@ class SdgVm {
   final String? sdgId;
   final int? sdgNumber;
   final String? sdgTitle;
-  final String? words;
+  final List<String>? words;
 
   SdgVm({
     this.sdgId,
@@ -23,7 +23,7 @@ class SdgVm {
     String? sdgId,
     int? sdgNumber,
     String? sdgTitle,
-    String? words,
+    List<String>? words,
   }) {
     return SdgVm(
       sdgId: sdgId ?? this.sdgId,

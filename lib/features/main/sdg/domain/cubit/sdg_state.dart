@@ -10,5 +10,6 @@ abstract class SdgState with _$SdgState {
     @Default([]) List<ArticleVm> articles,
     String? selectedArticle,
     String? selectedSdg,
+    @Default([]) List<String> newWords,
   }) = _SdgState;
 }

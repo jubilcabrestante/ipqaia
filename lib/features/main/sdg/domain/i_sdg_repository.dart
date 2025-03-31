@@ -2,7 +2,7 @@ import 'package:ipqaia/features/main/sdg/repository/article_model/article_vm.dar
 import 'package:ipqaia/features/main/sdg/repository/sdg_model/sdg_vm.dart';
 
 abstract class ISdgRepository {
-  Future<List<SdgVm>> getSdg(String selectedType);
+  Future<List<SdgVm>> getSdg();
   Future<void> addSdg(SdgVm sdg);
   Future<void> updateSdg(SdgVm sdg);
   Future<void> deleteReport(String sdgId);

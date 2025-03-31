@@ -15,12 +15,9 @@ class SdgRepository implements ISdgRepository {
       : _firestore = firestore ?? FirebaseFirestore.instance;
 
   @override
-  Future<List<SdgVm>> getSdg(String selectedType) async {
+  Future<List<SdgVm>> getSdg() async {
     try {
-      final querySnapshot = await _firestore
-          .collection(dbNameSdg)
-          .where('type', isEqualTo: selectedType)
-          .get();
+      final querySnapshot = await _firestore.collection(dbNameSdg).get();
 
       return querySnapshot.docs
           .map((doc) => SdgVm.fromJson(doc.data()))
@@ -33,10 +30,11 @@ class SdgRepository implements ISdgRepository {
   @override
   Future<void> addSdg(SdgVm sdg) async {
     try {
-      await _firestore.collection(dbNameSdg).add(sdg.toJson());
-      // Document added successfully
+      final docRef = _firestore.collection(dbNameSdg).doc();
+      final updatedSdg = sdg.copyWith(sdgId: docRef.id);
+      await docRef.set(updatedSdg.toJson());
     } catch (e) {
-      throw e.toString();
+      throw Exception('Failed to add SDG: $e');
     }
   }
 

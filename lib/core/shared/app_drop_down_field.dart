@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class DropdownField<T> extends StatelessWidget {
+class AppDropdownField<T> extends StatelessWidget {
   final String title;
   final List<T> options;
   final T? value;
   final ValueChanged<T?> onChanged;
   final String Function(T) optionLabel;
 
-  const DropdownField({
+  const AppDropdownField({
     super.key,
     required this.title,
     required this.options,

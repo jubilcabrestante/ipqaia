@@ -7,8 +7,9 @@ import 'package:gap/gap.dart';
 import 'package:ipqaia/app/themes/colors.dart';
 import 'package:ipqaia/core/extensions/theme_extensions.dart';
 import 'package:ipqaia/core/shared/app_custom_button.dart';
+import 'package:ipqaia/core/shared/app_custom_textfield.dart';
 import 'package:ipqaia/core/shared/app_dialog.dart';
-import 'package:ipqaia/core/shared/dropdownfield.dart';
+import 'package:ipqaia/core/shared/app_drop_down_field.dart';
 import 'package:ipqaia/core/shared/search_bar.dart';
 import 'package:ipqaia/features/main/sdg/domain/cubit/sdg_cubit.dart';
 
@@ -22,6 +23,20 @@ class ListArticlesScreen extends StatefulWidget {
 
 class _ListArticlesScreenState extends State<ListArticlesScreen> {
   TextEditingController searchController = TextEditingController();
+  final TextEditingController _title = TextEditingController();
+  final TextEditingController _link = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _title.dispose();
+    _link.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +56,15 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
                   width: 350,
                   child: CustomSearchBar(
                     controller: searchController,
-                    onChanged: (String value) {
-                      log("Search query: $value");
+                    onSearchPressed: () {
+                      //TODO: Handle this case
+                      // Add your search logic here if needed
                     },
                   ),
                 ),
                 Row(
                   children: [
-                    DropdownField<String>(
+                    AppDropdownField<String>(
                       title: "Category",
                       options: state.articles
                           .map((article) => article.title)
@@ -62,7 +78,46 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
                     Gap(20),
                     AppCustomButton(
                       ontab: () {
-                        AppDialog.sdgDialog(context);
+                        AppDialog.showCustomFormDialog(
+                            context: context,
+                            formFields: [
+                              AppCustomTextfield(
+                                controller: _title,
+                                label: "Title",
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Title cannot be empty";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              Gap(20),
+                              AppCustomTextfield(
+                                controller: _link,
+                                label: "Link",
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Link cannot be empty";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              Gap(20),
+                              AppDropdownField(
+                                title: "SDG",
+                                options: sdgCubit.state.sdg
+                                    .map((sdg) => sdg.sdgTitle)
+                                    .toList(),
+                                value: sdgCubit.state.selectedSdg,
+                                onChanged: (value) {
+                                  setState(() {
+                                    value;
+                                  });
+                                },
+                                optionLabel: (option) => 'Select Sdg here',
+                              )
+                            ],
+                            onSubmit: () {});
                       },
                       backgroundColor: AppColors.primary,
                       text: "Add New Category",

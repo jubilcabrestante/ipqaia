@@ -39,10 +39,9 @@ import 'package:ipqaia/features/main/personnel_profile/presentation/profile_scre
     as _i19;
 import 'package:ipqaia/features/main/personnel_profile/presentation/report_screen.dart'
     as _i21;
+import 'package:ipqaia/features/main/sdg/presentation/asd.dart' as _i17;
 import 'package:ipqaia/features/main/sdg/presentation/list_articles_screen.dart'
     as _i12;
-import 'package:ipqaia/features/main/sdg/presentation/manage_sdg_screen.dart'
-    as _i17;
 import 'package:ipqaia/features/main/sdg/presentation/sdg_screen.dart' as _i22;
 import 'package:ipqaia/features/main/students_life_and_facilties/presentation/building_screen.dart'
     as _i5;

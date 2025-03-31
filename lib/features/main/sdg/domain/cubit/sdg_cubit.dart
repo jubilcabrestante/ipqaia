@@ -10,36 +10,51 @@ part 'sdg_cubit.freezed.dart';
 class SdgCubit extends Cubit<SdgState> {
   final ISdgRepository _iSdgRepository;
 
-  SdgCubit(this._iSdgRepository) : super(const SdgState());
+  SdgCubit(this._iSdgRepository) : super(const SdgState()) {
+    _getSdg();
+  }
 
-  Future<void> getSdg() async {
-    emit(state.copyWith(
-        isLoading: true, isSuccess: false, errorMessage: state.errorMessage));
+  _getSdg() async {
+    emit(state.copyWith(isLoading: true, isSuccess: false, errorMessage: ''));
+
     try {
-      final result = await _iSdgRepository.getSdg(state.selectedSdg!);
-      if (result.isNotEmpty) {
-        emit(state.copyWith(
-          isLoading: false,
-          isSuccess: true,
-          sdg: result,
-        ));
-      } else {
-        emit(state.copyWith(
-          isLoading: false,
-          isSuccess: true,
-          errorMessage: 'No SDG data found.',
-        ));
-      }
+      final result = await _iSdgRepository.getSdg();
+
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: result.isNotEmpty,
+        sdg: result,
+        errorMessage: result.isEmpty ? 'No SDG data found.' : '',
+      ));
     } catch (e) {
       emit(state.copyWith(
-        errorMessage: e.toString(),
         isLoading: false,
         isSuccess: false,
+        errorMessage: e.toString(),
       ));
     }
   }
 
-  Future<void> updateSdg(SdgVm sdg) async {
+  addSdg(String number, String title) async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      final newSdg = SdgVm(
+        sdgNumber: int.parse(number),
+        sdgTitle: title,
+        words: state.newWords,
+      );
+
+      // Add repository call here
+      await _iSdgRepository.addSdg(newSdg);
+      _getSdg(); // Refresh list
+      emit(state.copyWith(isLoading: false, isSuccess: true));
+    } catch (e) {
+      emit(state.copyWith(
+          isLoading: false, errorMessage: e.toString(), isSuccess: false));
+    }
+  }
+
+  updateSdg(SdgVm sdg) async {
     try {
       emit(state.copyWith(isLoading: true));
       _iSdgRepository.updateSdg(sdg);
@@ -49,17 +64,45 @@ class SdgCubit extends Cubit<SdgState> {
     }
   }
 
-  Future<void> deleteSdg() async {
+  deleteSdg() async {
     try {
       emit(state.copyWith(isLoading: true));
       _iSdgRepository.deleteReport(state.selectedSdg!);
+      _getSdg();
       emit(state.copyWith(isLoading: false));
     } catch (e) {
       emit(state.copyWith(isLoading: false));
     }
   }
 
-  Future<void> getArticles() async {
+  void updateWord(String oldWord, String newWord) {
+    final updatedWords = state.newWords.map((word) {
+      return word == oldWord ? newWord : word;
+    }).toList();
+
+    emit(state.copyWith(newWords: updatedWords));
+  }
+
+  addNewWord(String word) {
+    final updatedWords = List<String>.from(state.newWords)..add(word);
+    emit(state.copyWith(newWords: updatedWords));
+  }
+
+  clearWords() {
+    emit(state.copyWith(newWords: []));
+  }
+
+  removeWord(String word) {
+    final updatedWords = List<String>.from(state.newWords)..remove(word);
+    emit(state.copyWith(newWords: updatedWords));
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///
+  ///     Article
+  ///
+  /// //////////////////////////////////////////////////////
+  getArticles() async {
     emit(state.copyWith(isLoading: true, isSuccess: false));
     try {
       final result = await _iSdgRepository.getArticles(state.selectedArticle!);
@@ -77,7 +120,7 @@ class SdgCubit extends Cubit<SdgState> {
     }
   }
 
-  Future<void> addArticle(ArticleVm article) async {
+  addArticle(ArticleVm article) async {
     emit(state.copyWith(isLoading: true, isSuccess: false));
     try {
       await _iSdgRepository.addArticle(article);
@@ -92,7 +135,7 @@ class SdgCubit extends Cubit<SdgState> {
     }
   }
 
-  Future<void> updateArticle(String id, ArticleVm article) async {
+  updateArticle(String id, ArticleVm article) async {
     emit(state.copyWith(isLoading: true));
     try {
       await _iSdgRepository.updateArticle(id, article);
@@ -103,7 +146,7 @@ class SdgCubit extends Cubit<SdgState> {
     }
   }
 
-  Future<void> deleteArticle(String id, String sdg) async {
+  deleteArticle(String id, String sdg) async {
     emit(state.copyWith(isLoading: true));
     try {
       await _iSdgRepository.deleteArticle(id);

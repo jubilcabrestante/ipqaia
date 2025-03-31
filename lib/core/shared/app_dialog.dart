@@ -1,17 +1,12 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:ipqaia/app/themes/colors.dart';
 import 'package:ipqaia/core/extensions/theme_extensions.dart';
 import 'package:ipqaia/core/shared/app_custom_button.dart';
-import 'package:ipqaia/core/shared/app_custom_textfield.dart';
-import 'package:ipqaia/core/shared/validators.dart';
-import 'package:ipqaia/features/main/sdg/domain/cubit/sdg_cubit.dart';
 
 class AppDialog {
   static Future<void> showCustomAlertDialog(
-    BuildContext context, // Directly use BuildContext instead of navigatorKey
+    BuildContext context,
     String title,
     String content, {
     String buttonText = 'OK',
@@ -23,16 +18,14 @@ class AppDialog {
     buttonColor ??= AppColors.primary;
     textColor ??= AppColors.textSecondary;
 
-    final defaultTitleStyle = titleStyle ??
-        TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 24,
-        );
+    final titleStyle =
+        context.textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold);
 
-    final defaultContentStyle = contentStyle ??
-        TextStyle(
-          fontSize: 21,
-        );
+    final contentStyle =
+        context.textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold);
+    TextStyle(
+      fontSize: 21,
+    );
 
     // Show the dialog directly with the provided context
     return showDialog(
@@ -52,11 +45,8 @@ class AppDialog {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(title,
-                    style: defaultTitleStyle, textAlign: TextAlign.center),
-                const SizedBox(height: 10),
-                Text(content,
-                    style: defaultContentStyle, textAlign: TextAlign.center),
+                Text(title, style: titleStyle, textAlign: TextAlign.center),
+                Text(content, style: contentStyle, textAlign: TextAlign.center),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -169,15 +159,24 @@ class AppDialog {
 
 //TODO: Add App dialog for the sdg entry and update
 
-  static Future<void> sdgDialog(BuildContext context) async {
+  static Future<void> showCustomFormDialog({
+    required BuildContext context,
+    required List<Widget> formFields,
+    required VoidCallback onSubmit,
+    double? width,
+    double? heigth,
+    bool isLoading = false,
+    String submitText = 'Submit',
+  }) async {
     final formKey = GlobalKey<FormState>();
-    final titleController = TextEditingController();
+
     return showDialog(
       context: context,
       builder: (context) => Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: SizedBox(
-          width: 400,
+          width: width ?? 400,
+          height: heigth,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
@@ -188,9 +187,6 @@ class AppDialog {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Submit Report',
-                          style: context.textTheme.bodyLarge!
-                              .copyWith(fontWeight: FontWeight.bold)),
                       IconButton(
                         icon: const Icon(Icons.close),
                         onPressed: () => Navigator.pop(context),
@@ -198,34 +194,18 @@ class AppDialog {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  AppCustomTextfield(
-                    controller: titleController,
-                    label: 'Title',
-                    validator: (value) =>
-                        Validators.validateField(value, 'Title'),
-                  ),
+                  ...formFields,
                   const SizedBox(height: 20),
-                  BlocConsumer<SdgCubit, SdgState>(
-                    listener: (context, state) {
-                      if (state.isSuccess) {
-                        Navigator.pop(context);
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(state.errorMessage)),
-                        );
-                      }
-                    },
-                    builder: (context, state) {
-                      return state.isLoading
-                          ? const CircularProgressIndicator()
-                          : AppCustomButton(
-                              text: 'Submit Report',
-                              ontab: () {
-                                context.pop();
-                              },
-                            );
-                    },
-                  ),
+                  isLoading
+                      ? const CircularProgressIndicator()
+                      : AppCustomButton(
+                          text: submitText,
+                          ontab: () {
+                            if (formKey.currentState!.validate()) {
+                              onSubmit();
+                            }
+                          },
+                        ),
                 ],
               ),
             ),
