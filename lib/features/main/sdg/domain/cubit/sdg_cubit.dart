@@ -12,11 +12,11 @@ class SdgCubit extends Cubit<SdgState> {
 
   SdgCubit(this._iSdgRepository) : super(const SdgState());
 
-  Future<void> getSdg(String selectedType) async {
+  Future<void> getSdg() async {
     emit(state.copyWith(
         isLoading: true, isSuccess: false, errorMessage: state.errorMessage));
     try {
-      final result = await _iSdgRepository.getSdg(selectedType);
+      final result = await _iSdgRepository.getSdg(state.selectedSdg!);
       if (result.isNotEmpty) {
         emit(state.copyWith(
           isLoading: false,
@@ -49,20 +49,20 @@ class SdgCubit extends Cubit<SdgState> {
     }
   }
 
-  Future<void> deleteSdg(String sdgId) async {
+  Future<void> deleteSdg() async {
     try {
       emit(state.copyWith(isLoading: true));
-      _iSdgRepository.deleteReport(sdgId);
+      _iSdgRepository.deleteReport(state.selectedSdg!);
       emit(state.copyWith(isLoading: false));
     } catch (e) {
       emit(state.copyWith(isLoading: false));
     }
   }
 
-  Future<void> getArticles(String sdg) async {
+  Future<void> getArticles() async {
     emit(state.copyWith(isLoading: true, isSuccess: false));
     try {
-      final result = await _iSdgRepository.getArticles(sdg);
+      final result = await _iSdgRepository.getArticles(state.selectedArticle!);
       emit(state.copyWith(
         isLoading: false,
         isSuccess: true,
@@ -82,7 +82,7 @@ class SdgCubit extends Cubit<SdgState> {
     try {
       await _iSdgRepository.addArticle(article);
       emit(state.copyWith(isLoading: false, isSuccess: true));
-      getArticles(article.sdg); // Refresh
+      getArticles();
     } catch (e) {
       emit(state.copyWith(
         isLoading: false,
@@ -97,7 +97,7 @@ class SdgCubit extends Cubit<SdgState> {
     try {
       await _iSdgRepository.updateArticle(id, article);
       emit(state.copyWith(isLoading: false, isSuccess: true));
-      getArticles(article.sdg); // Refresh
+      getArticles(); // Refresh
     } catch (e) {
       emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
     }
@@ -108,7 +108,7 @@ class SdgCubit extends Cubit<SdgState> {
     try {
       await _iSdgRepository.deleteArticle(id);
       emit(state.copyWith(isLoading: false, isSuccess: true));
-      getArticles(sdg); // Refresh
+      getArticles();
     } catch (e) {
       emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
     }

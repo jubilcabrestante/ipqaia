@@ -1,7 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:ipqaia/app/themes/colors.dart';
 import 'package:ipqaia/core/extensions/theme_extensions.dart';
+import 'package:ipqaia/core/shared/app_custom_button.dart';
+import 'package:ipqaia/core/shared/app_custom_textfield.dart';
+import 'package:ipqaia/core/shared/validators.dart';
+import 'package:ipqaia/features/main/sdg/domain/cubit/sdg_cubit.dart';
 
 class AppDialog {
   static Future<void> showCustomAlertDialog(
@@ -162,4 +168,70 @@ class AppDialog {
   }
 
 //TODO: Add App dialog for the sdg entry and update
+
+  static Future<void> sdgDialog(BuildContext context) async {
+    final formKey = GlobalKey<FormState>();
+    final titleController = TextEditingController();
+    return showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: SizedBox(
+          width: 400,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Submit Report',
+                          style: context.textTheme.bodyLarge!
+                              .copyWith(fontWeight: FontWeight.bold)),
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  AppCustomTextfield(
+                    controller: titleController,
+                    label: 'Title',
+                    validator: (value) =>
+                        Validators.validateField(value, 'Title'),
+                  ),
+                  const SizedBox(height: 20),
+                  BlocConsumer<SdgCubit, SdgState>(
+                    listener: (context, state) {
+                      if (state.isSuccess) {
+                        Navigator.pop(context);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(state.errorMessage)),
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      return state.isLoading
+                          ? const CircularProgressIndicator()
+                          : AppCustomButton(
+                              text: 'Submit Report',
+                              ontab: () {
+                                context.pop();
+                              },
+                            );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

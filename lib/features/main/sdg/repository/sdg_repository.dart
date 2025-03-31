@@ -9,10 +9,10 @@ class SdgRepository implements ISdgRepository {
   final String dbNameArticle;
 
   SdgRepository(
-      {required FirebaseFirestore firestore,
+      {FirebaseFirestore? firestore,
       this.dbNameSdg = "sdg",
       this.dbNameArticle = "article"})
-      : _firestore = firestore;
+      : _firestore = firestore ?? FirebaseFirestore.instance;
 
   @override
   Future<List<SdgVm>> getSdg(String selectedType) async {

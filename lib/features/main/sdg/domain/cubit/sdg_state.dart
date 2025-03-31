@@ -8,5 +8,7 @@ abstract class SdgState with _$SdgState {
     @Default('') String errorMessage,
     @Default([]) List<SdgVm> sdg,
     @Default([]) List<ArticleVm> articles,
+    String? selectedArticle,
+    String? selectedSdg,
   }) = _SdgState;
 }
