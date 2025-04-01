@@ -45,7 +45,7 @@ class _AccreditationScreenState extends State<AccreditationScreen> {
                     ontab: () {
                       tabsRouter.setActiveIndex(1);
                     },
-                    text: "Copc",
+                    text: "COPC",
                     isActive: tabsRouter.activeIndex == 1,
                   ),
                 ],
