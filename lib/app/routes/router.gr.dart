@@ -9,7 +9,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i26;
+import 'package:auto_route/auto_route.dart' as _i25;
 import 'package:ipqaia/app/app_viewer.dart' as _i16;
 import 'package:ipqaia/features/main/academic_offerings/presentation/academic_offerings_screen.dart'
     as _i1;
@@ -141,13 +141,13 @@ class BuildingRoute extends _i26.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.ChangePassword]
-class ChangePassword extends _i26.PageRouteInfo<void> {
-  const ChangePassword({List<_i26.PageRouteInfo>? children})
+class ChangePassword extends _i25.PageRouteInfo<void> {
+  const ChangePassword({List<_i25.PageRouteInfo>? children})
     : super(ChangePassword.name, initialChildren: children);
 
   static const String name = 'ChangePassword';
 
-  static _i26.PageInfo page = _i26.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i6.ChangePassword();
@@ -173,13 +173,13 @@ class CopcRoute extends _i26.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i8.CreateAccountScreen]
-class CreateAccountRoute extends _i26.PageRouteInfo<void> {
-  const CreateAccountRoute({List<_i26.PageRouteInfo>? children})
+class CreateAccountRoute extends _i25.PageRouteInfo<void> {
+  const CreateAccountRoute({List<_i25.PageRouteInfo>? children})
     : super(CreateAccountRoute.name, initialChildren: children);
 
   static const String name = 'CreateAccountRoute';
 
-  static _i26.PageInfo page = _i26.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i8.CreateAccountScreen();
@@ -221,13 +221,13 @@ class DepartmentRoute extends _i26.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i11.ForgotPasswordPage]
-class ForgotPasswordRoute extends _i26.PageRouteInfo<void> {
-  const ForgotPasswordRoute({List<_i26.PageRouteInfo>? children})
+class ForgotPasswordRoute extends _i25.PageRouteInfo<void> {
+  const ForgotPasswordRoute({List<_i25.PageRouteInfo>? children})
     : super(ForgotPasswordRoute.name, initialChildren: children);
 
   static const String name = 'ForgotPasswordRoute';
 
-  static _i26.PageInfo page = _i26.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i11.ForgotPasswordPage();
@@ -285,13 +285,13 @@ class ListOfAccreditationRoute extends _i26.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i15.LoginPage]
-class LoginRoute extends _i26.PageRouteInfo<void> {
-  const LoginRoute({List<_i26.PageRouteInfo>? children})
+class LoginRoute extends _i25.PageRouteInfo<void> {
+  const LoginRoute({List<_i25.PageRouteInfo>? children})
     : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
-  static _i26.PageInfo page = _i26.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i15.LoginPage();
@@ -301,13 +301,13 @@ class LoginRoute extends _i26.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i16.MainAppScreen]
-class MainAppRoute extends _i26.PageRouteInfo<void> {
-  const MainAppRoute({List<_i26.PageRouteInfo>? children})
+class MainAppRoute extends _i25.PageRouteInfo<void> {
+  const MainAppRoute({List<_i25.PageRouteInfo>? children})
     : super(MainAppRoute.name, initialChildren: children);
 
   static const String name = 'MainAppRoute';
 
-  static _i26.PageInfo page = _i26.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i16.MainAppScreen();
@@ -323,7 +323,7 @@ class ManageSdgRoute extends _i26.PageRouteInfo<void> {
 
   static const String name = 'ManageSdgRoute';
 
-  static _i26.PageInfo page = _i26.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i17.ManageSdgScreen();
@@ -454,7 +454,7 @@ class StudentsRoute extends _i26.PageRouteInfo<void> {
   static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
-      return const _i25.StudentsScreen();
+      return const _i24.StudentsScreen();
     },
   );
 }
