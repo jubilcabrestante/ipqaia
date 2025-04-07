@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:ipqaia/core/extensions/theme_extensions.dart';
-import 'package:ipqaia/core/shared/app_custom_button.dart';
+import 'package:ipqaia/app/themes/colors.dart';
 
 @RoutePage()
 class ReportScreen extends StatefulWidget {
@@ -15,54 +13,128 @@ class ReportScreen extends StatefulWidget {
 class _ReportScreenState extends State<ReportScreen> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        columnSpacing: 20,
-        headingRowColor:
-            WidgetStateColor.resolveWith((states) => AppColors.primary),
-        columns: [
-          DataColumn(
-              label: Text('Date Started',
-                  style: TextStyle(color: AppColors.textSecondary))),
-          DataColumn(
-              label: Text('Department',
-                  style: TextStyle(color: AppColors.textSecondary))),
-          DataColumn(
-              label: Text('Degree',
-                  style: TextStyle(color: AppColors.textSecondary))),
-          DataColumn(
-              label: Text('Specialization',
-                  style: TextStyle(color: AppColors.textSecondary))),
-          DataColumn(
-              label: Text('PWD',
-                  style: TextStyle(color: AppColors.textSecondary))),
-          DataColumn(
-              label: Text('Senior Citizen',
-                  style: TextStyle(color: AppColors.textSecondary))),
-          DataColumn(
-              label: Text('Action',
-                  style: TextStyle(color: AppColors.textSecondary))),
-        ],
-        rows: [
-          DataRow(cells: [
-            DataCell(Text('June 20, 2024')),
-            DataCell(Text('CSD')),
-            DataCell(Text('Masters')),
-            DataCell(Text('Data Analyst')),
-            DataCell(Text('Yes')),
-            DataCell(Text('No')),
-            DataCell(
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary),
-                child: Text('Delete',
-                    style: TextStyle(color: AppColors.textSecondary)),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Personnel Profile"),
+          bottom: TabBar(
+            indicatorColor: Colors.orange,
+            labelColor: Colors.orange,
+            unselectedLabelColor: Colors.black54,
+            tabs: [
+              Tab(text: "Profile"),
+              Tab(text: "Reports"),
+            ],
+          ),
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: "Search article here...",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  prefixIcon: Icon(Icons.search),
+                ),
               ),
             ),
-          ]),
-        ],
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  foregroundColor: Colors.white,
+                ),
+                child: Text("College of Sciences"),
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    border: TableBorder.all(width: 1, color: Colors.black26),
+                    columnSpacing: 20,
+                    headingRowColor:
+                        WidgetStateColor.resolveWith((states) => Colors.orange),
+                    columns: [
+                      DataColumn(
+                          label: Text("Department Name",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white))),
+                      DataColumn(
+                          label: Text("Date Started",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white))),
+                      DataColumn(
+                          label: Text("Bachelor's Degree",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white))),
+                      DataColumn(
+                          label: Text("Master's Degree",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white))),
+                      DataColumn(
+                          label: Text("Doctorate",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white))),
+                      DataColumn(
+                          label: Text("LGBTQ",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white))),
+                      DataColumn(
+                          label: Text("Senior Citizen",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white))),
+                      DataColumn(
+                          label: Text("Male/Female",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white))),
+                      DataColumn(
+                          label: Text("Number of Personnel",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white))),
+                      DataColumn(
+                          label: Text("PWD",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white))),
+                    ],
+                    rows: [
+                      DataRow(cells: [
+                        DataCell(Text("")),
+                        DataCell(Text("")),
+                        DataCell(Text("")),
+                        DataCell(Text("")),
+                        DataCell(Text("")),
+                        DataCell(Text("")),
+                        DataCell(Text("")),
+                        DataCell(Text("")),
+                        DataCell(Text("")),
+                        DataCell(Text("")),
+                      ]),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
