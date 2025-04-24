@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ipqaia/features/main/account_creation/presentation/account_screen.dart';
+import 'package:ipqaia/features/main/accounts/presentation/create_account_screen.dart';
 import 'package:ipqaia/features/main/personel_profile/presentation/personel_profile.dart';
 
 @RoutePage()

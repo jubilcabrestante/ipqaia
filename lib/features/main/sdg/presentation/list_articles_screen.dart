@@ -58,8 +58,10 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
                     controller: searchController,
                     onSearchPressed: () {
                       //TODO: Handle this case
-                      // Add your search logic here if needed
-                    },
+                   // Add your search logic here if needed
+                    }, onChanged: (String query) { 
+
+                     },
                   ),
                 ),
                 Row(

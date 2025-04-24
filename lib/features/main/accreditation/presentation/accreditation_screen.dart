@@ -1,5 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:ipqaia/app/routes/router.gr.dart';
+import 'package:ipqaia/core/shared/app_containers/app_body_container.dart';
+import 'package:ipqaia/core/shared/app_containers/app_header_container.dart';
+import 'package:ipqaia/core/shared/app_custom_button.dart';
 
 @RoutePage()
 class AccreditationScreen extends StatelessWidget {
