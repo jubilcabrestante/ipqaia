@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ipqaia/features/main/accreditation/repository/models/accreditation_dto.dart';
 part 'accreditation_vm.g.dart';
 
 @JsonSerializable()
