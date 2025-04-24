@@ -9,16 +9,14 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i25;
+import 'package:auto_route/auto_route.dart' as _i26;
 import 'package:ipqaia/app/app_viewer.dart' as _i16;
 import 'package:ipqaia/features/main/academic_offerings/presentation/academic_offerings_screen.dart'
     as _i1;
 import 'package:ipqaia/features/main/academic_offerings/presentation/academic_reports_screen.dart'
     as _i2;
 import 'package:ipqaia/features/main/academic_offerings/presentation/programs_screen.dart'
-    as _i20;
-import 'package:ipqaia/features/main/academic_offerings/presentation/student_profile_screen.dart'
-    as _i24;
+    as _i21;
 import 'package:ipqaia/features/main/accounts/presentation/account_screen.dart'
     as _i3;
 import 'package:ipqaia/features/main/accounts/presentation/create_account_screen.dart'
@@ -33,23 +31,25 @@ import 'package:ipqaia/features/main/accreditation/presentation/list_of_accredit
     as _i14;
 import 'package:ipqaia/features/main/dashboard/presentation/dashboard_screen.dart'
     as _i9;
-import 'package:ipqaia/features/main/personnel_profile/presentation/personel_profile.dart'
+import 'package:ipqaia/features/main/personel_profile/presentation/personel_profile.dart'
     as _i18;
 import 'package:ipqaia/features/main/personnel_profile/presentation/profile_screen.dart'
-    as _i19;
+    as _i20;
 import 'package:ipqaia/features/main/personnel_profile/presentation/report_screen.dart'
-    as _i21;
+    as _i22;
+import 'package:ipqaia/features/main/personnel_profile_reports/presentation/personnel_profile_sreen_reports.dart'
+    as _i19;
 import 'package:ipqaia/features/main/sdg/presentation/list_articles_screen.dart'
     as _i12;
 import 'package:ipqaia/features/main/sdg/presentation/manage_sdg_screen.dart'
     as _i17;
-import 'package:ipqaia/features/main/sdg/presentation/sdg_screen.dart' as _i22;
+import 'package:ipqaia/features/main/sdg/presentation/sdg_screen.dart' as _i23;
 import 'package:ipqaia/features/main/students_life_and_facilties/presentation/building_screen.dart'
     as _i5;
 import 'package:ipqaia/features/main/students_life_and_facilties/presentation/department_screen.dart'
     as _i10;
 import 'package:ipqaia/features/main/students_life_and_facilties/presentation/slf_presentation.dart'
-    as _i23;
+    as _i24;
 import 'package:ipqaia/features/main/students_life_and_facilties/presentation/students_screen.dart'
     as _i25;
 import 'package:ipqaia/features/onboarding/login/presentation/change_password.dart'
@@ -141,13 +141,13 @@ class BuildingRoute extends _i26.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.ChangePassword]
-class ChangePassword extends _i25.PageRouteInfo<void> {
-  const ChangePassword({List<_i25.PageRouteInfo>? children})
+class ChangePassword extends _i26.PageRouteInfo<void> {
+  const ChangePassword({List<_i26.PageRouteInfo>? children})
     : super(ChangePassword.name, initialChildren: children);
 
   static const String name = 'ChangePassword';
 
-  static _i25.PageInfo page = _i25.PageInfo(
+  static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
       return const _i6.ChangePassword();
@@ -173,13 +173,13 @@ class CopcRoute extends _i26.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i8.CreateAccountScreen]
-class CreateAccountRoute extends _i25.PageRouteInfo<void> {
-  const CreateAccountRoute({List<_i25.PageRouteInfo>? children})
+class CreateAccountRoute extends _i26.PageRouteInfo<void> {
+  const CreateAccountRoute({List<_i26.PageRouteInfo>? children})
     : super(CreateAccountRoute.name, initialChildren: children);
 
   static const String name = 'CreateAccountRoute';
 
-  static _i25.PageInfo page = _i25.PageInfo(
+  static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
       return const _i8.CreateAccountScreen();
@@ -221,13 +221,13 @@ class DepartmentRoute extends _i26.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i11.ForgotPasswordPage]
-class ForgotPasswordRoute extends _i25.PageRouteInfo<void> {
-  const ForgotPasswordRoute({List<_i25.PageRouteInfo>? children})
+class ForgotPasswordRoute extends _i26.PageRouteInfo<void> {
+  const ForgotPasswordRoute({List<_i26.PageRouteInfo>? children})
     : super(ForgotPasswordRoute.name, initialChildren: children);
 
   static const String name = 'ForgotPasswordRoute';
 
-  static _i25.PageInfo page = _i25.PageInfo(
+  static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
       return const _i11.ForgotPasswordPage();
@@ -285,13 +285,13 @@ class ListOfAccreditationRoute extends _i26.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i15.LoginPage]
-class LoginRoute extends _i25.PageRouteInfo<void> {
-  const LoginRoute({List<_i25.PageRouteInfo>? children})
+class LoginRoute extends _i26.PageRouteInfo<void> {
+  const LoginRoute({List<_i26.PageRouteInfo>? children})
     : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
-  static _i25.PageInfo page = _i25.PageInfo(
+  static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
       return const _i15.LoginPage();
@@ -301,13 +301,13 @@ class LoginRoute extends _i25.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i16.MainAppScreen]
-class MainAppRoute extends _i25.PageRouteInfo<void> {
-  const MainAppRoute({List<_i25.PageRouteInfo>? children})
+class MainAppRoute extends _i26.PageRouteInfo<void> {
+  const MainAppRoute({List<_i26.PageRouteInfo>? children})
     : super(MainAppRoute.name, initialChildren: children);
 
   static const String name = 'MainAppRoute';
 
-  static _i25.PageInfo page = _i25.PageInfo(
+  static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
       return const _i16.MainAppScreen();
@@ -323,7 +323,7 @@ class ManageSdgRoute extends _i26.PageRouteInfo<void> {
 
   static const String name = 'ManageSdgRoute';
 
-  static _i25.PageInfo page = _i25.PageInfo(
+  static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
       return const _i17.ManageSdgScreen();
@@ -332,7 +332,23 @@ class ManageSdgRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i18.PersonnelProfileScreen]
+/// [_i18.PersonelProfileScreen]
+class PersonelProfileRoute extends _i26.PageRouteInfo<void> {
+  const PersonelProfileRoute({List<_i26.PageRouteInfo>? children})
+    : super(PersonelProfileRoute.name, initialChildren: children);
+
+  static const String name = 'PersonelProfileRoute';
+
+  static _i26.PageInfo page = _i26.PageInfo(
+    name,
+    builder: (data) {
+      return const _i18.PersonelProfileScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i19.PersonnelProfileScreen]
 class PersonnelProfileRoute extends _i26.PageRouteInfo<void> {
   const PersonnelProfileRoute({List<_i26.PageRouteInfo>? children})
     : super(PersonnelProfileRoute.name, initialChildren: children);
@@ -342,13 +358,13 @@ class PersonnelProfileRoute extends _i26.PageRouteInfo<void> {
   static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
-      return const _i18.PersonnelProfileScreen();
+      return const _i19.PersonnelProfileScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i19.ProfileScreen]
+/// [_i20.ProfileScreen]
 class ProfileRoute extends _i26.PageRouteInfo<void> {
   const ProfileRoute({List<_i26.PageRouteInfo>? children})
     : super(ProfileRoute.name, initialChildren: children);
@@ -358,13 +374,13 @@ class ProfileRoute extends _i26.PageRouteInfo<void> {
   static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
-      return const _i19.ProfileScreen();
+      return const _i20.ProfileScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i20.ProgramsScreen]
+/// [_i21.ProgramsScreen]
 class ProgramsRoute extends _i26.PageRouteInfo<void> {
   const ProgramsRoute({List<_i26.PageRouteInfo>? children})
     : super(ProgramsRoute.name, initialChildren: children);
@@ -374,13 +390,13 @@ class ProgramsRoute extends _i26.PageRouteInfo<void> {
   static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
-      return const _i20.ProgramsScreen();
+      return const _i21.ProgramsScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i21.ReportScreen]
+/// [_i22.ReportScreen]
 class ReportRoute extends _i26.PageRouteInfo<void> {
   const ReportRoute({List<_i26.PageRouteInfo>? children})
     : super(ReportRoute.name, initialChildren: children);
@@ -390,13 +406,13 @@ class ReportRoute extends _i26.PageRouteInfo<void> {
   static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
-      return const _i21.ReportScreen();
+      return const _i22.ReportScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i22.SdgScreen]
+/// [_i23.SdgScreen]
 class SdgRoute extends _i26.PageRouteInfo<void> {
   const SdgRoute({List<_i26.PageRouteInfo>? children})
     : super(SdgRoute.name, initialChildren: children);
@@ -406,13 +422,13 @@ class SdgRoute extends _i26.PageRouteInfo<void> {
   static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
-      return const _i22.SdgScreen();
+      return const _i23.SdgScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i23.StudentLifeScreen]
+/// [_i24.StudentLifeScreen]
 class StudentLifeRoute extends _i26.PageRouteInfo<void> {
   const StudentLifeRoute({List<_i26.PageRouteInfo>? children})
     : super(StudentLifeRoute.name, initialChildren: children);
@@ -422,23 +438,7 @@ class StudentLifeRoute extends _i26.PageRouteInfo<void> {
   static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
-      return const _i23.StudentLifeScreen();
-    },
-  );
-}
-
-/// generated route for
-/// [_i24.StudentProfileScreen]
-class StudentProfileRoute extends _i26.PageRouteInfo<void> {
-  const StudentProfileRoute({List<_i26.PageRouteInfo>? children})
-    : super(StudentProfileRoute.name, initialChildren: children);
-
-  static const String name = 'StudentProfileRoute';
-
-  static _i26.PageInfo page = _i26.PageInfo(
-    name,
-    builder: (data) {
-      return const _i24.StudentProfileScreen();
+      return const _i24.StudentLifeScreen();
     },
   );
 }
@@ -454,7 +454,7 @@ class StudentsRoute extends _i26.PageRouteInfo<void> {
   static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
-      return const _i24.StudentsScreen();
+      return const _i25.StudentsScreen();
     },
   );
 }
