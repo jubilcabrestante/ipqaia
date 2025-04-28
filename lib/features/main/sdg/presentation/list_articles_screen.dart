@@ -81,6 +81,9 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
                     AppCustomButton(
                       ontab: () {
                         AppDialog.showCustomFormDialog(
+                            onClose: () {
+                              Navigator.pop(context);
+                            },
                             context: context,
                             formFields: [
                               AppCustomTextfield(

@@ -35,11 +35,11 @@ class SdgCubit extends Cubit<SdgState> {
     }
   }
 
-  addSdg(String number, String title) async {
+  addSdg(int number, String title) async {
     emit(state.copyWith(isLoading: true));
     try {
       final newSdg = SdgVm(
-        sdgNumber: int.parse(number),
+        sdgNumber: number,
         sdgTitle: title,
         words: state.newWords,
       );
