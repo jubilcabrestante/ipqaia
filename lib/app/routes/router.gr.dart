@@ -340,7 +340,7 @@ class PersonelProfileRoute extends _i26.PageRouteInfo<void> {
   static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
-      return const _i18.PersonelProfileScreen();
+      return const _i18.PersonnelProfileScreen();
     },
   );
 }

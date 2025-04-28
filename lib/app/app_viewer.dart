@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ipqaia/features/main/account_creation/presentation/account_screen.dart';
 import 'package:ipqaia/features/main/accounts/presentation/create_account_screen.dart';
 import 'package:ipqaia/features/main/personel_profile/presentation/personel_profile.dart';
+import 'package:ipqaia/features/main/personnel_profile/presentation/personel_profile.dart';
 
 @RoutePage()
 class MainAppScreen extends StatefulWidget {
@@ -58,7 +59,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
             child: selectedMenu == "Account"
                 ? const CreateAccountScreen()
                 : selectedMenu == "Personnel Profile" // ✅ Corrected Check
-                    ? const PersonelProfileScreen() // ✅ Ensure correct import
+                    ? const PersonnelProfileScreen() // ✅ Ensure correct import
                     : Center(
                         child: Text(
                           "$selectedMenu Page Coming Soon...",
