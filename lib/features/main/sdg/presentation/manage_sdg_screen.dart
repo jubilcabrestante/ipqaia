@@ -20,48 +20,63 @@ class ManageSdgScreen extends StatefulWidget {
 }
 
 class _ManageSdgScreenState extends State<ManageSdgScreen> {
-  final TextEditingController sdgNumber = TextEditingController();
-  final TextEditingController sdgTitle = TextEditingController();
-  final TextEditingController wordInputController = TextEditingController();
+  final TextEditingController numberController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController wordController = TextEditingController();
+  final List<String> words = [];
   final List<String> sdgColumnTitle = ['SDG', 'Title', 'Words', 'Action'];
+
+  @override
+  void initState() {
+    super.initState();
+    numberController;
+    titleController;
+    wordController;
+    words;
+  }
 
   void _showSdgForms({
     required Method method,
-    String? sdgId,
-    String? initialNumber,
-    String? initialTitle,
-    List<String>? initialWords,
+    SdgVm? sdg,
   }) {
     final sdgCubit = context.read<SdgCubit>();
+    final numberController =
+        TextEditingController(text: sdg?.sdgNumber.toString() ?? '');
+    final titleController = TextEditingController(text: sdg?.sdgTitle ?? '');
+    final wordController = TextEditingController();
+    List<String> words = List.from(sdg?.words ?? []);
 
     AppDialog.showCustomFormDialog(
       width: 700,
       context: context,
       onClose: () {
         sdgCubit.clearWords();
-        sdgNumber.clear();
-        sdgTitle.clear();
         Navigator.of(context, rootNavigator: true).pop();
       },
       formFields: [
-        SdgForms(
-          method: method,
-          sdgId: sdgId,
-          initialNumber: initialNumber,
-          initialTitle: initialTitle,
-          initialWords: initialWords,
+        StatefulBuilder(
+          builder: (context, setState) => SdgForms(
+            numberController: numberController,
+            titleController: titleController,
+            wordController: wordController,
+            initialWords: words,
+            onWordsUpdated: (updatedWords) => words = updatedWords,
+          ),
         ),
       ],
       onSubmit: () {
+        final number = int.tryParse(numberController.text) ?? 0;
+        final title = titleController.text;
+
         if (method == Method.add) {
-          sdgCubit.addSdg(int.parse(sdgNumber.text), sdgTitle.text);
-        } else if (method == Method.update && sdgId != null) {
+          sdgCubit.addSdg(number, title, words);
+        } else if (method == Method.update && sdg != null) {
           sdgCubit.updateSdg(
             SdgVm(
-              sdgId: sdgId,
-              sdgNumber: int.parse(sdgNumber.text),
-              sdgTitle: sdgTitle.text,
-              words: initialWords,
+              sdgId: sdg.sdgId,
+              sdgNumber: number,
+              sdgTitle: title,
+              words: words,
             ),
           );
         }
@@ -184,14 +199,7 @@ class _ManageSdgScreenState extends State<ManageSdgScreen> {
                                                                 _showSdgForms(
                                                               method:
                                                                   Method.update,
-                                                              sdgId: sdg.sdgId,
-                                                              initialNumber: sdg
-                                                                  .sdgNumber
-                                                                  .toString(),
-                                                              initialTitle:
-                                                                  sdg.sdgTitle,
-                                                              initialWords:
-                                                                  sdg.words,
+                                                              sdg: sdg,
                                                             ),
                                                             backgroundColor:
                                                                 AppColors
@@ -208,12 +216,8 @@ class _ManageSdgScreenState extends State<ManageSdgScreen> {
                                                                     onPressed:
                                                                         () {
                                                               sdgCubit
-                                                                  .deleteSdg();
-                                                              Navigator.of(
-                                                                      context,
-                                                                      rootNavigator:
-                                                                          true)
-                                                                  .pop();
+                                                                  .deleteSdg(sdg
+                                                                      .sdgId!);
                                                             }),
                                                             backgroundColor:
                                                                 AppColors
@@ -245,22 +249,21 @@ class _ManageSdgScreenState extends State<ManageSdgScreen> {
   }
 }
 
+// Modified SdgForms widget
 class SdgForms extends StatefulWidget {
-  final Method method;
-  final String? sdgId;
-  final String? initialNumber;
-  final String? initialTitle;
-  final List<String>? initialWords;
-  final VoidCallback? onDelete;
+  final TextEditingController numberController;
+  final TextEditingController titleController;
+  final TextEditingController wordController;
+  final List<String> initialWords;
+  final ValueChanged<List<String>> onWordsUpdated;
 
   const SdgForms({
     super.key,
-    required this.method,
-    this.sdgId,
-    this.initialNumber,
-    this.initialTitle,
-    this.initialWords,
-    this.onDelete,
+    required this.numberController,
+    required this.titleController,
+    required this.wordController,
+    required this.initialWords,
+    required this.onWordsUpdated,
   });
 
   @override
@@ -268,25 +271,29 @@ class SdgForms extends StatefulWidget {
 }
 
 class _SdgFormsState extends State<SdgForms> {
-  late final TextEditingController _numberController;
-  late final TextEditingController _titleController;
-  late final TextEditingController _wordController;
-  final List<String> _words = [];
+  late List<String> _words;
 
   @override
   void initState() {
     super.initState();
-    _numberController = TextEditingController(text: widget.initialNumber);
-    _titleController = TextEditingController(text: widget.initialTitle);
-    _wordController = TextEditingController();
-    _words.addAll(widget.initialWords ?? []);
+    _words = List.from(widget.initialWords);
   }
 
   void _addWord() {
-    if (_wordController.text.trim().isNotEmpty) {
-      setState(() => _words.add(_wordController.text.trim()));
-      _wordController.clear();
+    if (widget.wordController.text.trim().isNotEmpty) {
+      setState(() {
+        _words.add(widget.wordController.text.trim());
+        widget.onWordsUpdated(_words);
+      });
+      widget.wordController.clear();
     }
+  }
+
+  void _removeWord(String word) {
+    setState(() {
+      _words.remove(word);
+      widget.onWordsUpdated(_words);
+    });
   }
 
   @override
@@ -294,7 +301,7 @@ class _SdgFormsState extends State<SdgForms> {
     return Column(
       children: [
         AppCustomTextfield(
-          controller: _numberController,
+          controller: widget.numberController,
           label: "SDG Number",
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -307,13 +314,20 @@ class _SdgFormsState extends State<SdgForms> {
           },
         ),
         const Gap(10),
-        AppCustomTextfield(controller: _titleController, label: "Title"),
+        AppCustomTextfield(
+          controller: widget.titleController,
+          label: "Title",
+          validator: (value) {
+            if (value == null || value.isEmpty) return 'Please enter SDG title';
+            return null;
+          },
+        ),
         const Gap(10),
         Row(
           children: [
             Expanded(
               child: AppCustomTextfield(
-                controller: _wordController,
+                controller: widget.wordController,
                 label: "Input word here...",
               ),
             ),
@@ -331,7 +345,7 @@ class _SdgFormsState extends State<SdgForms> {
               .map((word) => Chip(
                     label: Text(word),
                     deleteIcon: const Icon(Icons.close),
-                    onDeleted: () => setState(() => _words.remove(word)),
+                    onDeleted: () => _removeWord(word),
                   ))
               .toList(),
         ),

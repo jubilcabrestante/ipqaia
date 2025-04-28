@@ -35,18 +35,16 @@ class SdgCubit extends Cubit<SdgState> {
     }
   }
 
-  addSdg(int number, String title) async {
+  addSdg(int number, String title, List<String> words) async {
     emit(state.copyWith(isLoading: true));
     try {
       final newSdg = SdgVm(
         sdgNumber: number,
         sdgTitle: title,
-        words: state.newWords,
+        words: words,
       );
-
-      // Add repository call here
       await _iSdgRepository.addSdg(newSdg);
-      _getSdg(); // Refresh list
+      _getSdg();
       emit(state.copyWith(isLoading: false, isSuccess: true));
     } catch (e) {
       emit(state.copyWith(
@@ -55,19 +53,21 @@ class SdgCubit extends Cubit<SdgState> {
   }
 
   updateSdg(SdgVm sdg) async {
+    emit(state.copyWith(isLoading: true));
     try {
-      emit(state.copyWith(isLoading: true));
-      _iSdgRepository.updateSdg(sdg);
+      await _iSdgRepository.updateSdg(sdg);
+      _getSdg();
       emit(state.copyWith(isLoading: false, isSuccess: true));
     } catch (e) {
-      emit(state.copyWith(errorMessage: e.toString(), isSuccess: false));
+      emit(state.copyWith(
+          isLoading: false, errorMessage: e.toString(), isSuccess: false));
     }
   }
 
-  deleteSdg() async {
+  deleteSdg(String sdgId) async {
     try {
       emit(state.copyWith(isLoading: true));
-      _iSdgRepository.deleteReport(state.selectedSdg!);
+      _iSdgRepository.deleteReport(sdgId);
       _getSdg();
       emit(state.copyWith(isLoading: false));
     } catch (e) {
