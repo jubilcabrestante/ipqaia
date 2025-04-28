@@ -14,20 +14,17 @@ class AppDialog {
     Color? textColor,
     TextStyle? titleStyle,
     TextStyle? contentStyle,
+    VoidCallback? onPressed,
   }) {
-    buttonColor ??= AppColors.primary;
-    textColor ??= AppColors.textSecondary;
+    final Color resolvedButtonColor = buttonColor ?? AppColors.primary;
+    final Color resolvedTextColor = textColor ?? AppColors.textSecondary;
 
-    final titleStyle =
+    final TextStyle resolvedTitleStyle = titleStyle ??
         context.textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold);
 
-    final contentStyle =
-        context.textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold);
-    TextStyle(
-      fontSize: 21,
-    );
+    final TextStyle resolvedContentStyle = contentStyle ??
+        context.textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.normal);
 
-    // Show the dialog directly with the provided context
     return showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
@@ -38,6 +35,7 @@ class AppDialog {
           elevation: 10,
           child: Container(
             padding: const EdgeInsets.all(20),
+            width: 300,
             decoration: BoxDecoration(
               color: AppColors.backgroundSecondary,
               borderRadius: BorderRadius.circular(12),
@@ -45,25 +43,54 @@ class AppDialog {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(title, style: titleStyle, textAlign: TextAlign.center),
-                Text(content, style: contentStyle, textAlign: TextAlign.center),
+                Text(title,
+                    style: resolvedTitleStyle, textAlign: TextAlign.center),
+                const SizedBox(height: 10),
+                Text(content,
+                    style: resolvedContentStyle, textAlign: TextAlign.center),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: textColor,
-                    backgroundColor: buttonColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25)),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 30),
-                  ),
-                  onPressed: () {
-                    Navigator.of(dialogContext).pop(); // Close the dialog
-                  },
-                  child: Text(buttonText,
-                      style: TextStyle(
-                        fontSize: 18,
-                      )),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: resolvedTextColor,
+                          backgroundColor: resolvedButtonColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        onPressed: () => Navigator.of(dialogContext).pop(),
+                        child: const Text('Cancel',
+                            style: TextStyle(fontSize: 16)),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.grey,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        onPressed: () {
+                          Navigator.of(dialogContext).pop();
+                          if (onPressed != null) {
+                            onPressed();
+                          }
+                        },
+                        child: Text(buttonText,
+                            style: const TextStyle(
+                              fontSize: 16,
+                            )),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -163,6 +190,7 @@ class AppDialog {
     required BuildContext context,
     required List<Widget> formFields,
     required VoidCallback onSubmit,
+    required VoidCallback onClose,
     double? width,
     double? heigth,
     bool isLoading = false,
@@ -172,7 +200,7 @@ class AppDialog {
 
     return showDialog(
       context: context,
-      builder: (context) => Dialog(
+      builder: (dialogContext) => Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: SizedBox(
           width: width ?? 400,
@@ -189,7 +217,9 @@ class AppDialog {
                     children: [
                       IconButton(
                         icon: const Icon(Icons.close),
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () {
+                          Navigator.of(dialogContext).pop();
+                        },
                       ),
                     ],
                   ),
