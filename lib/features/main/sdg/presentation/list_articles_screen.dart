@@ -59,7 +59,7 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
                     onSearchPressed: () {
                       //TODO: Handle this case
                       // Add your search logic here if needed
-                    },
+                    }, onChanged: (String query) {  },
                   ),
                 ),
                 Row(

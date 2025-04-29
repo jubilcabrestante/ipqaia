@@ -11,7 +11,7 @@ class CustomSearchBar extends StatelessWidget {
     super.key,
     required this.controller,
     this.onSearchPressed,
-    this.onSubmitted,
+    this.onSubmitted, required void Function(String query) onChanged,
   });
 
   @override
