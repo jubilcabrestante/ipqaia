@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ipqaia/features/main/sdg/domain/i_sdg_repository.dart';
 import 'package:ipqaia/features/main/sdg/repository/article_model/article_vm.dart';
 import 'package:ipqaia/features/main/sdg/repository/sdg_model/sdg_vm.dart';
+import 'package:ipqaia/talker_service.dart';
 
 part 'sdg_state.dart';
 part 'sdg_cubit.freezed.dart';
@@ -12,6 +13,7 @@ class SdgCubit extends Cubit<SdgState> {
 
   SdgCubit(this._iSdgRepository) : super(const SdgState()) {
     _getSdg();
+    getArticles();
   }
 
   _getSdg() async {
@@ -105,7 +107,8 @@ class SdgCubit extends Cubit<SdgState> {
   getArticles() async {
     emit(state.copyWith(isLoading: true, isSuccess: false));
     try {
-      final result = await _iSdgRepository.getArticles(state.selectedArticle!);
+      final result = await _iSdgRepository.getArticles();
+      TalkerService.talker.log(result.toString());
       emit(state.copyWith(
         isLoading: false,
         isSuccess: true,
@@ -146,7 +149,7 @@ class SdgCubit extends Cubit<SdgState> {
     }
   }
 
-  deleteArticle(String id, String sdg) async {
+  deleteArticle(String id) async {
     emit(state.copyWith(isLoading: true));
     try {
       await _iSdgRepository.deleteArticle(id);
@@ -155,5 +158,13 @@ class SdgCubit extends Cubit<SdgState> {
     } catch (e) {
       emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
     }
+  }
+
+  void updateSelectedDate(DateTime newDate) {
+    emit(state.copyWith(selectedDate: newDate));
+  }
+
+  void updateSelectedSdg(String newSdg) {
+    emit(state.copyWith(selectedSdg: newSdg));
   }
 }

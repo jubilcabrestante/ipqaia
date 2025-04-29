@@ -22,6 +22,7 @@ mixin _$SdgState {
   List<ArticleVm> get articles;
   String? get selectedArticle;
   String? get selectedSdg;
+  DateTime? get selectedDate;
   List<String> get newWords;
 
   /// Create a copy of SdgState
@@ -48,6 +49,8 @@ mixin _$SdgState {
                 other.selectedArticle == selectedArticle) &&
             (identical(other.selectedSdg, selectedSdg) ||
                 other.selectedSdg == selectedSdg) &&
+            (identical(other.selectedDate, selectedDate) ||
+                other.selectedDate == selectedDate) &&
             const DeepCollectionEquality().equals(other.newWords, newWords));
   }
 
@@ -61,11 +64,12 @@ mixin _$SdgState {
       const DeepCollectionEquality().hash(articles),
       selectedArticle,
       selectedSdg,
+      selectedDate,
       const DeepCollectionEquality().hash(newWords));
 
   @override
   String toString() {
-    return 'SdgState(isLoading: $isLoading, isSuccess: $isSuccess, errorMessage: $errorMessage, sdg: $sdg, articles: $articles, selectedArticle: $selectedArticle, selectedSdg: $selectedSdg, newWords: $newWords)';
+    return 'SdgState(isLoading: $isLoading, isSuccess: $isSuccess, errorMessage: $errorMessage, sdg: $sdg, articles: $articles, selectedArticle: $selectedArticle, selectedSdg: $selectedSdg, selectedDate: $selectedDate, newWords: $newWords)';
   }
 }
 
@@ -82,6 +86,7 @@ abstract mixin class $SdgStateCopyWith<$Res> {
       List<ArticleVm> articles,
       String? selectedArticle,
       String? selectedSdg,
+      DateTime? selectedDate,
       List<String> newWords});
 }
 
@@ -104,6 +109,7 @@ class _$SdgStateCopyWithImpl<$Res> implements $SdgStateCopyWith<$Res> {
     Object? articles = null,
     Object? selectedArticle = freezed,
     Object? selectedSdg = freezed,
+    Object? selectedDate = freezed,
     Object? newWords = null,
   }) {
     return _then(_self.copyWith(
@@ -135,6 +141,10 @@ class _$SdgStateCopyWithImpl<$Res> implements $SdgStateCopyWith<$Res> {
           ? _self.selectedSdg
           : selectedSdg // ignore: cast_nullable_to_non_nullable
               as String?,
+      selectedDate: freezed == selectedDate
+          ? _self.selectedDate
+          : selectedDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       newWords: null == newWords
           ? _self.newWords
           : newWords // ignore: cast_nullable_to_non_nullable
@@ -154,6 +164,7 @@ class _SdgState implements SdgState {
       final List<ArticleVm> articles = const [],
       this.selectedArticle,
       this.selectedSdg,
+      this.selectedDate,
       final List<String> newWords = const []})
       : _sdg = sdg,
         _articles = articles,
@@ -190,6 +201,8 @@ class _SdgState implements SdgState {
   final String? selectedArticle;
   @override
   final String? selectedSdg;
+  @override
+  final DateTime? selectedDate;
   final List<String> _newWords;
   @override
   @JsonKey()
@@ -224,6 +237,8 @@ class _SdgState implements SdgState {
                 other.selectedArticle == selectedArticle) &&
             (identical(other.selectedSdg, selectedSdg) ||
                 other.selectedSdg == selectedSdg) &&
+            (identical(other.selectedDate, selectedDate) ||
+                other.selectedDate == selectedDate) &&
             const DeepCollectionEquality().equals(other._newWords, _newWords));
   }
 
@@ -237,11 +252,12 @@ class _SdgState implements SdgState {
       const DeepCollectionEquality().hash(_articles),
       selectedArticle,
       selectedSdg,
+      selectedDate,
       const DeepCollectionEquality().hash(_newWords));
 
   @override
   String toString() {
-    return 'SdgState(isLoading: $isLoading, isSuccess: $isSuccess, errorMessage: $errorMessage, sdg: $sdg, articles: $articles, selectedArticle: $selectedArticle, selectedSdg: $selectedSdg, newWords: $newWords)';
+    return 'SdgState(isLoading: $isLoading, isSuccess: $isSuccess, errorMessage: $errorMessage, sdg: $sdg, articles: $articles, selectedArticle: $selectedArticle, selectedSdg: $selectedSdg, selectedDate: $selectedDate, newWords: $newWords)';
   }
 }
 
@@ -260,6 +276,7 @@ abstract mixin class _$SdgStateCopyWith<$Res>
       List<ArticleVm> articles,
       String? selectedArticle,
       String? selectedSdg,
+      DateTime? selectedDate,
       List<String> newWords});
 }
 
@@ -282,6 +299,7 @@ class __$SdgStateCopyWithImpl<$Res> implements _$SdgStateCopyWith<$Res> {
     Object? articles = null,
     Object? selectedArticle = freezed,
     Object? selectedSdg = freezed,
+    Object? selectedDate = freezed,
     Object? newWords = null,
   }) {
     return _then(_SdgState(
@@ -313,6 +331,10 @@ class __$SdgStateCopyWithImpl<$Res> implements _$SdgStateCopyWith<$Res> {
           ? _self.selectedSdg
           : selectedSdg // ignore: cast_nullable_to_non_nullable
               as String?,
+      selectedDate: freezed == selectedDate
+          ? _self.selectedDate
+          : selectedDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       newWords: null == newWords
           ? _self._newWords
           : newWords // ignore: cast_nullable_to_non_nullable

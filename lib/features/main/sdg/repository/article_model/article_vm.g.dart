@@ -7,11 +7,12 @@ part of 'article_vm.dart';
 // **************************************************************************
 
 ArticleVm _$ArticleVmFromJson(Map<String, dynamic> json) => ArticleVm(
+      sdg: json['sdg'] as String?,
       articleId: json['articleId'] as String,
-      sdg: json['sdg'] as String,
       title: json['title'] as String,
+      description: json['description'] as String,
       link: json['link'] as String,
-      year: json['year'] as String,
+      year: DateTime.parse(json['year'] as String),
     );
 
 Map<String, dynamic> _$ArticleVmToJson(ArticleVm instance) => <String, dynamic>{
@@ -19,5 +20,6 @@ Map<String, dynamic> _$ArticleVmToJson(ArticleVm instance) => <String, dynamic>{
       'sdg': instance.sdg,
       'title': instance.title,
       'link': instance.link,
-      'year': instance.year,
+      'description': instance.description,
+      'year': instance.year.toIso8601String(),
     };

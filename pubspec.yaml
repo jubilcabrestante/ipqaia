@@ -30,6 +30,8 @@ dependencies:
   flutter_bloc: ^8.1.6
   freezed: ^3.0.4
   bloc: ^8.1.4
+  url_launcher: ^6.3.1
+  talker_flutter: ^4.7.2
 
 
 dev_dependencies:

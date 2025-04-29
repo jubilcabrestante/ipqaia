@@ -55,12 +55,9 @@ class SdgRepository implements ISdgRepository {
   }
 
   @override
-  Future<List<ArticleVm>> getArticles(String sdg) async {
+  Future<List<ArticleVm>> getArticles() async {
     try {
-      final querySnapshot = await _firestore
-          .collection(dbNameArticle)
-          .where(dbNameSdg, isEqualTo: sdg)
-          .get();
+      final querySnapshot = await _firestore.collection(dbNameArticle).get();
       return querySnapshot.docs
           .map((doc) => ArticleVm.fromJson(doc.data()))
           .toList();
