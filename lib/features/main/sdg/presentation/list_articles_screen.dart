@@ -192,7 +192,10 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
                                   rows: state.articles.map((article) {
                                     return DataRow(cells: [
                                       DataCell(Center(
-                                          child: Text(article.sdg ?? ""))),
+                                          child: Text(
+                                        article.sdg ?? "",
+                                        textAlign: TextAlign.center,
+                                      ))),
                                       DataCell(
                                           Center(child: Text(article.title))),
                                       DataCell(Center(

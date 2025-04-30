@@ -132,6 +132,7 @@ class SdgCubit extends Cubit<SdgState> {
     try {
       await _iSdgRepository.addArticle(article);
       emit(state.copyWith(isLoading: false, isSuccess: true));
+      getArticles();
     } catch (e) {
       emit(state.copyWith(
         isLoading: false,
@@ -146,6 +147,7 @@ class SdgCubit extends Cubit<SdgState> {
     try {
       await _iSdgRepository.updateArticle(article);
       emit(state.copyWith(isLoading: false, isSuccess: true));
+      getArticles();
     } catch (e) {
       emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
     }
@@ -156,6 +158,7 @@ class SdgCubit extends Cubit<SdgState> {
     try {
       await _iSdgRepository.deleteArticle(id);
       emit(state.copyWith(isLoading: false, isSuccess: true));
+      getArticles();
     } catch (e) {
       emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
     }
