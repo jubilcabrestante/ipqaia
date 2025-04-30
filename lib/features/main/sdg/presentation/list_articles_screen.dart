@@ -33,13 +33,6 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
   final TextEditingController sdg = TextEditingController();
   final List<String> columnTitle = ['SDG', 'Title', 'Link', 'Action'];
 
-  @override
-  void initState() {
-    super.initState();
-    final sdgCubit = context.read<SdgCubit>();
-    sdgCubit.getArticles();
-  }
-
   void _showDialog({Method? method, ArticleVm? article}) {
     final sdgCubit = context.read<SdgCubit>();
 
