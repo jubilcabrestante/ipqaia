@@ -100,4 +100,33 @@ class SdgRepository implements ISdgRepository {
       throw e.toString();
     }
   }
+
+  @override
+  Future<List<ArticleVm>> searchInputArticle(String input) async {
+    try {
+      // Fetch all articles from Firestore (or a smaller subset)
+      final querySnapshot = await _firestore.collection(dbNameArticle).get();
+
+      // Filter the articles locally to check if title or description contains the input string
+      final filteredArticles = querySnapshot.docs
+          .where((doc) {
+            final title = doc.data()['title'] as String;
+            final description = doc.data()['description'] as String;
+
+            // Check if either the title or the description contains the input string
+            return title.toLowerCase().contains(input.toLowerCase()) ||
+                description.toLowerCase().contains(input.toLowerCase());
+          })
+          .map((doc) => ArticleVm.fromJson(doc.data()))
+          .toList();
+
+      if (filteredArticles.isNotEmpty) {
+        return filteredArticles;
+      } else {
+        throw Exception('No articles found');
+      }
+    } catch (e) {
+      throw Exception('Error fetching articles: $e');
+    }
+  }
 }

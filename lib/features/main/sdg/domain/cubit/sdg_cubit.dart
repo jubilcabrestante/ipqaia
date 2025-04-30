@@ -179,15 +179,16 @@ class SdgCubit extends Cubit<SdgState> {
     ));
 
     try {
+      /// Clean the description by removing extra spaces and converting to lowercase
       final cleanDescription = description.trim().toLowerCase();
 
-      // Match SDGs based on whole word/phrase, case-insensitive, and more accurate logic
+      // Check if the SDG title matches the description
       final matchingSdgs = state.sdg.where((sdg) {
+        // Convert the SDG title to lowercase for case-insensitive comparison
         final words = sdg.words ?? [];
 
-        // Create a regular expression that matches any of the SDG phrases or words in the description
+        // Check if any of the words in the SDG match the description
         final match = words.any((word) {
-          // Use word boundaries and case-insensitive matching for each word/phrase
           final regExp = RegExp(
               r'\b' + RegExp.escape(word.toLowerCase()) + r'\b',
               caseSensitive: false);
@@ -218,6 +219,22 @@ class SdgCubit extends Cubit<SdgState> {
         isSuccess: false,
         errorMessageArticle: 'Error: ${e.toString()}',
       ));
+    }
+  }
+
+  searchArticle(String input) async {
+    try {
+      emit(state.copyWith(isLoadingArticle: true, isSuccessArticle: false));
+      final result = await _iSdgRepository.searchInputArticle(input);
+
+      emit(state.copyWith(
+        isLoadingArticle: false,
+        isSuccessArticle: true,
+        articles: result,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+          isLoading: false, isSuccess: false, errorMessage: e.toString()));
     }
   }
 }
