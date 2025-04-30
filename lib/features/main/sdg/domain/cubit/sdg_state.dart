@@ -8,6 +8,7 @@ abstract class SdgState with _$SdgState {
     @Default(false) bool isLoadingArticle,
     @Default(false) bool isSuccessArticle,
     @Default('') String errorMessage,
+    @Default('') String errorMessageArticle,
     @Default([]) List<SdgVm> sdg,
     @Default([]) List<ArticleVm> articles,
     String? selectedArticle,

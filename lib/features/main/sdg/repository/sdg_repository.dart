@@ -17,7 +17,8 @@ class SdgRepository implements ISdgRepository {
   @override
   Future<List<SdgVm>> getSdg() async {
     try {
-      final querySnapshot = await _firestore.collection(dbNameSdg).get();
+      final querySnapshot =
+          await _firestore.collection(dbNameSdg).orderBy('sdgNumber').get();
 
       return querySnapshot.docs
           .map((doc) => SdgVm.fromJson(doc.data()))

@@ -31,7 +31,13 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
   final TextEditingController link = TextEditingController();
   final TextEditingController description = TextEditingController();
   final TextEditingController sdg = TextEditingController();
-  final List<String> columnTitle = ['SDG', 'Title', 'Link', 'Action'];
+  final List<String> columnTitle = [
+    'SDG',
+    'Title',
+    'Description',
+    'Link',
+    'Action'
+  ];
 
   void _showDialog({Method? method, ArticleVm? article}) {
     final sdgCubit = context.read<SdgCubit>();
@@ -189,6 +195,8 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
                                           child: Text(article.sdg ?? ""))),
                                       DataCell(
                                           Center(child: Text(article.title))),
+                                      DataCell(Center(
+                                          child: Text(article.description))),
                                       DataCell(
                                         Center(
                                           child: InkWell(
@@ -375,11 +383,22 @@ class _ArticleFormState extends State<ArticleForm> {
                   Gap(20),
                   AppCustomButton(
                     ontab: () {
-                      //TODO: Implement the prediction button here
+                      final descriptionText = widget.description!.text;
+                      if (descriptionText.isNotEmpty) {
+                        sdgCubit.predict(descriptionText);
+                      }
                     },
                     backgroundColor: AppColors.primary,
                     text: "Predict SDG",
                   ),
+                  if (state.errorMessageArticle.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        state.errorMessageArticle,
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
                   SizedBox(
                     height: 200,
                     child: YearPicker(

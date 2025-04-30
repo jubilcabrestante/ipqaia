@@ -168,4 +168,53 @@ class SdgCubit extends Cubit<SdgState> {
   void updateSelectedSdg(String newSdg) {
     emit(state.copyWith(selectedSdg: newSdg));
   }
+
+  void predict(String description) {
+    emit(state.copyWith(
+      isLoading: true,
+      isSuccess: false,
+    ));
+
+    try {
+      final cleanDescription = description.trim().toLowerCase();
+
+      // Match SDGs based on whole word/phrase, case-insensitive, and more accurate logic
+      final matchingSdgs = state.sdg.where((sdg) {
+        final words = sdg.words ?? [];
+
+        // Create a regular expression that matches any of the SDG phrases or words in the description
+        final match = words.any((word) {
+          // Use word boundaries and case-insensitive matching for each word/phrase
+          final regExp = RegExp(
+              r'\b' + RegExp.escape(word.toLowerCase()) + r'\b',
+              caseSensitive: false);
+          return regExp.hasMatch(cleanDescription);
+        });
+
+        return match;
+      }).toList();
+
+      if (matchingSdgs.isNotEmpty) {
+        final matchedSdg = matchingSdgs.first;
+
+        emit(state.copyWith(
+          isLoading: false,
+          isSuccess: true,
+          selectedSdg: matchedSdg.sdgTitle,
+        ));
+      } else {
+        emit(state.copyWith(
+          isLoading: false,
+          isSuccess: false,
+          errorMessageArticle: 'No matching SDG found for this description.',
+        ));
+      }
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        errorMessageArticle: 'Error: ${e.toString()}',
+      ));
+    }
+  }
 }
