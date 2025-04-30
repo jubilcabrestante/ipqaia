@@ -23,12 +23,19 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
       'college': 'College of Sciences',
       'program': 'Bachelor of Sciences in Information Technology',
       'major': 'N/A',
-      'students': '—'
+      'students': '—',
+      'year': '2024-2025'
     },
   ];
 
   @override
   Widget build(BuildContext context) {
+    final filteredPrograms = programs.where((program) {
+      final matchesCollege = selectedCollege == null || program['college'] == selectedCollege;
+      final matchesYear = selectedYear == null || program['year'] == selectedYear;
+      return matchesCollege && matchesYear;
+    }).toList();
+
     return Scaffold(
       appBar: AppBar(title: const Text("Programs")),
       body: Padding(
@@ -63,24 +70,30 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
               children: [
                 const Text("PSU College:"),
                 const SizedBox(width: 8),
-                DropdownButton<String>(
-                  value: selectedCollege,
-                  hint: const Text("Select college"),
-                  onChanged: (value) => setState(() => selectedCollege = value),
-                  items: colleges.map((college) {
-                    return DropdownMenuItem(value: college, child: Text(college));
-                  }).toList(),
+                Flexible(
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: selectedCollege,
+                    hint: const Text("Select college"),
+                    onChanged: (value) => setState(() => selectedCollege = value),
+                    items: colleges.map((college) {
+                      return DropdownMenuItem(value: college, child: Text(college));
+                    }).toList(),
+                  ),
                 ),
                 const SizedBox(width: 32),
                 const Text("SY:"),
                 const SizedBox(width: 8),
-                DropdownButton<String>(
-                  value: selectedYear,
-                  hint: const Text("Select year and sem"),
-                  onChanged: (value) => setState(() => selectedYear = value),
-                  items: years.map((year) {
-                    return DropdownMenuItem(value: year, child: Text(year));
-                  }).toList(),
+                Flexible(
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: selectedYear,
+                    hint: const Text("Select year and sem"),
+                    onChanged: (value) => setState(() => selectedYear = value),
+                    items: years.map((year) {
+                      return DropdownMenuItem(value: year, child: Text(year));
+                    }).toList(),
+                  ),
                 ),
                 const Spacer(),
                 ElevatedButton(
@@ -112,40 +125,59 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
 
             // Data rows
             Expanded(
-              child: ListView.builder(
-                itemCount: programs.length,
-                itemBuilder: (context, index) {
-                  final program = programs[index];
-                  return Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
-                      color: index % 2 == 0 ? Colors.orange.shade50 : Colors.white,
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(flex: 2, child: Center(child: Text(program['college'] ?? ''))),
-                        Expanded(flex: 3, child: Center(child: Text(program['program'] ?? ''))),
-                        Expanded(flex: 2, child: Center(child: Text(program['major'] ?? ''))),
-                        Expanded(flex: 2, child: Center(child: Text(program['students'] ?? ''))),
-                        Expanded(
-                          child: Center(
-                            child: TextButton(
-                              onPressed: () {
-                                // delete action
-                              },
-                              style: TextButton.styleFrom(
-                                foregroundColor: Colors.red,
-                              ),
-                              child: const Text("Delete"),
-                            ),
+              child: filteredPrograms.isEmpty
+                  ? const Center(child: Text("No programs found."))
+                  : ListView.builder(
+                      itemCount: filteredPrograms.length,
+                      itemBuilder: (context, index) {
+                        final program = filteredPrograms[index];
+                        return Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
+                            color: index % 2 == 0 ? Colors.orange.shade50 : Colors.white,
                           ),
-                        ),
-                      ],
+                          child: Row(
+                            children: [
+                              Expanded(flex: 2, child: Center(child: Text(program['college'] ?? ''))),
+                              Expanded(flex: 3, child: Center(child: Text(program['program'] ?? ''))),
+                              Expanded(flex: 2, child: Center(child: Text(program['major'] ?? ''))),
+                              Expanded(flex: 2, child: Center(child: Text(program['students'] ?? ''))),
+                              Expanded(
+                                child: Center(
+                                  child: TextButton(
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) => AlertDialog(
+                                          title: const Text("Confirm Deletion"),
+                                          content: const Text("Are you sure you want to delete this program?"),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(context),
+                                              child: const Text("Cancel"),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                setState(() => programs.remove(program));
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text("Delete", style: TextStyle(color: Colors.red)),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    style: TextButton.styleFrom(foregroundColor: Colors.red),
+                                    child: const Text("Delete"),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             )
           ],
         ),
