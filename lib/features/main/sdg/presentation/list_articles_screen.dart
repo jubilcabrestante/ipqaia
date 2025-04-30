@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -13,6 +14,7 @@ import 'package:ipqaia/core/shared/app_drop_down_field.dart';
 import 'package:ipqaia/core/shared/search_bar.dart';
 import 'package:ipqaia/features/main/sdg/domain/cubit/sdg_cubit.dart';
 import 'package:ipqaia/features/main/sdg/repository/article_model/article_vm.dart';
+import 'package:ipqaia/talker_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 @RoutePage()
@@ -29,7 +31,14 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
   final TextEditingController link = TextEditingController();
   final TextEditingController description = TextEditingController();
   final TextEditingController sdg = TextEditingController();
-  final List<String> columnTitle = ['SDG', 'Title', 'Year', 'Link', 'Action'];
+  final List<String> columnTitle = ['SDG', 'Title', 'Link', 'Action'];
+
+  @override
+  void initState() {
+    super.initState();
+    final sdgCubit = context.read<SdgCubit>();
+    sdgCubit.getArticles();
+  }
 
   void _showDialog({Method? method, ArticleVm? article}) {
     final sdgCubit = context.read<SdgCubit>();
@@ -53,36 +62,31 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
           year: sdgCubit.state.selectedDate ?? year,
         ),
       ],
+      isLoading: sdgCubit.state.isLoading,
       onSubmit: () {
         if (method == Method.add) {
           sdgCubit.addArticle(ArticleVm(
-            articleId: article!.articleId,
             title: title.text,
             description: description.text,
             link: link.text,
             year: sdgCubit.state.selectedDate ?? year,
-            sdg: sdgCubit.state.selectedArticle,
+            sdg: sdgCubit.state.selectedSdg,
           ));
         } else if (method == Method.update && article != null) {
           sdgCubit.updateArticle(
-            article.articleId,
             ArticleVm(
               articleId: article.articleId,
               title: title.text,
               link: link.text,
               description: description.text,
               year: sdgCubit.state.selectedDate ?? year,
-              sdg: article.sdg,
+              sdg: sdgCubit.state.selectedSdg,
             ),
           );
         }
 
-        log('Title: ${title.text}');
-        log('Link: ${link.text}');
-        log('Description: ${description.text}');
-        log('Selected Year: ${sdgCubit.state.selectedDate}');
-        log('Selected Article (SDG): ${sdgCubit.state.selectedArticle}'); // Log it
-        log('Selected SDG: ${sdgCubit.state.selectedArticle}');
+        TalkerService.talker.debug(article?.toJson());
+        context.pop();
       },
     );
   }
@@ -90,55 +94,80 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
   @override
   Widget build(BuildContext context) {
     final sdgCubit = context.read<SdgCubit>();
-    return BlocBuilder<SdgCubit, SdgState>(
-      builder: (context, state) {
-        return Scaffold(
-          backgroundColor: AppColors.backgroundSecondary,
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: AppColors.backgroundSecondary,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Scaffold(
+      backgroundColor: AppColors.backgroundSecondary,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: AppColors.backgroundSecondary,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              padding: EdgeInsets.only(left: 20),
+              width: 350,
+              child: CustomSearchBar(
+                controller: searchController,
+                onSearchPressed: () {
+                  // TODO: Implement search
+                },
+              ),
+            ),
+            Row(
               children: [
-                Container(
-                  padding: EdgeInsets.only(left: 20),
-                  width: 350,
-                  child: CustomSearchBar(
-                    controller: searchController,
-                    onSearchPressed: () {
-                      // TODO: Implement search
-                    },
-                  ),
-                ),
-                Row(
-                  children: [
-                    // AppDropdownField<String>(
-                    //   title: "Category",
-                    //   options: state.sdg
-                    //       .map((sdg) => sdg.sdgTitle)
-                    //       .whereType<String>()
-                    //       .toList(),
-                    //   value: state.selectedArticle,
-                    //   onChanged: (value) {
-                    //     sdgCubit.getArticles();
-                    //   },
-                    //   optionLabel: (option) => option,
-                    // ),
-                    // Gap(20),
-                    AppCustomButton(
-                      ontab: () => _showDialog(method: Method.add),
-                      backgroundColor: AppColors.primary,
-                      text: "Add New Article",
-                    )
-                  ],
+                // AppDropdownField<String>(
+                //   title: "Category",
+                //   options: state.sdg
+                //       .map((sdg) => sdg.sdgTitle)
+                //       .whereType<String>()
+                //       .toList(),
+                //   value: state.selectedArticle,
+                //   onChanged: (value) {
+                //     sdgCubit.getArticles();
+                //   },
+                //   optionLabel: (option) => option,
+                // ),
+                // Gap(20),
+                AppCustomButton(
+                  ontab: () => _showDialog(method: Method.add),
+                  backgroundColor: AppColors.primary,
+                  text: "Add New Article",
                 )
               ],
-            ),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
+            )
+          ],
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return BlocBuilder<SdgCubit, SdgState>(
+              builder: (context, state) {
+                if (state.isLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                // Error State
+                if (state.errorMessage.isNotEmpty) {
+                  return Center(
+                    child: Text(
+                      state.errorMessage,
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 16,
+                      ),
+                    ),
+                  );
+                }
+
+                // Success State with empty data
+                if (state.articles.isEmpty) {
+                  return const Center(
+                    child: Text("No SDG data available"),
+                  );
+                }
                 return Column(
                   children: [
                     Expanded(
@@ -157,7 +186,8 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
                                   columns: [
                                     for (var title in columnTitle)
                                       DataColumn(
-                                        label: Text(title),
+                                        label: Expanded(
+                                            child: Center(child: Text(title))),
                                       )
                                   ],
                                   rows: state.articles.map((article) {
@@ -184,9 +214,6 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
                                           ),
                                         ),
                                       ),
-                                      DataCell(Center(
-                                          child:
-                                              Text(article.year.toString()))),
                                       DataCell(
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
@@ -215,7 +242,7 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
                                                   'Are you sure you want to delete this article?',
                                                   onPressed: () {
                                                     sdgCubit.deleteArticle(
-                                                        article.articleId);
+                                                        article.articleId!);
                                                   },
                                                 ),
                                                 backgroundColor:
@@ -238,10 +265,10 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
                   ],
                 );
               },
-            ),
-          ),
-        );
-      },
+            );
+          },
+        ),
+      ),
     );
   }
 }
@@ -307,72 +334,76 @@ class _ArticleFormState extends State<ArticleForm> {
         return Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: Column(
-            children: [
-              AppCustomTextfield(
-                controller: widget.title!,
-                label: "Title",
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Title is required";
-                  }
-                  return null;
-                },
+          child: Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  AppCustomTextfield(
+                    controller: widget.title!,
+                    label: "Title",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Title is required";
+                      }
+                      return null;
+                    },
+                  ),
+                  Gap(20),
+                  AppCustomTextfield(
+                    controller: widget.link!,
+                    label: "Link",
+                    validator: validateUrl,
+                  ),
+                  Gap(20),
+                  AppCustomTextfield(
+                    controller: widget.description!,
+                    label: "Description",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Description is required";
+                      }
+                      return null;
+                    },
+                  ),
+                  Gap(20),
+                  AppDropdownField<String>(
+                    title: "Sdg",
+                    options: state.sdg
+                        .map((sdg) => sdg.sdgTitle)
+                        .whereType<String>()
+                        .toList(),
+                    value: state.selectedSdg,
+                    onChanged: (value) {
+                      sdgCubit.updateSelectedSdg(value!);
+                    },
+                    optionLabel: (option) => option,
+                    validator: validateSdg,
+                  ),
+                  Gap(20),
+                  AppCustomButton(
+                    ontab: () {
+                      //TODO: Implement the prediction button here
+                    },
+                    backgroundColor: AppColors.primary,
+                    text: "Predict SDG",
+                  ),
+                  SizedBox(
+                    height: 200,
+                    child: YearPicker(
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime.now(),
+                      selectedDate: selectedYear,
+                      onChanged: (newDate) {
+                        setState(() {
+                          selectedYear = newDate;
+                        });
+                        sdgCubit.updateSelectedDate(newDate);
+                      },
+                    ),
+                  ),
+                ],
               ),
-              Gap(20),
-              AppCustomTextfield(
-                controller: widget.link!,
-                label: "Link",
-                validator: validateUrl,
-              ),
-              Gap(20),
-              AppCustomTextfield(
-                controller: widget.description!,
-                label: "Description",
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Description is required";
-                  }
-                  return null;
-                },
-              ),
-              Gap(20),
-              AppDropdownField<String>(
-                title: "Sdg",
-                options: state.sdg
-                    .map((sdg) => sdg.sdgTitle)
-                    .whereType<String>()
-                    .toList(),
-                value: state.selectedSdg,
-                onChanged: (value) {
-                  sdgCubit.updateSelectedSdg(value!);
-                },
-                optionLabel: (option) => option,
-                validator: validateSdg,
-              ),
-              Gap(20),
-              AppCustomButton(
-                ontab: () {
-                  //TODO: Implement the prediction button here
-                },
-                backgroundColor: AppColors.primary,
-                text: "Predict SDG",
-              ),
-              SizedBox(
-                height: 200,
-                child: YearPicker(
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime.now(),
-                  selectedDate: selectedYear,
-                  onChanged: (newDate) {
-                    setState(() {
-                      selectedYear = newDate;
-                    });
-                    sdgCubit.updateSelectedDate(newDate);
-                  },
-                ),
-              ),
-            ],
+            ),
           ),
         );
       },

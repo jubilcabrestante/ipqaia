@@ -5,7 +5,7 @@ part 'article_vm.g.dart';
 
 @JsonSerializable()
 class ArticleVm {
-  final String articleId;
+  final String? articleId;
   final String? sdg;
   final String title;
   final String link;
@@ -14,7 +14,7 @@ class ArticleVm {
 
   const ArticleVm(
       {this.sdg,
-      required this.articleId,
+      this.articleId,
       required this.title,
       required this.description,
       required this.link,

@@ -10,6 +10,6 @@ abstract class ISdgRepository {
   // New article methods
   Future<List<ArticleVm>> getArticles();
   Future<void> addArticle(ArticleVm article);
-  Future<void> updateArticle(String articleId, ArticleVm article);
+  Future<void> updateArticle(ArticleVm article);
   Future<void> deleteArticle(String articleId);
 }

@@ -17,6 +17,8 @@ T _$identity<T>(T value) => value;
 mixin _$SdgState {
   bool get isLoading;
   bool get isSuccess;
+  bool get isLoadingArticle;
+  bool get isSuccessArticle;
   String get errorMessage;
   List<SdgVm> get sdg;
   List<ArticleVm> get articles;
@@ -41,6 +43,10 @@ mixin _$SdgState {
                 other.isLoading == isLoading) &&
             (identical(other.isSuccess, isSuccess) ||
                 other.isSuccess == isSuccess) &&
+            (identical(other.isLoadingArticle, isLoadingArticle) ||
+                other.isLoadingArticle == isLoadingArticle) &&
+            (identical(other.isSuccessArticle, isSuccessArticle) ||
+                other.isSuccessArticle == isSuccessArticle) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             const DeepCollectionEquality().equals(other.sdg, sdg) &&
@@ -59,6 +65,8 @@ mixin _$SdgState {
       runtimeType,
       isLoading,
       isSuccess,
+      isLoadingArticle,
+      isSuccessArticle,
       errorMessage,
       const DeepCollectionEquality().hash(sdg),
       const DeepCollectionEquality().hash(articles),
@@ -69,7 +77,7 @@ mixin _$SdgState {
 
   @override
   String toString() {
-    return 'SdgState(isLoading: $isLoading, isSuccess: $isSuccess, errorMessage: $errorMessage, sdg: $sdg, articles: $articles, selectedArticle: $selectedArticle, selectedSdg: $selectedSdg, selectedDate: $selectedDate, newWords: $newWords)';
+    return 'SdgState(isLoading: $isLoading, isSuccess: $isSuccess, isLoadingArticle: $isLoadingArticle, isSuccessArticle: $isSuccessArticle, errorMessage: $errorMessage, sdg: $sdg, articles: $articles, selectedArticle: $selectedArticle, selectedSdg: $selectedSdg, selectedDate: $selectedDate, newWords: $newWords)';
   }
 }
 
@@ -81,6 +89,8 @@ abstract mixin class $SdgStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       bool isSuccess,
+      bool isLoadingArticle,
+      bool isSuccessArticle,
       String errorMessage,
       List<SdgVm> sdg,
       List<ArticleVm> articles,
@@ -104,6 +114,8 @@ class _$SdgStateCopyWithImpl<$Res> implements $SdgStateCopyWith<$Res> {
   $Res call({
     Object? isLoading = null,
     Object? isSuccess = null,
+    Object? isLoadingArticle = null,
+    Object? isSuccessArticle = null,
     Object? errorMessage = null,
     Object? sdg = null,
     Object? articles = null,
@@ -120,6 +132,14 @@ class _$SdgStateCopyWithImpl<$Res> implements $SdgStateCopyWith<$Res> {
       isSuccess: null == isSuccess
           ? _self.isSuccess
           : isSuccess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingArticle: null == isLoadingArticle
+          ? _self.isLoadingArticle
+          : isLoadingArticle // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSuccessArticle: null == isSuccessArticle
+          ? _self.isSuccessArticle
+          : isSuccessArticle // ignore: cast_nullable_to_non_nullable
               as bool,
       errorMessage: null == errorMessage
           ? _self.errorMessage
@@ -159,6 +179,8 @@ class _SdgState implements SdgState {
   const _SdgState(
       {this.isLoading = false,
       this.isSuccess = false,
+      this.isLoadingArticle = false,
+      this.isSuccessArticle = false,
       this.errorMessage = '',
       final List<SdgVm> sdg = const [],
       final List<ArticleVm> articles = const [],
@@ -176,6 +198,12 @@ class _SdgState implements SdgState {
   @override
   @JsonKey()
   final bool isSuccess;
+  @override
+  @JsonKey()
+  final bool isLoadingArticle;
+  @override
+  @JsonKey()
+  final bool isSuccessArticle;
   @override
   @JsonKey()
   final String errorMessage;
@@ -229,6 +257,10 @@ class _SdgState implements SdgState {
                 other.isLoading == isLoading) &&
             (identical(other.isSuccess, isSuccess) ||
                 other.isSuccess == isSuccess) &&
+            (identical(other.isLoadingArticle, isLoadingArticle) ||
+                other.isLoadingArticle == isLoadingArticle) &&
+            (identical(other.isSuccessArticle, isSuccessArticle) ||
+                other.isSuccessArticle == isSuccessArticle) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             const DeepCollectionEquality().equals(other._sdg, _sdg) &&
@@ -247,6 +279,8 @@ class _SdgState implements SdgState {
       runtimeType,
       isLoading,
       isSuccess,
+      isLoadingArticle,
+      isSuccessArticle,
       errorMessage,
       const DeepCollectionEquality().hash(_sdg),
       const DeepCollectionEquality().hash(_articles),
@@ -257,7 +291,7 @@ class _SdgState implements SdgState {
 
   @override
   String toString() {
-    return 'SdgState(isLoading: $isLoading, isSuccess: $isSuccess, errorMessage: $errorMessage, sdg: $sdg, articles: $articles, selectedArticle: $selectedArticle, selectedSdg: $selectedSdg, selectedDate: $selectedDate, newWords: $newWords)';
+    return 'SdgState(isLoading: $isLoading, isSuccess: $isSuccess, isLoadingArticle: $isLoadingArticle, isSuccessArticle: $isSuccessArticle, errorMessage: $errorMessage, sdg: $sdg, articles: $articles, selectedArticle: $selectedArticle, selectedSdg: $selectedSdg, selectedDate: $selectedDate, newWords: $newWords)';
   }
 }
 
@@ -271,6 +305,8 @@ abstract mixin class _$SdgStateCopyWith<$Res>
   $Res call(
       {bool isLoading,
       bool isSuccess,
+      bool isLoadingArticle,
+      bool isSuccessArticle,
       String errorMessage,
       List<SdgVm> sdg,
       List<ArticleVm> articles,
@@ -294,6 +330,8 @@ class __$SdgStateCopyWithImpl<$Res> implements _$SdgStateCopyWith<$Res> {
   $Res call({
     Object? isLoading = null,
     Object? isSuccess = null,
+    Object? isLoadingArticle = null,
+    Object? isSuccessArticle = null,
     Object? errorMessage = null,
     Object? sdg = null,
     Object? articles = null,
@@ -310,6 +348,14 @@ class __$SdgStateCopyWithImpl<$Res> implements _$SdgStateCopyWith<$Res> {
       isSuccess: null == isSuccess
           ? _self.isSuccess
           : isSuccess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingArticle: null == isLoadingArticle
+          ? _self.isLoadingArticle
+          : isLoadingArticle // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSuccessArticle: null == isSuccessArticle
+          ? _self.isSuccessArticle
+          : isSuccessArticle // ignore: cast_nullable_to_non_nullable
               as bool,
       errorMessage: null == errorMessage
           ? _self.errorMessage

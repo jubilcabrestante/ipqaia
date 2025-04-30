@@ -58,29 +58,33 @@ class SdgRepository implements ISdgRepository {
   Future<List<ArticleVm>> getArticles() async {
     try {
       final querySnapshot = await _firestore.collection(dbNameArticle).get();
-      return querySnapshot.docs
-          .map((doc) => ArticleVm.fromJson(doc.data()))
-          .toList();
+      return querySnapshot.docs.map((doc) {
+        final data = doc.data();
+        data['articleId'] = doc.id;
+        return ArticleVm.fromJson(data);
+      }).toList();
     } catch (e) {
-      throw e.toString();
+      throw Exception(e.toString());
     }
   }
 
   @override
   Future<void> addArticle(ArticleVm article) async {
     try {
-      await _firestore.collection(dbNameArticle).add(article.toJson());
+      final docRef =
+          await _firestore.collection(dbNameArticle).add(article.toJson());
+      await docRef.update({'articleId': docRef.id});
     } catch (e) {
-      throw e.toString();
+      throw Exception(e.toString());
     }
   }
 
   @override
-  Future<void> updateArticle(String articleId, ArticleVm article) async {
+  Future<void> updateArticle(ArticleVm article) async {
     try {
       await _firestore
           .collection(dbNameArticle)
-          .doc(articleId)
+          .doc(article.articleId)
           .update(article.toJson());
     } catch (e) {
       throw e.toString();

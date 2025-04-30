@@ -8,7 +8,7 @@ part of 'article_vm.dart';
 
 ArticleVm _$ArticleVmFromJson(Map<String, dynamic> json) => ArticleVm(
       sdg: json['sdg'] as String?,
-      articleId: json['articleId'] as String,
+      articleId: json['articleId'] as String?,
       title: json['title'] as String,
       description: json['description'] as String,
       link: json['link'] as String,
