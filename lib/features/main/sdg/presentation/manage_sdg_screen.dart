@@ -112,130 +112,179 @@ class _ManageSdgScreenState extends State<ManageSdgScreen> {
                 return Column(
                   children: [
                     Expanded(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: ConstrainedBox(
-                          constraints:
-                              BoxConstraints(minWidth: constraints.maxWidth),
-                          child: BlocBuilder<SdgCubit, SdgState>(
-                            builder: (context, state) {
-                              return state.isSuccess
-                                  ? DataTable(
-                                      headingRowColor: WidgetStateProperty.all(
-                                          AppColors.primary),
-                                      dataRowMinHeight: 100,
-                                      dataRowMaxHeight: 300,
-                                      headingTextStyle: context
-                                          .textTheme.titleSmall!
-                                          .copyWith(
-                                              color: AppColors.textSecondary),
-                                      columns: [
-                                        for (var title in sdgColumnTitle)
-                                          DataColumn(
-                                            label: Container(
-                                              decoration: BoxDecoration(
-                                                color: AppColors.darkGreen,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                border: Border.all(width: 2),
-                                              ),
-                                              child: Text(title,
-                                                  textAlign: TextAlign.center),
-                                            ),
+                      child: BlocBuilder<SdgCubit, SdgState>(
+                        builder: (context, state) {
+                          if (state.isLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+
+                          // Error State
+                          if (state.errorMessage.isNotEmpty) {
+                            return Center(
+                              child: Text(
+                                state.errorMessage,
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            );
+                          }
+
+                          // Success State with empty data
+                          if (state.sdg.isEmpty) {
+                            return const Center(
+                              child: Text("No SDG data available"),
+                            );
+                          }
+                          return SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                  minWidth: constraints.maxWidth),
+                              child: BlocBuilder<SdgCubit, SdgState>(
+                                builder: (context, state) {
+                                  return state.isSuccess
+                                      ? DataTable(
+                                          headingRowColor:
+                                              WidgetStateProperty.all(
+                                                  AppColors.primary),
+                                          headingTextStyle: context
+                                              .textTheme.titleSmall!
+                                              .copyWith(
+                                            color: AppColors.textSecondary,
                                           ),
-                                      ],
-                                      rows: state.sdg
-                                          .map((sdg) => DataRow(
-                                                cells: [
-                                                  DataCell(Text(
-                                                      sdg.sdgNumber.toString(),
-                                                      textAlign:
-                                                          TextAlign.center)),
-                                                  DataCell(Text(sdg.sdgTitle!,
-                                                      textAlign:
-                                                          TextAlign.center)),
-                                                  DataCell(
-                                                    Wrap(
-                                                      alignment:
-                                                          WrapAlignment.center,
-                                                      spacing: 8,
-                                                      runSpacing: 8,
-                                                      children: sdg.words
-                                                              ?.map(
-                                                                  (word) =>
-                                                                      Container(
-                                                                        padding: EdgeInsets.symmetric(
-                                                                            horizontal:
-                                                                                10,
-                                                                            vertical:
-                                                                                5),
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          color:
-                                                                              AppColors.secondary,
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(25),
-                                                                        ),
-                                                                        child: Text(
-                                                                            word),
-                                                                      ))
-                                                              .toList() ??
-                                                          [],
+                                          sortColumnIndex: 0,
+                                          sortAscending: true,
+                                          columnSpacing: 12,
+                                          horizontalMargin: 12,
+                                          dataRowMinHeight: 50,
+                                          dataRowMaxHeight: double.infinity,
+                                          columns: [
+                                            for (var title in sdgColumnTitle)
+                                              DataColumn(
+                                                label: Expanded(
+                                                  child: Center(
+                                                    child: Text(
+                                                      title,
                                                     ),
                                                   ),
-                                                  DataCell(
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          vertical: 5,
-                                                          horizontal: 0),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceEvenly,
-                                                        children: [
-                                                          AppCustomButton(
-                                                            ontab: () =>
-                                                                _showSdgForms(
-                                                              method:
-                                                                  Method.update,
-                                                              sdg: sdg,
-                                                            ),
-                                                            backgroundColor:
-                                                                AppColors
-                                                                    .secondary,
-                                                            text: "Update",
+                                                ),
+                                              ),
+                                          ],
+                                          rows: state.sdg
+                                              .map((sdg) => DataRow(
+                                                    cells: [
+                                                      DataCell(Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                            sdg.sdgNumber
+                                                                .toString(),
+                                                            textAlign: TextAlign
+                                                                .center),
+                                                      )),
+                                                      DataCell(Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                            sdg.sdgTitle!,
+                                                            textAlign: TextAlign
+                                                                .center),
+                                                      )),
+                                                      DataCell(
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Wrap(
+                                                            alignment:
+                                                                WrapAlignment
+                                                                    .center,
+                                                            spacing: 8,
+                                                            runSpacing: 8,
+                                                            children: sdg.words
+                                                                    ?.map((word) =>
+                                                                        Container(
+                                                                          padding: EdgeInsets.symmetric(
+                                                                              horizontal: 10,
+                                                                              vertical: 5),
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            color:
+                                                                                AppColors.secondary,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(25),
+                                                                          ),
+                                                                          child:
+                                                                              Text(word),
+                                                                        ))
+                                                                    .toList() ??
+                                                                [],
                                                           ),
-                                                          const Gap(20),
-                                                          AppCustomButton(
-                                                            ontab: () => AppDialog
-                                                                .showCustomAlertDialog(
-                                                                    context,
-                                                                    'Delete SDG',
-                                                                    'Are you sure you want to delete this SDG?',
-                                                                    onPressed:
-                                                                        () {
-                                                              sdgCubit
-                                                                  .deleteSdg(sdg
-                                                                      .sdgId!);
-                                                            }),
-                                                            backgroundColor:
-                                                                AppColors
-                                                                    .delete,
-                                                            text: "Delete",
-                                                          ),
-                                                        ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ))
-                                          .toList(),
-                                    )
-                                  : const Center(child: Text("No SDG Added"));
-                            },
-                          ),
-                        ),
+                                                      DataCell(
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  vertical: 5,
+                                                                  horizontal:
+                                                                      0),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              AppCustomButton(
+                                                                ontab: () =>
+                                                                    _showSdgForms(
+                                                                  method: Method
+                                                                      .update,
+                                                                  sdg: sdg,
+                                                                ),
+                                                                backgroundColor:
+                                                                    AppColors
+                                                                        .secondary,
+                                                                text: "Update",
+                                                              ),
+                                                              const Gap(20),
+                                                              AppCustomButton(
+                                                                ontab: () => AppDialog
+                                                                    .showCustomAlertDialog(
+                                                                        context,
+                                                                        'Delete SDG',
+                                                                        'Are you sure you want to delete this SDG?',
+                                                                        onPressed:
+                                                                            () {
+                                                                  sdgCubit.deleteSdg(
+                                                                      sdg.sdgId!);
+                                                                }),
+                                                                backgroundColor:
+                                                                    AppColors
+                                                                        .delete,
+                                                                text: "Delete",
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ))
+                                              .toList(),
+                                        )
+                                      : const Center(
+                                          child: Text("No SDG Added"));
+                                },
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ],
@@ -298,58 +347,61 @@ class _SdgFormsState extends State<SdgForms> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppCustomTextfield(
-          controller: widget.numberController,
-          label: "SDG Number",
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter SDG number';
-            }
-            if (int.tryParse(value) == null) {
-              return 'Please enter a valid number';
-            }
-            return null;
-          },
-        ),
-        const Gap(10),
-        AppCustomTextfield(
-          controller: widget.titleController,
-          label: "Title",
-          validator: (value) {
-            if (value == null || value.isEmpty) return 'Please enter SDG title';
-            return null;
-          },
-        ),
-        const Gap(10),
-        Row(
-          children: [
-            Expanded(
-              child: AppCustomTextfield(
-                controller: widget.wordController,
-                label: "Input word here...",
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          AppCustomTextfield(
+            controller: widget.numberController,
+            label: "SDG Number",
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter SDG number';
+              }
+              if (int.tryParse(value) == null) {
+                return 'Please enter a valid number';
+              }
+              return null;
+            },
+          ),
+          const Gap(10),
+          AppCustomTextfield(
+            controller: widget.titleController,
+            label: "Title",
+            validator: (value) {
+              if (value == null || value.isEmpty)
+                return 'Please enter SDG title';
+              return null;
+            },
+          ),
+          const Gap(10),
+          Row(
+            children: [
+              Expanded(
+                child: AppCustomTextfield(
+                  controller: widget.wordController,
+                  label: "Input word here...",
+                ),
               ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: _addWord,
-            ),
-          ],
-        ),
-        const Gap(10),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: _words
-              .map((word) => Chip(
-                    label: Text(word),
-                    deleteIcon: const Icon(Icons.close),
-                    onDeleted: () => _removeWord(word),
-                  ))
-              .toList(),
-        ),
-      ],
+              IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: _addWord,
+              ),
+            ],
+          ),
+          const Gap(10),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: _words
+                .map((word) => Chip(
+                      label: Text(word),
+                      deleteIcon: const Icon(Icons.close),
+                      onDeleted: () => _removeWord(word),
+                    ))
+                .toList(),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -17,7 +17,8 @@ class SdgRepository implements ISdgRepository {
   @override
   Future<List<SdgVm>> getSdg() async {
     try {
-      final querySnapshot = await _firestore.collection(dbNameSdg).get();
+      final querySnapshot =
+          await _firestore.collection(dbNameSdg).orderBy('sdgNumber').get();
 
       return querySnapshot.docs
           .map((doc) => SdgVm.fromJson(doc.data()))
@@ -55,35 +56,36 @@ class SdgRepository implements ISdgRepository {
   }
 
   @override
-  Future<List<ArticleVm>> getArticles(String sdg) async {
+  Future<List<ArticleVm>> getArticles() async {
     try {
-      final querySnapshot = await _firestore
-          .collection(dbNameArticle)
-          .where(dbNameSdg, isEqualTo: sdg)
-          .get();
-      return querySnapshot.docs
-          .map((doc) => ArticleVm.fromJson(doc.data()))
-          .toList();
+      final querySnapshot = await _firestore.collection(dbNameArticle).get();
+      return querySnapshot.docs.map((doc) {
+        final data = doc.data();
+        data['articleId'] = doc.id;
+        return ArticleVm.fromJson(data);
+      }).toList();
     } catch (e) {
-      throw e.toString();
+      throw Exception(e.toString());
     }
   }
 
   @override
   Future<void> addArticle(ArticleVm article) async {
     try {
-      await _firestore.collection(dbNameArticle).add(article.toJson());
+      final docRef =
+          await _firestore.collection(dbNameArticle).add(article.toJson());
+      await docRef.update({'articleId': docRef.id});
     } catch (e) {
-      throw e.toString();
+      throw Exception(e.toString());
     }
   }
 
   @override
-  Future<void> updateArticle(String articleId, ArticleVm article) async {
+  Future<void> updateArticle(ArticleVm article) async {
     try {
       await _firestore
           .collection(dbNameArticle)
-          .doc(articleId)
+          .doc(article.articleId)
           .update(article.toJson());
     } catch (e) {
       throw e.toString();
@@ -96,6 +98,57 @@ class SdgRepository implements ISdgRepository {
       await _firestore.collection(dbNameArticle).doc(articleId).delete();
     } catch (e) {
       throw e.toString();
+    }
+  }
+
+  @override
+  Future<List<ArticleVm>> searchInputArticle(String input) async {
+    try {
+      // Fetch all articles from Firestore (or a smaller subset)
+      final querySnapshot = await _firestore.collection(dbNameArticle).get();
+
+      // Filter the articles locally to check if title or description contains the input string
+      final filteredArticles = querySnapshot.docs
+          .where((doc) {
+            final title = doc.data()['title'].toString();
+            final description = doc.data()['description'].toString();
+
+            // Check if either the title or the description contains the input string
+            return title.toLowerCase().contains(input.toLowerCase()) ||
+                description.toLowerCase().contains(input.toLowerCase());
+          })
+          .map((doc) => ArticleVm.fromJson(doc.data()))
+          .toList();
+
+      if (filteredArticles.isNotEmpty) {
+        return filteredArticles;
+      } else {
+        throw Exception('No articles found');
+      }
+    } catch (e) {
+      throw Exception('Error fetching articles: $e');
+    }
+  }
+
+  @override
+  Future<List<ArticleVm>> searchSelectedSdg(String sdg) async {
+    try {
+      final querySnapshot = await _firestore.collection(dbNameArticle).get();
+      final filteredSdgs = querySnapshot.docs
+          .where((doc) {
+            final title = doc.data()['sdg'].toString();
+            return title.toLowerCase().contains(sdg.toLowerCase());
+          })
+          .map((doc) => ArticleVm.fromJson(doc.data()))
+          .toList();
+
+      if (filteredSdgs.isNotEmpty) {
+        return filteredSdgs;
+      } else {
+        throw Exception('No SDGs found');
+      }
+    } catch (e) {
+      throw Exception('Error fetching SDGs: $e');
     }
   }
 }

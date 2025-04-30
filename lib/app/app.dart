@@ -15,10 +15,10 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   final AppRouter _appRouter = AppRouter();
+  final sdgRepository = SdgRepository();
+
   @override
   Widget build(BuildContext context) {
-    final sdgRepository = SdgRepository();
-
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<ISdgRepository>.value(value: sdgRepository),

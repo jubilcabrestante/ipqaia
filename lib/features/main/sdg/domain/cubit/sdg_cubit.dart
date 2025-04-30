@@ -12,10 +12,14 @@ class SdgCubit extends Cubit<SdgState> {
 
   SdgCubit(this._iSdgRepository) : super(const SdgState()) {
     _getSdg();
+    getArticles();
   }
 
   _getSdg() async {
-    emit(state.copyWith(isLoading: true, isSuccess: false, errorMessage: ''));
+    emit(state.copyWith(
+      isLoading: true,
+      isSuccess: false,
+    ));
 
     try {
       final result = await _iSdgRepository.getSdg();
@@ -24,7 +28,6 @@ class SdgCubit extends Cubit<SdgState> {
         isLoading: false,
         isSuccess: result.isNotEmpty,
         sdg: result,
-        errorMessage: result.isEmpty ? 'No SDG data found.' : '',
       ));
     } catch (e) {
       emit(state.copyWith(
@@ -103,13 +106,17 @@ class SdgCubit extends Cubit<SdgState> {
   ///
   /// //////////////////////////////////////////////////////
   getArticles() async {
-    emit(state.copyWith(isLoading: true, isSuccess: false));
+    emit(state.copyWith(
+      isLoading: true,
+      isSuccess: false,
+    ));
+
     try {
-      final result = await _iSdgRepository.getArticles(state.selectedArticle!);
+      final resultArticle = await _iSdgRepository.getArticles();
       emit(state.copyWith(
         isLoading: false,
         isSuccess: true,
-        articles: result,
+        articles: resultArticle,
       ));
     } catch (e) {
       emit(state.copyWith(
@@ -121,7 +128,7 @@ class SdgCubit extends Cubit<SdgState> {
   }
 
   addArticle(ArticleVm article) async {
-    emit(state.copyWith(isLoading: true, isSuccess: false));
+    emit(state.copyWith(isLoading: true));
     try {
       await _iSdgRepository.addArticle(article);
       emit(state.copyWith(isLoading: false, isSuccess: true));
@@ -135,18 +142,18 @@ class SdgCubit extends Cubit<SdgState> {
     }
   }
 
-  updateArticle(String id, ArticleVm article) async {
+  updateArticle(ArticleVm article) async {
     emit(state.copyWith(isLoading: true));
     try {
-      await _iSdgRepository.updateArticle(id, article);
+      await _iSdgRepository.updateArticle(article);
       emit(state.copyWith(isLoading: false, isSuccess: true));
-      getArticles(); // Refresh
+      getArticles();
     } catch (e) {
       emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
     }
   }
 
-  deleteArticle(String id, String sdg) async {
+  deleteArticle(String id) async {
     emit(state.copyWith(isLoading: true));
     try {
       await _iSdgRepository.deleteArticle(id);
@@ -154,6 +161,95 @@ class SdgCubit extends Cubit<SdgState> {
       getArticles();
     } catch (e) {
       emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
+    }
+  }
+
+  void updateSelectedDate(DateTime newDate) {
+    emit(state.copyWith(selectedDate: newDate));
+  }
+
+  void updateSelectedSdg(String newSdg) {
+    emit(state.copyWith(selectedSdg: newSdg));
+  }
+
+  void predict(String description) {
+    emit(state.copyWith(
+      isLoading: true,
+      isSuccess: false,
+    ));
+
+    try {
+      /// Clean the description by removing extra spaces and converting to lowercase
+      final cleanDescription = description.trim().toLowerCase();
+
+      // Check if the SDG title matches the description
+      final matchingSdgs = state.sdg.where((sdg) {
+        // Convert the SDG title to lowercase for case-insensitive comparison
+        final words = sdg.words ?? [];
+
+        // Check if any of the words in the SDG match the description
+        final match = words.any((word) {
+          final regExp = RegExp(
+              r'\b' + RegExp.escape(word.toLowerCase()) + r'\b',
+              caseSensitive: false);
+          return regExp.hasMatch(cleanDescription);
+        });
+
+        return match;
+      }).toList();
+
+      if (matchingSdgs.isNotEmpty) {
+        final matchedSdg = matchingSdgs.first;
+
+        emit(state.copyWith(
+          isLoading: false,
+          isSuccess: true,
+          selectedSdg: matchedSdg.sdgTitle,
+        ));
+      } else {
+        emit(state.copyWith(
+          isLoading: false,
+          isSuccess: false,
+          errorMessageArticle: 'No matching SDG found for this description.',
+        ));
+      }
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        errorMessageArticle: 'Error: ${e.toString()}',
+      ));
+    }
+  }
+
+  searchArticle(String input) async {
+    try {
+      emit(state.copyWith(isLoadingArticle: true, isSuccessArticle: false));
+      final result = await _iSdgRepository.searchInputArticle(input);
+
+      emit(state.copyWith(
+        isLoadingArticle: false,
+        isSuccessArticle: true,
+        articles: result,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+          isLoading: false, isSuccess: false, errorMessage: e.toString()));
+    }
+  }
+
+  searchSelectedSdg() async {
+    try {
+      final result =
+          await _iSdgRepository.searchSelectedSdg(state.selectedSdg!);
+      emit(state.copyWith(
+        isLoadingArticle: false,
+        isSuccessArticle: true,
+        articles: result,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+          isLoading: false, isSuccess: false, errorMessage: e.toString()));
     }
   }
 }
