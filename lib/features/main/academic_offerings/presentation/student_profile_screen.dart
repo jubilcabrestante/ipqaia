@@ -239,28 +239,36 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.backgroundSecondary,
         title: Padding(
-          padding: const EdgeInsets.only(top: 12.0), // lowered position
+          padding: const EdgeInsets.only(top: 3.0), // lowered position
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                width: 300,
-                child: DropdownButtonFormField<String>(
-                  value: selectedCampus ?? campuses.first,
-                  items: campuses.map((campus) {
-                    return DropdownMenuItem<String>(
-                      value: campus,
-                      child: Text(campus),
-                    );
-                  }).toList(),
-                  onChanged: _filterByCampus,
-                  decoration: const InputDecoration(
-                    labelText: "PSU Campus",
-                    border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  ),
-                ),
-              ),
+  width: 300,
+  child: DropdownButtonFormField<String>(
+    value: selectedCampus ?? campuses.first,
+    decoration: InputDecoration(
+      labelText: "Select PSU Campus",
+      filled: true,
+      fillColor: const Color.fromARGB(255, 255, 255, 255),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    ),
+    items: campuses.map((campus) {
+      return DropdownMenuItem<String>(
+        value: campus,
+        child: Text(
+          campus,
+          style: const TextStyle(fontSize: 16),
+        ),
+      );
+    }).toList(),
+    onChanged: _filterByCampus,
+  ),
+),
+
               AppCustomButton(
                 ontab: _showAddPersonnelDialog,
                 backgroundColor: const Color(0xFFFF502D),
@@ -277,7 +285,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: DataTable(
-                  columnSpacing: 36,
+                  columnSpacing: 25,
                   headingRowColor: WidgetStateProperty.all(AppColors.primary),
                   headingTextStyle: context.textTheme.titleSmall!.copyWith(color: AppColors.textSecondary),
                   columns: [
