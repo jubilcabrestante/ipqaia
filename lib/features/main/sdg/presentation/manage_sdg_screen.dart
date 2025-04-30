@@ -151,13 +151,17 @@ class _ManageSdgScreenState extends State<ManageSdgScreen> {
                                           headingRowColor:
                                               WidgetStateProperty.all(
                                                   AppColors.primary),
-                                          dataRowMinHeight: 100,
-                                          dataRowMaxHeight: 300,
                                           headingTextStyle: context
                                               .textTheme.titleSmall!
                                               .copyWith(
-                                                  color:
-                                                      AppColors.textSecondary),
+                                            color: AppColors.textSecondary,
+                                          ),
+                                          sortColumnIndex: 0,
+                                          sortAscending: true,
+                                          columnSpacing: 12,
+                                          horizontalMargin: 12,
+                                          dataRowMinHeight: 50,
+                                          dataRowMaxHeight: double.infinity,
                                           columns: [
                                             for (var title in sdgColumnTitle)
                                               DataColumn(
@@ -173,42 +177,55 @@ class _ManageSdgScreenState extends State<ManageSdgScreen> {
                                           rows: state.sdg
                                               .map((sdg) => DataRow(
                                                     cells: [
-                                                      DataCell(Text(
-                                                          sdg.sdgNumber
-                                                              .toString(),
-                                                          textAlign: TextAlign
-                                                              .center)),
-                                                      DataCell(Text(
-                                                          sdg.sdgTitle!,
-                                                          textAlign: TextAlign
-                                                              .center)),
+                                                      DataCell(Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                            sdg.sdgNumber
+                                                                .toString(),
+                                                            textAlign: TextAlign
+                                                                .center),
+                                                      )),
+                                                      DataCell(Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                            sdg.sdgTitle!,
+                                                            textAlign: TextAlign
+                                                                .center),
+                                                      )),
                                                       DataCell(
-                                                        Wrap(
-                                                          alignment:
-                                                              WrapAlignment
-                                                                  .center,
-                                                          spacing: 8,
-                                                          runSpacing: 8,
-                                                          children: sdg.words
-                                                                  ?.map((word) =>
-                                                                      Container(
-                                                                        padding: EdgeInsets.symmetric(
-                                                                            horizontal:
-                                                                                10,
-                                                                            vertical:
-                                                                                5),
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          color:
-                                                                              AppColors.secondary,
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(25),
-                                                                        ),
-                                                                        child: Text(
-                                                                            word),
-                                                                      ))
-                                                                  .toList() ??
-                                                              [],
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Wrap(
+                                                            alignment:
+                                                                WrapAlignment
+                                                                    .center,
+                                                            spacing: 8,
+                                                            runSpacing: 8,
+                                                            children: sdg.words
+                                                                    ?.map((word) =>
+                                                                        Container(
+                                                                          padding: EdgeInsets.symmetric(
+                                                                              horizontal: 10,
+                                                                              vertical: 5),
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            color:
+                                                                                AppColors.secondary,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(25),
+                                                                          ),
+                                                                          child:
+                                                                              Text(word),
+                                                                        ))
+                                                                    .toList() ??
+                                                                [],
+                                                          ),
                                                         ),
                                                       ),
                                                       DataCell(

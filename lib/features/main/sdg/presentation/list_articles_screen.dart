@@ -183,95 +183,157 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
                           ? SingleChildScrollView(
                               child: ConstrainedBox(
                                 constraints: BoxConstraints(
-                                    minWidth: constraints.maxWidth),
-                                child: DataTable(
-                                  headingRowColor: WidgetStateProperty.all(
-                                      AppColors.primary),
-                                  headingTextStyle:
-                                      context.textTheme.titleSmall!.copyWith(
-                                    color: AppColors.textSecondary,
-                                  ),
-                                  columns: [
-                                    for (var title in columnTitle)
-                                      DataColumn(
-                                        label: Expanded(
-                                            child: Center(child: Text(title))),
-                                      )
-                                  ],
-                                  rows: state.articles.map((article) {
-                                    return DataRow(cells: [
-                                      DataCell(Center(
-                                          child: Text(
-                                        article.sdg ?? "",
-                                        textAlign: TextAlign.center,
-                                      ))),
-                                      DataCell(
-                                          Center(child: Text(article.title))),
-                                      DataCell(Center(
-                                          child: Text(article.description))),
-                                      DataCell(
-                                        Center(
-                                          child: InkWell(
-                                            onTap: () async {
-                                              final url =
-                                                  Uri.parse(article.link);
-                                              if (await canLaunchUrl(url)) {
-                                                await launchUrl(url);
-                                              }
-                                            },
-                                            child: Text(
-                                              article.link,
-                                              style:
-                                                  TextStyle(color: Colors.blue),
+                                  minWidth: constraints.maxWidth,
+                                  maxHeight: constraints.maxHeight,
+                                ),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  child: DataTable(
+                                    headingRowColor: WidgetStateProperty.all(
+                                        AppColors.primary),
+                                    headingTextStyle:
+                                        context.textTheme.titleSmall!.copyWith(
+                                      color: AppColors.textSecondary,
+                                    ),
+                                    sortColumnIndex: 0,
+                                    sortAscending: true,
+                                    columnSpacing: 12,
+                                    horizontalMargin: 12,
+                                    dataRowMinHeight: 50,
+                                    dataRowMaxHeight: double.infinity,
+                                    columns: [
+                                      for (var title in columnTitle)
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Center(
+                                              child: Text(title),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      DataCell(
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 5),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              AppCustomButton(
-                                                ontab: () {
-                                                  _showDialog(
-                                                    method: Method.update,
-                                                    article: article,
-                                                  );
-                                                  log("article: ${article.articleId}");
-                                                },
-                                                backgroundColor:
-                                                    AppColors.secondary,
-                                                text: "Edit",
-                                              ),
-                                              AppCustomButton(
-                                                ontab: () => AppDialog
-                                                    .showCustomAlertDialog(
-                                                  context,
-                                                  'Delete Article',
-                                                  'Are you sure you want to delete this article?',
-                                                  onPressed: () {
-                                                    sdgCubit.deleteArticle(
-                                                        article.articleId!);
-                                                  },
+                                    ],
+                                    rows: state.articles.map((article) {
+                                      return DataRow(cells: [
+                                        DataCell(
+                                          IntrinsicHeight(
+                                            child: Center(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  article.sdg ?? "",
+                                                  textAlign: TextAlign.center,
                                                 ),
-                                                backgroundColor:
-                                                    AppColors.delete,
-                                                text: "Delete",
                                               ),
-                                            ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ]);
-                                  }).toList(),
+                                        DataCell(
+                                          IntrinsicHeight(
+                                            child: Center(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  article.title,
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        DataCell(
+                                          IntrinsicHeight(
+                                            child: Center(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  article.description,
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        DataCell(
+                                          IntrinsicHeight(
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              width: 200,
+                                              child: Center(
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    final url =
+                                                        Uri.parse(article.link);
+                                                    if (await canLaunchUrl(
+                                                        url)) {
+                                                      await launchUrl(url);
+                                                    }
+                                                  },
+                                                  child: Text(
+                                                    article.link,
+                                                    style: const TextStyle(
+                                                        color: Colors.blue),
+                                                    textAlign: TextAlign.center,
+                                                    overflow:
+                                                        TextOverflow.visible,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        DataCell(
+                                          IntrinsicHeight(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  AppCustomButton(
+                                                    ontab: () {
+                                                      _showDialog(
+                                                        method: Method.update,
+                                                        article: article,
+                                                      );
+                                                      log("article: ${article.articleId}");
+                                                    },
+                                                    backgroundColor:
+                                                        AppColors.secondary,
+                                                    text: "Edit",
+                                                  ),
+                                                  Gap(10),
+                                                  AppCustomButton(
+                                                    ontab: () => AppDialog
+                                                        .showCustomAlertDialog(
+                                                      context,
+                                                      'Delete Article',
+                                                      'Are you sure you want to delete this article?',
+                                                      onPressed: () {
+                                                        sdgCubit.deleteArticle(
+                                                            article.articleId!);
+                                                      },
+                                                    ),
+                                                    backgroundColor:
+                                                        AppColors.delete,
+                                                    text: "Delete",
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ]);
+                                    }).toList(),
+                                  ),
                                 ),
                               ),
                             )
-                          : Center(
+                          : const Center(
                               child: CircularProgressIndicator(),
                             ),
                     ),
