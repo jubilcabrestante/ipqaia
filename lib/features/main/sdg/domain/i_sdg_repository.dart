@@ -13,4 +13,5 @@ abstract class ISdgRepository {
   Future<void> updateArticle(ArticleVm article);
   Future<void> deleteArticle(String articleId);
   Future<List<ArticleVm>> searchInputArticle(String input);
+  Future<List<ArticleVm>> searchSelectedSdg(String sdg);
 }

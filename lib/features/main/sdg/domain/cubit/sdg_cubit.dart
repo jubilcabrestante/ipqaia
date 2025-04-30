@@ -237,4 +237,19 @@ class SdgCubit extends Cubit<SdgState> {
           isLoading: false, isSuccess: false, errorMessage: e.toString()));
     }
   }
+
+  searchSelectedSdg() async {
+    try {
+      final result =
+          await _iSdgRepository.searchSelectedSdg(state.selectedSdg!);
+      emit(state.copyWith(
+        isLoadingArticle: false,
+        isSuccessArticle: true,
+        articles: result,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+          isLoading: false, isSuccess: false, errorMessage: e.toString()));
+    }
+  }
 }

@@ -110,8 +110,8 @@ class SdgRepository implements ISdgRepository {
       // Filter the articles locally to check if title or description contains the input string
       final filteredArticles = querySnapshot.docs
           .where((doc) {
-            final title = doc.data()['title'] as String;
-            final description = doc.data()['description'] as String;
+            final title = doc.data()['title'].toString();
+            final description = doc.data()['description'].toString();
 
             // Check if either the title or the description contains the input string
             return title.toLowerCase().contains(input.toLowerCase()) ||
@@ -127,6 +127,28 @@ class SdgRepository implements ISdgRepository {
       }
     } catch (e) {
       throw Exception('Error fetching articles: $e');
+    }
+  }
+
+  @override
+  Future<List<ArticleVm>> searchSelectedSdg(String sdg) async {
+    try {
+      final querySnapshot = await _firestore.collection(dbNameArticle).get();
+      final filteredSdgs = querySnapshot.docs
+          .where((doc) {
+            final title = doc.data()['sdg'].toString();
+            return title.toLowerCase().contains(sdg.toLowerCase());
+          })
+          .map((doc) => ArticleVm.fromJson(doc.data()))
+          .toList();
+
+      if (filteredSdgs.isNotEmpty) {
+        return filteredSdgs;
+      } else {
+        throw Exception('No SDGs found');
+      }
+    } catch (e) {
+      throw Exception('Error fetching SDGs: $e');
     }
   }
 }

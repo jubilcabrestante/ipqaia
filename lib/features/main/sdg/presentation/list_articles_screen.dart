@@ -97,42 +97,52 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: AppColors.backgroundSecondary,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              padding: EdgeInsets.only(left: 20),
-              width: 350,
-              child: CustomSearchBar(
-                controller: searchController,
-                onSearchPressed: () {
-                  sdgCubit.searchArticle(searchController.text);
-                },
-              ),
-            ),
-            Row(
+        title: BlocBuilder<SdgCubit, SdgState>(
+          builder: (context, state) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // AppDropdownField<String>(
-                //   title: "Category",
-                //   options: sdgCubit.state.sdg
-                //       .map((sdg) => sdg.sdgTitle)
-                //       .whereType<String>()
-                //       .toList(),
-                //   value: sdgCubit.state.selectedSdg,
-                //   onChanged: (value) {
-                //     sdgCubit.getArticles();
-                //   },
-                //   optionLabel: (option) => option,
-                // ),
-                Gap(20),
-                AppCustomButton(
-                  ontab: () => _showDialog(method: Method.add),
-                  backgroundColor: AppColors.primary,
-                  text: "Add New Article",
+                Container(
+                  padding: EdgeInsets.only(left: 20),
+                  width: 350,
+                  child: CustomSearchBar(
+                    controller: searchController,
+                    onSearchPressed: () {
+                      sdgCubit.searchArticle(searchController.text);
+                    },
+                  ),
+                ),
+                Row(
+                  children: [
+                    AppDropdownField<String>(
+                      title: "Select SDG here",
+                      options: ['All'] +
+                          state.sdg
+                              .map((sdg) => sdg.sdgTitle)
+                              .whereType<String>()
+                              .toList(),
+                      value: state.selectedSdg,
+                      onChanged: (value) {
+                        if (value == 'All') {
+                          sdgCubit.getArticles();
+                        } else {
+                          sdgCubit.updateSelectedSdg(value!);
+                          sdgCubit.searchSelectedSdg();
+                        }
+                      },
+                      optionLabel: (option) => option,
+                    ),
+                    Gap(20),
+                    AppCustomButton(
+                      ontab: () => _showDialog(method: Method.add),
+                      backgroundColor: AppColors.primary,
+                      text: "Add New Article",
+                    )
+                  ],
                 )
               ],
-            )
-          ],
+            );
+          },
         ),
       ),
       body: Padding(
