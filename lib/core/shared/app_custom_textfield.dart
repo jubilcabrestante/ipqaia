@@ -6,11 +6,13 @@ class AppCustomTextfield extends StatelessWidget {
   final String label;
   final bool obscure;
   final EdgeInsetsGeometry? padding;
+  final String? type;
   final int? maxLines;
   final String? Function(String?)? validator;
 
   const AppCustomTextfield({
     super.key,
+    this.type,
     required this.controller,
     this.hintText,
     required this.label,
@@ -26,7 +28,14 @@ class AppCustomTextfield extends StatelessWidget {
       controller: controller,
       obscureText: obscure,
       validator: validator,
-      maxLines: maxLines,
+      keyboardType: type == 'number'
+          ? TextInputType.number
+          : type == 'email'
+              ? TextInputType.emailAddress
+              : type == 'phone'
+                  ? TextInputType.phone
+                  : TextInputType.text,
+      maxLines: obscure ? 1 : maxLines,
       decoration: InputDecoration(
         labelText: label,
         hintText: hintText,

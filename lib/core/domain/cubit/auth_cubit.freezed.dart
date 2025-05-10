@@ -1,0 +1,309 @@
+// dart format width=80
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'auth_cubit.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+// dart format off
+T _$identity<T>(T value) => value;
+
+/// @nodoc
+mixin _$AuthState {
+  UserVm? get currentUser;
+  bool get isLoading;
+  bool get isSuccess;
+  bool get isError;
+  bool get isAuthenticated;
+  bool get isNewUser;
+  bool get isConnected;
+  String? get errorMessage;
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $AuthStateCopyWith<AuthState> get copyWith =>
+      _$AuthStateCopyWithImpl<AuthState>(this as AuthState, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AuthState &&
+            (identical(other.currentUser, currentUser) ||
+                other.currentUser == currentUser) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.isSuccess, isSuccess) ||
+                other.isSuccess == isSuccess) &&
+            (identical(other.isError, isError) || other.isError == isError) &&
+            (identical(other.isAuthenticated, isAuthenticated) ||
+                other.isAuthenticated == isAuthenticated) &&
+            (identical(other.isNewUser, isNewUser) ||
+                other.isNewUser == isNewUser) &&
+            (identical(other.isConnected, isConnected) ||
+                other.isConnected == isConnected) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      currentUser,
+      isLoading,
+      isSuccess,
+      isError,
+      isAuthenticated,
+      isNewUser,
+      isConnected,
+      errorMessage);
+
+  @override
+  String toString() {
+    return 'AuthState(currentUser: $currentUser, isLoading: $isLoading, isSuccess: $isSuccess, isError: $isError, isAuthenticated: $isAuthenticated, isNewUser: $isNewUser, isConnected: $isConnected, errorMessage: $errorMessage)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $AuthStateCopyWith<$Res> {
+  factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) _then) =
+      _$AuthStateCopyWithImpl;
+  @useResult
+  $Res call(
+      {UserVm? currentUser,
+      bool isLoading,
+      bool isSuccess,
+      bool isError,
+      bool isAuthenticated,
+      bool isNewUser,
+      bool isConnected,
+      String? errorMessage});
+}
+
+/// @nodoc
+class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
+  _$AuthStateCopyWithImpl(this._self, this._then);
+
+  final AuthState _self;
+  final $Res Function(AuthState) _then;
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? currentUser = freezed,
+    Object? isLoading = null,
+    Object? isSuccess = null,
+    Object? isError = null,
+    Object? isAuthenticated = null,
+    Object? isNewUser = null,
+    Object? isConnected = null,
+    Object? errorMessage = freezed,
+  }) {
+    return _then(_self.copyWith(
+      currentUser: freezed == currentUser
+          ? _self.currentUser
+          : currentUser // ignore: cast_nullable_to_non_nullable
+              as UserVm?,
+      isLoading: null == isLoading
+          ? _self.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSuccess: null == isSuccess
+          ? _self.isSuccess
+          : isSuccess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isError: null == isError
+          ? _self.isError
+          : isError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAuthenticated: null == isAuthenticated
+          ? _self.isAuthenticated
+          : isAuthenticated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isNewUser: null == isNewUser
+          ? _self.isNewUser
+          : isNewUser // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isConnected: null == isConnected
+          ? _self.isConnected
+          : isConnected // ignore: cast_nullable_to_non_nullable
+              as bool,
+      errorMessage: freezed == errorMessage
+          ? _self.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _AuthState implements AuthState {
+  const _AuthState(
+      {this.currentUser,
+      this.isLoading = false,
+      this.isSuccess = false,
+      this.isError = false,
+      this.isAuthenticated = false,
+      this.isNewUser = false,
+      this.isConnected = false,
+      this.errorMessage});
+
+  @override
+  final UserVm? currentUser;
+  @override
+  @JsonKey()
+  final bool isLoading;
+  @override
+  @JsonKey()
+  final bool isSuccess;
+  @override
+  @JsonKey()
+  final bool isError;
+  @override
+  @JsonKey()
+  final bool isAuthenticated;
+  @override
+  @JsonKey()
+  final bool isNewUser;
+  @override
+  @JsonKey()
+  final bool isConnected;
+  @override
+  final String? errorMessage;
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$AuthStateCopyWith<_AuthState> get copyWith =>
+      __$AuthStateCopyWithImpl<_AuthState>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _AuthState &&
+            (identical(other.currentUser, currentUser) ||
+                other.currentUser == currentUser) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.isSuccess, isSuccess) ||
+                other.isSuccess == isSuccess) &&
+            (identical(other.isError, isError) || other.isError == isError) &&
+            (identical(other.isAuthenticated, isAuthenticated) ||
+                other.isAuthenticated == isAuthenticated) &&
+            (identical(other.isNewUser, isNewUser) ||
+                other.isNewUser == isNewUser) &&
+            (identical(other.isConnected, isConnected) ||
+                other.isConnected == isConnected) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      currentUser,
+      isLoading,
+      isSuccess,
+      isError,
+      isAuthenticated,
+      isNewUser,
+      isConnected,
+      errorMessage);
+
+  @override
+  String toString() {
+    return 'AuthState(currentUser: $currentUser, isLoading: $isLoading, isSuccess: $isSuccess, isError: $isError, isAuthenticated: $isAuthenticated, isNewUser: $isNewUser, isConnected: $isConnected, errorMessage: $errorMessage)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$AuthStateCopyWith<$Res>
+    implements $AuthStateCopyWith<$Res> {
+  factory _$AuthStateCopyWith(
+          _AuthState value, $Res Function(_AuthState) _then) =
+      __$AuthStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {UserVm? currentUser,
+      bool isLoading,
+      bool isSuccess,
+      bool isError,
+      bool isAuthenticated,
+      bool isNewUser,
+      bool isConnected,
+      String? errorMessage});
+}
+
+/// @nodoc
+class __$AuthStateCopyWithImpl<$Res> implements _$AuthStateCopyWith<$Res> {
+  __$AuthStateCopyWithImpl(this._self, this._then);
+
+  final _AuthState _self;
+  final $Res Function(_AuthState) _then;
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? currentUser = freezed,
+    Object? isLoading = null,
+    Object? isSuccess = null,
+    Object? isError = null,
+    Object? isAuthenticated = null,
+    Object? isNewUser = null,
+    Object? isConnected = null,
+    Object? errorMessage = freezed,
+  }) {
+    return _then(_AuthState(
+      currentUser: freezed == currentUser
+          ? _self.currentUser
+          : currentUser // ignore: cast_nullable_to_non_nullable
+              as UserVm?,
+      isLoading: null == isLoading
+          ? _self.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSuccess: null == isSuccess
+          ? _self.isSuccess
+          : isSuccess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isError: null == isError
+          ? _self.isError
+          : isError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAuthenticated: null == isAuthenticated
+          ? _self.isAuthenticated
+          : isAuthenticated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isNewUser: null == isNewUser
+          ? _self.isNewUser
+          : isNewUser // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isConnected: null == isConnected
+          ? _self.isConnected
+          : isConnected // ignore: cast_nullable_to_non_nullable
+              as bool,
+      errorMessage: freezed == errorMessage
+          ? _self.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+// dart format on

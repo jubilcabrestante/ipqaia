@@ -368,8 +368,9 @@ class _SdgFormsState extends State<SdgForms> {
             controller: widget.titleController,
             label: "Title",
             validator: (value) {
-              if (value == null || value.isEmpty)
+              if (value == null || value.isEmpty) {
                 return 'Please enter SDG title';
+              }
               return null;
             },
           ),

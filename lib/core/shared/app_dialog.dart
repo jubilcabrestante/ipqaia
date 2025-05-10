@@ -9,12 +9,13 @@ class AppDialog {
     BuildContext context,
     String title,
     String content, {
-    String buttonText = 'OK',
+    String? buttonText,
     Color? buttonColor,
     Color? textColor,
     TextStyle? titleStyle,
     TextStyle? contentStyle,
     VoidCallback? onPressed,
+    bool showCancelButton = false,
   }) {
     final Color resolvedButtonColor = buttonColor ?? AppColors.primary;
     final Color resolvedTextColor = textColor ?? AppColors.textSecondary;
@@ -49,49 +50,49 @@ class AppDialog {
                 Text(content,
                     style: resolvedContentStyle, textAlign: TextAlign.center),
                 const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: resolvedTextColor,
-                          backgroundColor: resolvedButtonColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
+                if (buttonText != null || showCancelButton)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (showCancelButton) ...[
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: resolvedTextColor,
+                              backgroundColor: Colors.grey[300],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            onPressed: () => Navigator.of(dialogContext).pop(),
+                            child: const Text('Cancel',
+                                style: TextStyle(fontSize: 16)),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
-                        onPressed: () => Navigator.of(dialogContext).pop(),
-                        child: const Text('Cancel',
-                            style: TextStyle(fontSize: 16)),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.grey,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
+                        const SizedBox(width: 10),
+                      ],
+                      if (buttonText != null)
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: resolvedButtonColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            onPressed: () {
+                              Navigator.of(dialogContext).pop();
+                              onPressed?.call();
+                            },
+                            child: Text(buttonText,
+                                style: const TextStyle(fontSize: 16)),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
-                        onPressed: () {
-                          Navigator.of(dialogContext).pop();
-                          if (onPressed != null) {
-                            onPressed();
-                          }
-                        },
-                        child: Text(buttonText,
-                            style: const TextStyle(
-                              fontSize: 16,
-                            )),
-                      ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
               ],
             ),
           ),
@@ -183,8 +184,6 @@ class AppDialog {
       ),
     );
   }
-
-//TODO: Add App dialog for the sdg entry and update
 
   static Future<void> showCustomFormDialog({
     required BuildContext context,

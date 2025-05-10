@@ -37,13 +37,15 @@ class AppCustomButton extends StatelessWidget {
           minWidth: 0, // Allows it to shrink to fit content
           minHeight: 0,
         ),
-        child: child ??
-            Text(
-              text ?? '',
-              style: context.textTheme.bodyLarge!.copyWith(
-                color: textColor ?? AppColors.textSecondary,
+        child: Center(
+          child: child ??
+              Text(
+                text ?? '',
+                style: context.textTheme.bodyLarge!.copyWith(
+                  color: textColor ?? AppColors.textSecondary,
+                ),
               ),
-            ),
+        ),
       ),
     );
   }

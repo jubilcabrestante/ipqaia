@@ -60,4 +60,5 @@ class DefaultFirebaseOptions {
     authDomain: 'ipqaia.firebaseapp.com',
     storageBucket: 'ipqaia.firebasestorage.app',
   );
+
 }
