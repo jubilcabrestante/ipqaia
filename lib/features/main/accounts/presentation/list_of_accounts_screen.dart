@@ -46,6 +46,7 @@ class _ListOfAccountsScreenState extends State<ListOfAccountsScreen> {
                 child: CustomSearchBar(
                   controller: searchController,
                   onSearchPressed: () {
+                    // TODO: Implement search functionality
                     // authCubit.searchAccounts(searchController.text);
                   },
                 ),
@@ -116,7 +117,7 @@ class _ListOfAccountsScreenState extends State<ListOfAccountsScreen> {
                                 children: [
                                   AppCustomButton(
                                     ontab: () {
-                                      // Edit functionality
+                                      // TODO: Implement edit functionality
                                     },
                                     backgroundColor: AppColors.secondary,
                                     text: "edit",
@@ -124,6 +125,7 @@ class _ListOfAccountsScreenState extends State<ListOfAccountsScreen> {
                                   const Gap(15),
                                   AppCustomButton(
                                     ontab: () {
+                                      // TODO: Implement delete functionality
                                       AppDialog.showCustomAlertDialog(
                                         context,
                                         'Delete Account',

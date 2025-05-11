@@ -54,7 +54,7 @@ import 'package:ipqaia/features/main/students_life_and_facilties/presentation/st
     as _i25;
 import 'package:ipqaia/features/onboarding/login/presentation/change_password.dart'
     as _i6;
-import 'package:ipqaia/features/onboarding/login/presentation/forgotpasswor.dart'
+import 'package:ipqaia/features/onboarding/login/presentation/forgotpassword.dart'
     as _i11;
 import 'package:ipqaia/features/onboarding/login/presentation/login_screen.dart'
     as _i15;

@@ -108,14 +108,14 @@ class LoginScreenState extends State<LoginScreen> {
                                 },
                               ),
                             ),
-                            const Gap(20),
+                            const Gap(10),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 60),
                               child: AppCustomTextfield(
                                 controller: passwordController,
                                 label: 'Password',
-                                obscure: true,
+                                isPassword: true,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter your password';

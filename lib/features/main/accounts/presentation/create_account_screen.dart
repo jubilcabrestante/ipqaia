@@ -132,7 +132,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                   child: AppCustomTextfield(
                     controller: passwordController,
                     label: "Password",
-                    obscure: true,
+                    isPassword: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Password is required';
@@ -149,7 +149,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                   child: AppCustomTextfield(
                     controller: confirmPasswordController,
                     label: "Confirm Password",
-                    obscure: true,
+                    isPassword: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please confirm password';

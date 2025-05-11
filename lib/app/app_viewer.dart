@@ -61,7 +61,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
             children: [
               // Sidebar Navigation
               Container(
-                width: 300,
+                width: 275,
                 color: AppColors.secondary,
                 child: Column(
                   children: [
@@ -76,8 +76,8 @@ class _MainAppScreenState extends State<MainAppScreen> {
                         ),
                         Text(
                           "IPQAIA SYSTEM",
-                          style: context.textTheme.titleMedium!.copyWith(
-                              fontWeight: FontWeight.bold, fontSize: 21),
+                          style: context.textTheme.titleLarge!
+                              .copyWith(fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
@@ -107,8 +107,6 @@ class _MainAppScreenState extends State<MainAppScreen> {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 15, horizontal: 20),
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 10),
                                 child: Row(
                                   children: [
                                     Icon(
@@ -117,14 +115,19 @@ class _MainAppScreenState extends State<MainAppScreen> {
                                           ? Colors.white
                                           : Colors.black,
                                     ),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      item['title'],
-                                      style: TextStyle(
-                                        color: isSelected
-                                            ? Colors.white
-                                            : Colors.black,
-                                        fontWeight: FontWeight.bold,
+                                    const SizedBox(width: 5),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        item['title'],
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(
+                                                color: isSelected
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                                fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                   ],
