@@ -101,36 +101,41 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
           builder: (context, state) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  padding: EdgeInsets.only(left: 20),
-                  width: 350,
-                  child: CustomSearchBar(
-                    controller: searchController,
-                    onSearchPressed: () {
-                      sdgCubit.searchArticle(searchController.text);
-                    },
+                Center(
+                  child: SizedBox(
+                    width: 300,
+                    child: CustomSearchBar(
+                      controller: searchController,
+                      onSearchPressed: () {
+                        sdgCubit.searchArticle(searchController.text);
+                      },
+                    ),
                   ),
                 ),
                 Row(
                   children: [
-                    AppDropdownField<String>(
-                      title: "Select SDG here",
-                      options: ['All'] +
-                          state.sdg
-                              .map((sdg) => sdg.sdgTitle)
-                              .whereType<String>()
-                              .toList(),
-                      value: state.selectedSdg,
-                      onChanged: (value) {
-                        if (value == 'All') {
-                          sdgCubit.getArticles();
-                        } else {
-                          sdgCubit.updateSelectedSdg(value!);
-                          sdgCubit.searchSelectedSdg();
-                        }
-                      },
-                      optionLabel: (option) => option,
+                    SizedBox(
+                      width: 305,
+                      child: AppDropdownField<String>(
+                        title: "Select SDG here",
+                        options: ['All'] +
+                            state.sdg
+                                .map((sdg) => sdg.sdgTitle)
+                                .whereType<String>()
+                                .toList(),
+                        value: state.selectedSdg,
+                        onChanged: (value) {
+                          if (value == 'All') {
+                            sdgCubit.getArticles();
+                          } else {
+                            sdgCubit.updateSelectedSdg(value!);
+                            sdgCubit.searchSelectedSdg();
+                          }
+                        },
+                        optionLabel: (option) => option,
+                      ),
                     ),
                     Gap(20),
                     AppCustomButton(

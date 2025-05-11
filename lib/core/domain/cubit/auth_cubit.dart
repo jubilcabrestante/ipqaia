@@ -43,6 +43,7 @@ class AuthCubit extends Cubit<AuthState> {
         isLoading: false,
         isSuccess: true,
       ));
+      _getAccounts();
     } catch (e) {
       emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
     }
@@ -89,5 +90,36 @@ class AuthCubit extends Cubit<AuthState> {
       ));
       rethrow;
     }
+  }
+
+  Future<void> deleteUser(String accoundId) async {
+    emit(state.copyWith(
+      isLoading: true,
+      errorMessage: null,
+      isSuccess: false,
+    ));
+
+    try {
+      await _iUserRepository.deleteUser(accoundId);
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: true,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> updateSelectedRole(String role) async {
+    emit(state.copyWith(
+      selectedRole: role,
+    ));
+  }
+
+  Future<void> updateSelectedGender(String gender) async {
+    emit(state.copyWith(selectedGender: gender));
   }
 }

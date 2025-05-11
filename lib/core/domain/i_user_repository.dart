@@ -9,4 +9,6 @@ abstract class IUserRepository {
   Future<void> signOut();
 
   Future<List<AccountVm>> getUserList();
+
+  Future<void> deleteUser(String uid);
 }

@@ -69,7 +69,6 @@ class AppRouter extends RootStackRouter {
           //Accounts
           AutoRoute(page: AccountRoute.page, path: "accounts", children: [
             AutoRoute(page: ListOfAccountsRoute.page, path: "list-of-accounts"),
-            AutoRoute(page: CreateAccountRoute.page, path: "create-account")
           ]),
         ]),
       ];

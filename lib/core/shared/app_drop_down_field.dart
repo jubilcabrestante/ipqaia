@@ -28,22 +28,24 @@ class AppDropdownField<T> extends StatelessWidget {
                 .textTheme
                 .bodyMedium!
                 .copyWith(fontWeight: FontWeight.bold)),
-        SizedBox(
-          width: 250,
+        Expanded(
           child: DropdownButtonFormField<T>(
             value: value,
             onChanged: onChanged,
             items: options.map((T option) {
               return DropdownMenuItem<T>(
                 value: option,
-                child: Text(optionLabel(option)),
+                child: Text(
+                  optionLabel(option),
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               );
             }).toList(),
             hint: Text("Select here",
                 style: Theme.of(context).textTheme.bodyMedium!),
             decoration: const InputDecoration(
               border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(horizontal: 12),
+              contentPadding: EdgeInsets.only(left: 8),
             ),
             validator: validator,
           ),

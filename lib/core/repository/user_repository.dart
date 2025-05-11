@@ -95,4 +95,14 @@ class UserRepository implements IUserRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> deleteUser(String uid) async {
+    try {
+      await _firestore.collection(adminCollection).doc(uid).delete();
+    } catch (e) {
+      log("Failed to delete user: ${e.toString()}");
+      rethrow;
+    }
+  }
 }

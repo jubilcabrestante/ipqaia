@@ -24,6 +24,9 @@ mixin _$AuthState {
   bool get isAuthenticated;
   bool get isNewUser;
   bool get isConnected;
+  String get selectedRole;
+  String get selectedGender;
+  String get password;
   String? get errorMessage;
 
   /// Create a copy of AuthState
@@ -54,6 +57,12 @@ mixin _$AuthState {
                 other.isNewUser == isNewUser) &&
             (identical(other.isConnected, isConnected) ||
                 other.isConnected == isConnected) &&
+            (identical(other.selectedRole, selectedRole) ||
+                other.selectedRole == selectedRole) &&
+            (identical(other.selectedGender, selectedGender) ||
+                other.selectedGender == selectedGender) &&
+            (identical(other.password, password) ||
+                other.password == password) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage));
   }
@@ -70,11 +79,14 @@ mixin _$AuthState {
       isAuthenticated,
       isNewUser,
       isConnected,
+      selectedRole,
+      selectedGender,
+      password,
       errorMessage);
 
   @override
   String toString() {
-    return 'AuthState(currentUser: $currentUser, accounts: $accounts, isLoading: $isLoading, isLoadingAccounts: $isLoadingAccounts, isSuccess: $isSuccess, isError: $isError, isAuthenticated: $isAuthenticated, isNewUser: $isNewUser, isConnected: $isConnected, errorMessage: $errorMessage)';
+    return 'AuthState(currentUser: $currentUser, accounts: $accounts, isLoading: $isLoading, isLoadingAccounts: $isLoadingAccounts, isSuccess: $isSuccess, isError: $isError, isAuthenticated: $isAuthenticated, isNewUser: $isNewUser, isConnected: $isConnected, selectedRole: $selectedRole, selectedGender: $selectedGender, password: $password, errorMessage: $errorMessage)';
   }
 }
 
@@ -93,6 +105,9 @@ abstract mixin class $AuthStateCopyWith<$Res> {
       bool isAuthenticated,
       bool isNewUser,
       bool isConnected,
+      String selectedRole,
+      String selectedGender,
+      String password,
       String? errorMessage});
 }
 
@@ -117,6 +132,9 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
     Object? isAuthenticated = null,
     Object? isNewUser = null,
     Object? isConnected = null,
+    Object? selectedRole = null,
+    Object? selectedGender = null,
+    Object? password = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_self.copyWith(
@@ -156,6 +174,18 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
           ? _self.isConnected
           : isConnected // ignore: cast_nullable_to_non_nullable
               as bool,
+      selectedRole: null == selectedRole
+          ? _self.selectedRole
+          : selectedRole // ignore: cast_nullable_to_non_nullable
+              as String,
+      selectedGender: null == selectedGender
+          ? _self.selectedGender
+          : selectedGender // ignore: cast_nullable_to_non_nullable
+              as String,
+      password: null == password
+          ? _self.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
       errorMessage: freezed == errorMessage
           ? _self.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -177,6 +207,9 @@ class _AuthState implements AuthState {
       this.isAuthenticated = false,
       this.isNewUser = false,
       this.isConnected = false,
+      this.selectedRole = '',
+      this.selectedGender = '',
+      this.password = '',
       this.errorMessage})
       : _accounts = accounts;
 
@@ -213,6 +246,15 @@ class _AuthState implements AuthState {
   @JsonKey()
   final bool isConnected;
   @override
+  @JsonKey()
+  final String selectedRole;
+  @override
+  @JsonKey()
+  final String selectedGender;
+  @override
+  @JsonKey()
+  final String password;
+  @override
   final String? errorMessage;
 
   /// Create a copy of AuthState
@@ -244,6 +286,12 @@ class _AuthState implements AuthState {
                 other.isNewUser == isNewUser) &&
             (identical(other.isConnected, isConnected) ||
                 other.isConnected == isConnected) &&
+            (identical(other.selectedRole, selectedRole) ||
+                other.selectedRole == selectedRole) &&
+            (identical(other.selectedGender, selectedGender) ||
+                other.selectedGender == selectedGender) &&
+            (identical(other.password, password) ||
+                other.password == password) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage));
   }
@@ -260,11 +308,14 @@ class _AuthState implements AuthState {
       isAuthenticated,
       isNewUser,
       isConnected,
+      selectedRole,
+      selectedGender,
+      password,
       errorMessage);
 
   @override
   String toString() {
-    return 'AuthState(currentUser: $currentUser, accounts: $accounts, isLoading: $isLoading, isLoadingAccounts: $isLoadingAccounts, isSuccess: $isSuccess, isError: $isError, isAuthenticated: $isAuthenticated, isNewUser: $isNewUser, isConnected: $isConnected, errorMessage: $errorMessage)';
+    return 'AuthState(currentUser: $currentUser, accounts: $accounts, isLoading: $isLoading, isLoadingAccounts: $isLoadingAccounts, isSuccess: $isSuccess, isError: $isError, isAuthenticated: $isAuthenticated, isNewUser: $isNewUser, isConnected: $isConnected, selectedRole: $selectedRole, selectedGender: $selectedGender, password: $password, errorMessage: $errorMessage)';
   }
 }
 
@@ -286,6 +337,9 @@ abstract mixin class _$AuthStateCopyWith<$Res>
       bool isAuthenticated,
       bool isNewUser,
       bool isConnected,
+      String selectedRole,
+      String selectedGender,
+      String password,
       String? errorMessage});
 }
 
@@ -310,6 +364,9 @@ class __$AuthStateCopyWithImpl<$Res> implements _$AuthStateCopyWith<$Res> {
     Object? isAuthenticated = null,
     Object? isNewUser = null,
     Object? isConnected = null,
+    Object? selectedRole = null,
+    Object? selectedGender = null,
+    Object? password = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_AuthState(
@@ -349,6 +406,18 @@ class __$AuthStateCopyWithImpl<$Res> implements _$AuthStateCopyWith<$Res> {
           ? _self.isConnected
           : isConnected // ignore: cast_nullable_to_non_nullable
               as bool,
+      selectedRole: null == selectedRole
+          ? _self.selectedRole
+          : selectedRole // ignore: cast_nullable_to_non_nullable
+              as String,
+      selectedGender: null == selectedGender
+          ? _self.selectedGender
+          : selectedGender // ignore: cast_nullable_to_non_nullable
+              as String,
+      password: null == password
+          ? _self.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
       errorMessage: freezed == errorMessage
           ? _self.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable

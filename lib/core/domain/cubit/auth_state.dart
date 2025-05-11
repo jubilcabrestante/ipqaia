@@ -12,6 +12,9 @@ abstract class AuthState with _$AuthState {
     @Default(false) bool isAuthenticated,
     @Default(false) bool isNewUser,
     @Default(false) bool isConnected,
+    @Default('') String selectedRole,
+    @Default('') String selectedGender,
+    @Default('') String password,
     String? errorMessage,
   }) = _AuthState;
 }
