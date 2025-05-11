@@ -8,7 +8,7 @@ class UserVm {
   final String? uid;
   final String name;
   final String email;
-  final String? age;
+  final int? age;
   final String? gender;
   final String role;
   final String? createdAt;
@@ -31,7 +31,7 @@ class UserVm {
     String? uid,
     String? name,
     String? email,
-    String? age,
+    int? age,
     String? gender,
     String? role,
     String? createdAt,

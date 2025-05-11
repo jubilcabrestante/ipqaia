@@ -167,9 +167,10 @@ class _ManageSdgScreenState extends State<ManageSdgScreen> {
                                               DataColumn(
                                                 label: Expanded(
                                                   child: Center(
-                                                    child: Text(
-                                                      title,
-                                                    ),
+                                                    child: Text(title,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyMedium!),
                                                   ),
                                                 ),
                                               ),

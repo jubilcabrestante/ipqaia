@@ -4,7 +4,9 @@ part of 'auth_cubit.dart';
 abstract class AuthState with _$AuthState {
   const factory AuthState({
     UserVm? currentUser,
+    @Default([]) List<AccountVm> accounts,
     @Default(false) bool isLoading,
+    @Default(false) bool isLoadingAccounts,
     @Default(false) bool isSuccess,
     @Default(false) bool isError,
     @Default(false) bool isAuthenticated,

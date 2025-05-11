@@ -284,7 +284,7 @@ class ListOfAccreditationRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i15.LoginPage]
+/// [_i15.LoginScreen]
 class LoginRoute extends _i26.PageRouteInfo<void> {
   const LoginRoute({List<_i26.PageRouteInfo>? children})
     : super(LoginRoute.name, initialChildren: children);
@@ -294,7 +294,7 @@ class LoginRoute extends _i26.PageRouteInfo<void> {
   static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
-      return const _i15.LoginPage();
+      return const _i15.LoginScreen();
     },
   );
 }

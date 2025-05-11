@@ -16,7 +16,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AuthState {
   UserVm? get currentUser;
+  List<AccountVm> get accounts;
   bool get isLoading;
+  bool get isLoadingAccounts;
   bool get isSuccess;
   bool get isError;
   bool get isAuthenticated;
@@ -38,8 +40,11 @@ mixin _$AuthState {
             other is AuthState &&
             (identical(other.currentUser, currentUser) ||
                 other.currentUser == currentUser) &&
+            const DeepCollectionEquality().equals(other.accounts, accounts) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isLoadingAccounts, isLoadingAccounts) ||
+                other.isLoadingAccounts == isLoadingAccounts) &&
             (identical(other.isSuccess, isSuccess) ||
                 other.isSuccess == isSuccess) &&
             (identical(other.isError, isError) || other.isError == isError) &&
@@ -57,7 +62,9 @@ mixin _$AuthState {
   int get hashCode => Object.hash(
       runtimeType,
       currentUser,
+      const DeepCollectionEquality().hash(accounts),
       isLoading,
+      isLoadingAccounts,
       isSuccess,
       isError,
       isAuthenticated,
@@ -67,7 +74,7 @@ mixin _$AuthState {
 
   @override
   String toString() {
-    return 'AuthState(currentUser: $currentUser, isLoading: $isLoading, isSuccess: $isSuccess, isError: $isError, isAuthenticated: $isAuthenticated, isNewUser: $isNewUser, isConnected: $isConnected, errorMessage: $errorMessage)';
+    return 'AuthState(currentUser: $currentUser, accounts: $accounts, isLoading: $isLoading, isLoadingAccounts: $isLoadingAccounts, isSuccess: $isSuccess, isError: $isError, isAuthenticated: $isAuthenticated, isNewUser: $isNewUser, isConnected: $isConnected, errorMessage: $errorMessage)';
   }
 }
 
@@ -78,7 +85,9 @@ abstract mixin class $AuthStateCopyWith<$Res> {
   @useResult
   $Res call(
       {UserVm? currentUser,
+      List<AccountVm> accounts,
       bool isLoading,
+      bool isLoadingAccounts,
       bool isSuccess,
       bool isError,
       bool isAuthenticated,
@@ -100,7 +109,9 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
   @override
   $Res call({
     Object? currentUser = freezed,
+    Object? accounts = null,
     Object? isLoading = null,
+    Object? isLoadingAccounts = null,
     Object? isSuccess = null,
     Object? isError = null,
     Object? isAuthenticated = null,
@@ -113,9 +124,17 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
           ? _self.currentUser
           : currentUser // ignore: cast_nullable_to_non_nullable
               as UserVm?,
+      accounts: null == accounts
+          ? _self.accounts
+          : accounts // ignore: cast_nullable_to_non_nullable
+              as List<AccountVm>,
       isLoading: null == isLoading
           ? _self.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingAccounts: null == isLoadingAccounts
+          ? _self.isLoadingAccounts
+          : isLoadingAccounts // ignore: cast_nullable_to_non_nullable
               as bool,
       isSuccess: null == isSuccess
           ? _self.isSuccess
@@ -150,19 +169,34 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
 class _AuthState implements AuthState {
   const _AuthState(
       {this.currentUser,
+      final List<AccountVm> accounts = const [],
       this.isLoading = false,
+      this.isLoadingAccounts = false,
       this.isSuccess = false,
       this.isError = false,
       this.isAuthenticated = false,
       this.isNewUser = false,
       this.isConnected = false,
-      this.errorMessage});
+      this.errorMessage})
+      : _accounts = accounts;
 
   @override
   final UserVm? currentUser;
+  final List<AccountVm> _accounts;
+  @override
+  @JsonKey()
+  List<AccountVm> get accounts {
+    if (_accounts is EqualUnmodifiableListView) return _accounts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_accounts);
+  }
+
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  @JsonKey()
+  final bool isLoadingAccounts;
   @override
   @JsonKey()
   final bool isSuccess;
@@ -196,8 +230,11 @@ class _AuthState implements AuthState {
             other is _AuthState &&
             (identical(other.currentUser, currentUser) ||
                 other.currentUser == currentUser) &&
+            const DeepCollectionEquality().equals(other._accounts, _accounts) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isLoadingAccounts, isLoadingAccounts) ||
+                other.isLoadingAccounts == isLoadingAccounts) &&
             (identical(other.isSuccess, isSuccess) ||
                 other.isSuccess == isSuccess) &&
             (identical(other.isError, isError) || other.isError == isError) &&
@@ -215,7 +252,9 @@ class _AuthState implements AuthState {
   int get hashCode => Object.hash(
       runtimeType,
       currentUser,
+      const DeepCollectionEquality().hash(_accounts),
       isLoading,
+      isLoadingAccounts,
       isSuccess,
       isError,
       isAuthenticated,
@@ -225,7 +264,7 @@ class _AuthState implements AuthState {
 
   @override
   String toString() {
-    return 'AuthState(currentUser: $currentUser, isLoading: $isLoading, isSuccess: $isSuccess, isError: $isError, isAuthenticated: $isAuthenticated, isNewUser: $isNewUser, isConnected: $isConnected, errorMessage: $errorMessage)';
+    return 'AuthState(currentUser: $currentUser, accounts: $accounts, isLoading: $isLoading, isLoadingAccounts: $isLoadingAccounts, isSuccess: $isSuccess, isError: $isError, isAuthenticated: $isAuthenticated, isNewUser: $isNewUser, isConnected: $isConnected, errorMessage: $errorMessage)';
   }
 }
 
@@ -239,7 +278,9 @@ abstract mixin class _$AuthStateCopyWith<$Res>
   @useResult
   $Res call(
       {UserVm? currentUser,
+      List<AccountVm> accounts,
       bool isLoading,
+      bool isLoadingAccounts,
       bool isSuccess,
       bool isError,
       bool isAuthenticated,
@@ -261,7 +302,9 @@ class __$AuthStateCopyWithImpl<$Res> implements _$AuthStateCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   $Res call({
     Object? currentUser = freezed,
+    Object? accounts = null,
     Object? isLoading = null,
+    Object? isLoadingAccounts = null,
     Object? isSuccess = null,
     Object? isError = null,
     Object? isAuthenticated = null,
@@ -274,9 +317,17 @@ class __$AuthStateCopyWithImpl<$Res> implements _$AuthStateCopyWith<$Res> {
           ? _self.currentUser
           : currentUser // ignore: cast_nullable_to_non_nullable
               as UserVm?,
+      accounts: null == accounts
+          ? _self._accounts
+          : accounts // ignore: cast_nullable_to_non_nullable
+              as List<AccountVm>,
       isLoading: null == isLoading
           ? _self.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingAccounts: null == isLoadingAccounts
+          ? _self.isLoadingAccounts
+          : isLoadingAccounts // ignore: cast_nullable_to_non_nullable
               as bool,
       isSuccess: null == isSuccess
           ? _self.isSuccess

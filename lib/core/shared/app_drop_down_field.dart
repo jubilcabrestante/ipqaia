@@ -26,7 +26,7 @@ class AppDropdownField<T> extends StatelessWidget {
         Text("$title :",
             style: Theme.of(context)
                 .textTheme
-                .bodyLarge!
+                .bodyMedium!
                 .copyWith(fontWeight: FontWeight.bold)),
         SizedBox(
           width: 250,
@@ -39,9 +39,10 @@ class AppDropdownField<T> extends StatelessWidget {
                 child: Text(optionLabel(option)),
               );
             }).toList(),
-            hint: Text("Select here"), // Displays when no option is selected
+            hint: Text("Select here",
+                style: Theme.of(context).textTheme.bodyMedium!),
             decoration: const InputDecoration(
-              border: InputBorder.none, // Removes underline
+              border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(horizontal: 12),
             ),
             validator: validator,

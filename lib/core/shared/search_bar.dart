@@ -17,7 +17,6 @@ class CustomSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: AppColors.secondary,
@@ -26,12 +25,16 @@ class CustomSearchBar extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         textAlign: TextAlign.start,
-        style: context.textTheme.bodyLarge?.copyWith(
+        textAlignVertical: TextAlignVertical.center,
+        style: context.textTheme.bodyMedium?.copyWith(
           color: AppColors.textPrimary,
         ),
         onFieldSubmitted: onSubmitted,
         decoration: InputDecoration(
           hintText: "Search here...",
+          hintStyle: context.textTheme.bodyMedium?.copyWith(
+            color: AppColors.textPrimary,
+          ),
           suffixIcon: IconButton(
             icon: const Icon(Icons.search),
             onPressed: onSearchPressed,

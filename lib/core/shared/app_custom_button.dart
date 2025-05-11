@@ -9,9 +9,15 @@ class AppCustomButton extends StatelessWidget {
   final Color? textColor;
   final Widget? child;
   final bool? isActive;
+  final double? width;
+  final double? height;
+  final double? padding;
 
   const AppCustomButton({
     super.key,
+    this.width,
+    this.padding,
+    this.height,
     this.text,
     this.ontab,
     this.backgroundColor,
@@ -25,8 +31,11 @@ class AppCustomButton extends StatelessWidget {
     return InkWell(
       onTap: ontab,
       child: Container(
-        padding: const EdgeInsets.symmetric(
-            horizontal: 12, vertical: 6), // Reduced padding
+        width: width,
+        height: height,
+        padding: padding != null
+            ? EdgeInsets.all(padding!)
+            : EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           color: isActive!
               ? AppColors.primary
@@ -37,15 +46,13 @@ class AppCustomButton extends StatelessWidget {
           minWidth: 0, // Allows it to shrink to fit content
           minHeight: 0,
         ),
-        child: Center(
-          child: child ??
-              Text(
-                text ?? '',
-                style: context.textTheme.bodyLarge!.copyWith(
-                  color: textColor ?? AppColors.textSecondary,
-                ),
+        child: child ??
+            Text(
+              text ?? '',
+              style: context.textTheme.bodyMedium!.copyWith(
+                color: textColor ?? AppColors.textSecondary,
               ),
-        ),
+            ),
       ),
     );
   }
