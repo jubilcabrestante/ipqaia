@@ -109,7 +109,7 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
                     controller: searchController,
                     onSearchPressed: () {
                       sdgCubit.searchArticle(searchController.text);
-                    },
+                    }, onChanged: (String query) {  },
                   ),
                 ),
                 Row(

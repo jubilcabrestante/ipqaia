@@ -7,8 +7,8 @@ import 'package:ipqaia/core/extensions/theme_extensions.dart';
 import 'package:ipqaia/core/shared/app_custom_button.dart';
 
 @RoutePage()
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class StudentProfileScreen extends StatefulWidget {
+  const StudentProfileScreen({super.key});
 
   @override
   State<StudentProfileScreen> createState() => _StudentProfileScreenState();
