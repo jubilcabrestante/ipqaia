@@ -5,26 +5,30 @@ part 'article_vm.g.dart';
 
 @JsonSerializable()
 class ArticleVm {
-  final String articleId;
-  final String sdg;
+  final String? articleId;
+  final String? sdg;
   final String title;
   final String link;
-  final String year;
+  final String description;
+  final DateTime year;
 
   const ArticleVm(
-      {required this.articleId,
-      required this.sdg,
+      {this.sdg,
+      this.articleId,
       required this.title,
+      required this.description,
       required this.link,
       required this.year});
 
   factory ArticleVm.fromDto(ArticleDto dto) {
     return ArticleVm(
-        sdg: dto.sdg,
-        title: dto.title,
-        link: dto.link,
-        year: dto.year,
-        articleId: dto.id);
+      sdg: dto.sdg,
+      title: dto.title,
+      link: dto.link,
+      year: dto.year,
+      description: dto.description,
+      articleId: dto.id,
+    );
   }
 
   factory ArticleVm.fromJson(Map<String, dynamic> json) =>

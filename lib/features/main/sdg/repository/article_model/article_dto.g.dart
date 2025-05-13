@@ -11,7 +11,8 @@ ArticleDto _$ArticleDtoFromJson(Map<String, dynamic> json) => ArticleDto(
       sdg: json['sdg'] as String,
       title: json['title'] as String,
       link: json['link'] as String,
-      year: json['year'] as String,
+      description: json['description'] as String,
+      year: DateTime.parse(json['year'] as String),
     );
 
 Map<String, dynamic> _$ArticleDtoToJson(ArticleDto instance) =>
@@ -20,5 +21,6 @@ Map<String, dynamic> _$ArticleDtoToJson(ArticleDto instance) =>
       'sdg': instance.sdg,
       'title': instance.title,
       'link': instance.link,
-      'year': instance.year,
+      'description': instance.description,
+      'year': instance.year.toIso8601String(),
     };

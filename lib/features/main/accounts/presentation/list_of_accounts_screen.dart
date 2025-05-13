@@ -15,145 +15,189 @@ class ListOfAccountsScreen extends StatefulWidget {
 }
 
 class _ListOfAccountsScreenState extends State<ListOfAccountsScreen> {
-  TextEditingController searchController = TextEditingController();
-
-  List<Map<String, String>> allAccounts = [
-    {"Name": "John Doe", "Email": "john@example.com", "Role": "Admin", "Gender": "Male", "Age": "30"},
-    {"Name": "Jane Smith", "Email": "jane@example.com", "Role": "User", "Gender": "Female", "Age": "25"},
-    {"Name": "Alice Brown", "Email": "alice@example.com", "Role": "Editor", "Gender": "Female", "Age": "28"},
+  // Sample list of accounts
+  List<Map<String, String>> accounts = [
+    {
+      'Name': 'John Doe',
+      'Email': 'john.doe@example.com',
+      'Role': 'Admin',
+      'Gender': 'Male',
+      'Age': '30',
+    },
+    {
+      'Name': 'Jane Smith',
+      'Email': 'jane.smith@example.com',
+      'Role': 'User',
+      'Gender': 'Female',
+      'Age': '25',
+    },
+    {
+      'Name': 'Sam Brown',
+      'Email': 'sam.brown@example.com',
+      'Role': 'Manager',
+      'Gender': 'Male',
+      'Age': '35',
+    },
   ];
 
-  List<Map<String, String>> filteredAccounts = [];
-
-  @override
-  void initState() {
-    super.initState();
-    filteredAccounts = List.from(allAccounts);
-  }
-
-  // Search Functionality
-  void _filterAccounts(String query) {
-    setState(() {
-      if (query.isEmpty) {
-        filteredAccounts = List.from(allAccounts);
-      } else {
-        filteredAccounts = allAccounts.where((account) {
-          return account.values.any(
-            (value) => value.toLowerCase().contains(query.toLowerCase()),
-          );
-        }).toList();
-      }
-    });
-  }
-
-  // Show Reset Password Dialog
-  void _showResetPasswordDialog(String email) {
+  // Function to handle reset password action
+  void _resetPassword(String email) {
+    // Show confirmation dialog before resetting the password
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Reset Password"),
-        content: Text("Are you sure you want to reset the password for $email?"),
+        title: const Text('Confirm Password Reset'),
+        content: Text('Are you sure you want to reset the password for $email?'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text("Cancel"),
+            onPressed: () {
+              Navigator.pop(context); // Close the dialog
+            },
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
-              log("Password reset for $email");
-              Navigator.pop(context);
+              // Perform the reset password logic here
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Password reset for $email')),
+              );
+              Navigator.pop(context); // Close the dialog after action
             },
-            child: Text("Confirm"),
+            child: const Text('Confirm', style: TextStyle(color: Colors.green)),
           ),
         ],
       ),
     );
   }
 
-  // Show Delete Account Dialog
-  void _showDeleteAccountDialog(Map<String, String> account) {
+  // Function to handle delete action
+  void _deleteAccount(int index) {
+    // Show confirmation dialog before deleting the account
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Delete Account"),
-        content: Text("Are you sure you want to delete the account of ${account["Name"]}?"),
+        title: const Text('Confirm Deletion'),
+        content: const Text('Are you sure you want to delete this account?'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text("Cancel"),
+            onPressed: () {
+              Navigator.pop(context); // Close the dialog
+            },
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
-              _deleteAccount(account);
-              Navigator.pop(context);
+              setState(() {
+                accounts.removeAt(index);
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Account deleted')),
+              );
+              Navigator.pop(context); // Close the dialog after action
             },
-            child: Text("Confirm"),
+            child: const Text('Delete', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
     );
-  }
-
-  // Delete Account
-  void _deleteAccount(Map<String, String> account) {
-    setState(() {
-      allAccounts.remove(account);
-      _filterAccounts(searchController.text);
-    });
-    log("Deleted account of ${account["Name"]}");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundSecondary,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColors.backgroundSecondary,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: 350,
-              child: CustomSearchBar(
-                controller: searchController,
-                onChanged: _filterAccounts,
-              ),
-            ),
-          ],
-        ),
+        title: const Text('List of Accounts'),
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: DataTable(
-          columnSpacing: 115,
-          headingRowColor: WidgetStateProperty.all(AppColors.primary),
-          headingTextStyle: context.textTheme.titleSmall!.copyWith(color: AppColors.textSecondary),
-          columns: ["Name", "Email", "Role", "Gender", "Age", "Actions"]
-              .map((col) => DataColumn(label: Center(child: Text(col, textAlign: TextAlign.center)))) 
-              .toList(),
-          rows: filteredAccounts.map((account) {
-            return DataRow(cells: [
-              ...account.entries.map((entry) => DataCell(Center(child: Text(entry.value)))),
-              DataCell(
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    AppCustomButton(
-                      ontab: () => _showResetPasswordDialog(account["Email"]!),
-                      backgroundColor: const Color.fromARGB(255, 229, 105, 105),
-                      text: "Reset Password",
-                    ),
-                    AppCustomButton(
-                      ontab: () => _showDeleteAccountDialog(account),
-                      backgroundColor: AppColors.delete,
-                      text: "Delete",
-                    ),
-                  ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: DataTable(
+            columnSpacing: 60,
+            columns: [
+              DataColumn(
+                label: Center(
+                  child: Container(
+                    width: 150, // Adjust the width for the Name column
+                    child: const Text('Name'),
+                  ),
                 ),
               ),
-            ]);
-          }).toList(),
+              DataColumn(
+                label: Center(
+                  child: Container(
+                    width: 250, // Adjust the width for the Email column
+                    child: const Text('Email'),
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Center(
+                  child: Container(
+                    width: 100, // Adjust the width for the Role column
+                    child: const Text('Role'),
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Center(
+                  child: Container(
+                    width: 100, // Adjust the width for the Gender column
+                    child: const Text('Gender'),
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Center(
+                  child: Container(
+                    width: 80, // Adjust the width for the Age column
+                    child: const Text('Age'),
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Center(
+                  child: Container(
+                    width: 60, // Adjust the width for the Actions column
+                    child: const Text('Actions'),
+                  ),
+                ),
+              ),
+            ],
+            rows: List.generate(
+              accounts.length,
+              (index) {
+                final account = accounts[index];
+                return DataRow(cells: [
+                  DataCell(Center(child: Container(width: 150, child: Text(account['Name']!)))),
+                  DataCell(Center(child: Container(width: 250, child: Text(account['Email']!)))),
+                  DataCell(Center(child: Container(width: 100, child: Text(account['Role']!)))),
+                  DataCell(Center(child: Container(width: 100, child: Text(account['Gender']!)))),
+                  DataCell(Center(child: Container(width: 80, child: Text(account['Age']!)))),
+                  DataCell(
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.lock_reset, color: Colors.blue),
+                            iconSize: 30,  // Adjust the size of the reset icon
+                            onPressed: () => _resetPassword(account['Email']!),
+                          ),
+                          const SizedBox(width: 2), // Adjust the spacing between icons
+                          IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            iconSize: 30,  // Adjust the size of the delete icon
+                            onPressed: () => _deleteAccount(index),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ]);
+              },
+            ),
+          ),
         ),
       ),
     );

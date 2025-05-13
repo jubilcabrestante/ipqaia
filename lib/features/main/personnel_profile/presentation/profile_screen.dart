@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gap/gap.dart';
 import 'package:ipqaia/app/themes/colors.dart';
 import 'package:ipqaia/core/extensions/theme_extensions.dart';
 import 'package:ipqaia/core/shared/app_custom_button.dart';
@@ -47,33 +48,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               account.values.any((value) => value.toLowerCase().contains(query.toLowerCase()))).toList();
     });
   }
- void _deletePersonnel(int index) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Confirm Deletion"),
-        content: const Text("Are you sure you want to delete this personnel?"),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("Cancel"),
-          ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                personnelList.removeAt(index);
-                _filterAccounts(searchController.text);
-              });
-              Navigator.pop(context);
-            },
-            child: const Text("Delete", style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      ),
-    );
-  }
+
   void _showAddPersonnelDialog() {
-    final formKey = GlobalKey<FormState>();
+    final _formKey = GlobalKey<FormState>();
     List<String> genderOptions = ["Male", "Female", "Other"];
     List<String> civilStatusOptions = ["Single", "Married", "Divorced", "Widowed"];
     List<String> employmentStatusOptions = ["Full-Time", "Part-Time", "Contract"];
@@ -104,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           width: 500,
           child: SingleChildScrollView(
             child: Form(
-              key: formKey,
+              key: _formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -158,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                             ),
                           ))
-                      ,
+                      .toList(),
                 ],
               ),
             ),
@@ -171,7 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           TextButton(
             onPressed: () {
-              if (formKey.currentState!.validate()) {
+              if (_formKey.currentState!.validate()) {
                 setState(() {
                   personnelList.add(newPersonnel);
                   _filterAccounts(searchController.text);
@@ -184,6 +161,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
+  }
+
+  void _deletePersonnel(int index) {
+    setState(() {
+      personnelList.removeAt(index);
+      _filterAccounts(searchController.text); // Reapply search filter
+    });
   }
 
   @override
@@ -211,40 +195,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: DataTable(
-          columnSpacing: 36,
-          headingRowColor: WidgetStateProperty.all(AppColors.primary),
-          headingTextStyle: context.textTheme.titleSmall!.copyWith(color: AppColors.textSecondary),
-          columns: [
-            "Name", "Gender", "Civil Status", "Employment Status", "Date Started", "Department", "Degree", "Specialization", "PWD", "Senior Citizen", "Actions"
-          ].map((col) => DataColumn(label: Center(child: Text(col)))).toList(),
-          rows: filteredAccounts.asMap().entries.map((entry) {
-            int index = entry.key;
-            Map<String, String> personnel = entry.value;
-            return DataRow(cells: [
-              ...personnel.entries.map((entry) => DataCell(Center(child: Text(entry.value)))),
-              DataCell(
-                IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                  onPressed: () => _deletePersonnel(index),
+        child: Column(
+          children: [
+            Scrollbar( // Add a scrollbar to make it visible on the horizontal scroll
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+                  columnSpacing: 36,
+                  headingRowColor: WidgetStateProperty.all(AppColors.primary),
+                  headingTextStyle: context.textTheme.titleSmall!.copyWith(color: AppColors.textSecondary),
+                  columns: [
+                    "Name", "Gender", "Civil Status", "Employment Status", "Date Started", "Department", "Degree", "Specialization", "PWD", "Senior Citizen", "Actions"
+                  ].map((col) => DataColumn(label: Center(child: Text(col)))).toList(),
+                  rows: filteredAccounts.map((personnel) {
+                    int index = filteredAccounts.indexOf(personnel);
+                    return DataRow(
+                      cells: [
+                        ...personnel.entries.map((entry) => DataCell(Center(child: Text(entry.value)))).toList(),
+                        DataCell(
+                          IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () => _deletePersonnel(index),
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
                 ),
               ),
-            ]);
-          }).toList(),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-
 class _DateInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     String text = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
-    if (text.length > 2) text = '${text.substring(0, 2)}-${text.substring(2)}';
-    if (text.length > 5) text = '${text.substring(0, 5)}-${text.substring(5)}';
+    if (text.length > 2) text = text.substring(0, 2) + '-' + text.substring(2);
+    if (text.length > 5) text = text.substring(0, 5) + '-' + text.substring(5);
     if (text.length > 10) text = text.substring(0, 10);
     return TextEditingValue(
       text: text,
@@ -252,5 +244,3 @@ class _DateInputFormatter extends TextInputFormatter {
     );
   }
 }
-
-

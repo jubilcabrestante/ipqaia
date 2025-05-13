@@ -6,6 +6,7 @@ class AppDropdownField<T> extends StatelessWidget {
   final T? value;
   final ValueChanged<T?> onChanged;
   final String Function(T) optionLabel;
+  final String? Function(T?)? validator;
 
   const AppDropdownField({
     super.key,
@@ -14,6 +15,7 @@ class AppDropdownField<T> extends StatelessWidget {
     required this.value,
     required this.onChanged,
     required this.optionLabel,
+    this.validator,
   });
 
   @override
@@ -27,7 +29,7 @@ class AppDropdownField<T> extends StatelessWidget {
                 .bodyLarge!
                 .copyWith(fontWeight: FontWeight.bold)),
         SizedBox(
-          width: 150, // Adjust width as needed
+          width: 250,
           child: DropdownButtonFormField<T>(
             value: value,
             onChanged: onChanged,
@@ -42,6 +44,7 @@ class AppDropdownField<T> extends StatelessWidget {
               border: InputBorder.none, // Removes underline
               contentPadding: EdgeInsets.symmetric(horizontal: 12),
             ),
+            validator: validator,
           ),
         ),
       ],

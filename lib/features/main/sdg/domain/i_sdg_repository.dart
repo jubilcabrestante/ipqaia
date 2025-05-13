@@ -8,8 +8,10 @@ abstract class ISdgRepository {
   Future<void> deleteReport(String sdgId);
 
   // New article methods
-  Future<List<ArticleVm>> getArticles(String sdg);
+  Future<List<ArticleVm>> getArticles();
   Future<void> addArticle(ArticleVm article);
-  Future<void> updateArticle(String articleId, ArticleVm article);
+  Future<void> updateArticle(ArticleVm article);
   Future<void> deleteArticle(String articleId);
+  Future<List<ArticleVm>> searchInputArticle(String input);
+  Future<List<ArticleVm>> searchSelectedSdg(String sdg);
 }
