@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:ipqaia/features/main/account_creation/presentation/account_screen.dart';
 import 'package:ipqaia/features/main/accounts/presentation/create_account_screen.dart';
-import 'package:ipqaia/features/main/personel_profile/presentation/personel_profile.dart';
 import 'package:ipqaia/features/main/personnel_profile/presentation/personel_profile.dart';
+import 'package:ipqaia/features/main/personnel_profile/presentation/personnel_profile_screen.dart';
 
 @RoutePage()
 class MainAppScreen extends StatefulWidget {
@@ -22,7 +21,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
     {"title": "Academic Offerings", "icon": Icons.school},
     {"title": "Accreditation and COPC", "icon": Icons.assignment},
     {"title": "Student Life and Facilities", "icon": Icons.people},
-    {"title": "Personnel Profile", "icon": Icons.person}, // ✅ Matches the check
+    {"title": "Personnel Profile", "icon": Icons.person},
     {"title": "SDG", "icon": Icons.public},
     {"title": "Account", "icon": Icons.account_circle},
     {"title": "Logout", "icon": Icons.exit_to_app},
@@ -33,19 +32,21 @@ class _MainAppScreenState extends State<MainAppScreen> {
     return Scaffold(
       body: Row(
         children: [
-          // Left Sidebar Navigation
+          // Left Sidebar
           Container(
             width: 250,
             color: Colors.orange.shade200,
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                // 🔹 Navigation List (Scrollable)
                 Expanded(
                   child: ListView.builder(
                     itemCount: navList.length,
                     itemBuilder: (context, index) {
-                      return _buildMenuItem(navList[index]["title"], navList[index]["icon"]);
+                      return _buildMenuItem(
+                        navList[index]["title"],
+                        navList[index]["icon"],
+                      );
                     },
                   ),
                 ),
@@ -54,25 +55,33 @@ class _MainAppScreenState extends State<MainAppScreen> {
             ),
           ),
 
-          // 🔹 Main Content Area (Changes on selection)
+          // Right Main Content
           Expanded(
-            child: selectedMenu == "Account"
-                ? const CreateAccountScreen()
-                : selectedMenu == "Personnel Profile" // ✅ Corrected Check
-                    ? const PersonnelProfileScreen() // ✅ Ensure correct import
-                    : Center(
-                        child: Text(
-                          "$selectedMenu Page Coming Soon...",
-                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ),
+            child: _buildMainContent(),
           ),
         ],
       ),
     );
   }
 
-  // 🔹 Menu Item Builder
+  // 🔹 Build Main Content Based on Selected Menu
+  Widget _buildMainContent() {
+    switch (selectedMenu) {
+      case "Account":
+        return const CreateAccountScreen();
+      case "Personnel Profile":
+        return const PersonnelProfileScreen();
+      default:
+        return Center(
+          child: Text(
+            "$selectedMenu Page Coming Soon...",
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        );
+    }
+  }
+
+  // 🔹 Build Sidebar Menu Item
   Widget _buildMenuItem(String title, IconData icon) {
     bool isSelected = selectedMenu == title;
 

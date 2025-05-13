@@ -21,6 +21,8 @@ import 'package:ipqaia/features/main/accounts/presentation/account_screen.dart'
     as _i3;
 import 'package:ipqaia/features/main/accounts/presentation/create_account_screen.dart'
     as _i8;
+import 'package:ipqaia/features/main/dashboard/presentation/dashboard_screen.dart' 
+    as _i9;
 import 'package:ipqaia/features/main/accounts/presentation/list_of_accounts_screen.dart'
     as _i13;
 import 'package:ipqaia/features/main/accreditation/presentation/accreditation_screen.dart'
@@ -29,14 +31,15 @@ import 'package:ipqaia/features/main/accreditation/presentation/copc_screen.dart
     as _i7;
 import 'package:ipqaia/features/main/accreditation/presentation/list_of_accreditation_screen.dart'
     as _i14;
-import 'package:ipqaia/features/main/dashboard/presentation/dashboard_screen.dart'
-    as _i9;
-import 'package:ipqaia/features/main/personel_profile/presentation/personel_profile.dart'
+import 'package:ipqaia/features/main/personnel_profile/presentation/personel_profile.dart'
     as _i18;
-import 'package:ipqaia/features/main/personnel_profile/presentation/profile_screen.dart'
+import 'package:ipqaia/features/main/personnel_profile/presentation/profile_screen.dart' 
     as _i20;
-import 'package:ipqaia/features/main/personnel_profile/presentation/report_screen.dart'
+import 'package:ipqaia/features/main/personnel_profile/presentation/report_screen.dart' 
     as _i21;
+import 'package:ipqaia/features/main/personnel_profile/presentation/personnel_profile_screen.dart' 
+    as _i19;
+
 import 'package:ipqaia/features/main/sdg/presentation/list_articles_screen.dart'
     as _i12;
 import 'package:ipqaia/features/main/sdg/presentation/manage_sdg_screen.dart'

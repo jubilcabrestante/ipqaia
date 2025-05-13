@@ -83,7 +83,7 @@ class AccreditationPageState extends State<AccreditationPage> {
       scrollDirection: Axis.horizontal,
       child: DataTable(
         columnSpacing: 20,
-        headingRowColor: MaterialStateColor.resolveWith((states) => Colors.orange.shade400),
+        headingRowColor: WidgetStateColor.resolveWith((states) => Colors.orange.shade400),
         columns: [
           DataColumn(label: Text('Name', style: TextStyle(color: Colors.white))),
           DataColumn(label: Text('Gender', style: TextStyle(color: Colors.white))),
@@ -115,7 +115,7 @@ class AccreditationPageState extends State<AccreditationPage> {
       scrollDirection: Axis.horizontal,
       child: DataTable(
         columnSpacing: 20,
-        headingRowColor: MaterialStateColor.resolveWith((states) => Colors.orange.shade400),
+        headingRowColor: WidgetStateColor.resolveWith((states) => Colors.orange.shade400),
         columns: [
           DataColumn(label: Text('Date Started', style: TextStyle(color: Colors.white))),
           DataColumn(label: Text('Department', style: TextStyle(color: Colors.white))),
