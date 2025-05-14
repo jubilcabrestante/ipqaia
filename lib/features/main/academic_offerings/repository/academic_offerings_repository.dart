@@ -7,28 +7,60 @@ class AcademicOfferingsRepository implements IAcademicOfferingsRepository {
   final FirebaseFirestore _firestore;
   final String dbNameStudentProfile;
   final String dbNameProgram;
+  final String docMain = "main";
+  final String docExternal = "external";
 
-  AcademicOfferingsRepository(FirebaseFirestore firestore,
-      {this.dbNameStudentProfile = "student_profile",
+  AcademicOfferingsRepository(
+      {FirebaseFirestore? firestore,
+      this.dbNameStudentProfile = "student_profile",
       this.dbNameProgram = "program"})
-      : _firestore = firestore;
+      : _firestore = firestore ?? FirebaseFirestore.instance;
 
   // ADD FUNCTION FOR ADD
   @override
-  Future<void> addStudentProfile(StudentProfileVm studentProfile) async {
+  Future<void> addStudentProfileMain(StudentProfileVm studentProfile) async {
     try {
       await _firestore
           .collection(dbNameStudentProfile)
-          .add(studentProfile.toJson());
+          .doc(docMain)
+          .set(studentProfile.toJson());
     } catch (e) {
       throw e.toString();
     }
   }
 
   @override
-  Future<void> addProgram(ProgramVm program) async {
+  Future<void> addStudentProfileExternal(
+      StudentProfileVm studentProfile) async {
     try {
-      await _firestore.collection(dbNameProgram).add(program.toJson());
+      await _firestore
+          .collection(dbNameStudentProfile)
+          .doc(docExternal)
+          .set(studentProfile.toJson());
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<void> addProgramMain(ProgramVm program) async {
+    try {
+      await _firestore
+          .collection(dbNameStudentProfile)
+          .doc(docMain)
+          .set(program.toJson());
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<void> addProgramExternal(ProgramVm program) async {
+    try {
+      await _firestore
+          .collection(dbNameStudentProfile)
+          .doc(docExternal)
+          .set(program.toJson());
     } catch (e) {
       throw e.toString();
     }
@@ -57,7 +89,7 @@ class AcademicOfferingsRepository implements IAcademicOfferingsRepository {
   }
 
   @override
-  Future<List<StudentProfileVm>> getStudentProfiles() async {
+  Future<List<StudentProfileVm>> getStudentProfilesMain() async {
     try {
       final snapshot = await _firestore.collection(dbNameStudentProfile).get();
       return snapshot.docs
@@ -69,7 +101,31 @@ class AcademicOfferingsRepository implements IAcademicOfferingsRepository {
   }
 
   @override
-  Future<List<ProgramVm>> getPrograms() async {
+  Future<List<StudentProfileVm>> getStudentProfilesExternal() async {
+    try {
+      final snapshot = await _firestore.collection(dbNameStudentProfile).get();
+      return snapshot.docs
+          .map((doc) => StudentProfileVm.fromJson(doc.data()))
+          .toList();
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<List<ProgramVm>> getProgramsMain() async {
+    try {
+      final snapshot = await _firestore.collection(dbNameProgram).get();
+      return snapshot.docs
+          .map((doc) => ProgramVm.fromJson(doc.data()))
+          .toList();
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<List<ProgramVm>> getProgramsExternal() async {
     try {
       final snapshot = await _firestore.collection(dbNameProgram).get();
       return snapshot.docs
