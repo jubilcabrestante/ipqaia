@@ -169,46 +169,24 @@ class _ListOfAccreditationScreenState extends State<ListOfAccreditationScreen> {
                     decoration: const InputDecoration(labelText: "End Date (mm/dd/yyyy)"),
                   ),
                   const SizedBox(height: 10),
-                  // Styled Recommendation File Button
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        final result = await FilePicker.platform.pickFiles();
-                        if (result != null) {
-                          recommendation = result.files.first;
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                      ),
-                      child: const Text(
-                        "Choose Recommendation File",
-                        style: TextStyle(fontSize: 14),
-                      ),
-                    ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      final result = await FilePicker.platform.pickFiles();
+                      if (result != null) {
+                        recommendation = result.files.first;
+                      }
+                    },
+                    child: const Text("Choose Recommendation File"),
                   ),
-                  const SizedBox(height: 10),
-                  // Styled Supporting Document Button
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        final result = await FilePicker.platform.pickFiles();
-                        if (result != null) {
-                          supportDoc = result.files.first;
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                      ),
-                      child: const Text(
-                        "Choose Supporting Document (Optional)",
-                        style: TextStyle(fontSize: 14),
-                      ),
-                    ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      final result = await FilePicker.platform.pickFiles();
+                      if (result != null) {
+                        supportDoc = result.files.first;
+                      }
+                    },
+                    child: const Text("Choose Supporting Document (Optional)"),
                   ),
-                  const SizedBox(height: 10),
                   TextFormField(
                     controller: remarksCtrl,
                     decoration: const InputDecoration(labelText: "Remarks"),
@@ -225,7 +203,7 @@ class _ListOfAccreditationScreenState extends State<ListOfAccreditationScreen> {
                     accreditationData.add({
                       'program': programCtrl.text,
                       'year': yearCtrl.text,
-                      'status': 'Level 1',
+                      'status': 'Level 1', // Default or calculated value
                       'startDate': startDateCtrl.text,
                       'endDate': endDateCtrl.text,
                       'recommendation': recommendation?.name ?? 'No file',

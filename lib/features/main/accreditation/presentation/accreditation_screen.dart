@@ -1,60 +1,148 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:ipqaia/app/routes/router.gr.dart';
-import 'package:ipqaia/core/shared/app_containers/app_body_container.dart';
-import 'package:ipqaia/core/shared/app_containers/app_header_container.dart';
-import 'package:ipqaia/core/shared/app_custom_button.dart';
 
 @RoutePage()
-class AccreditationScreen extends StatefulWidget {
+class AccreditationScreen extends StatelessWidget {
   const AccreditationScreen({super.key});
 
   @override
-  State<AccreditationScreen> createState() => _AccreditationScreenState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Personnel Profile',
+      home: AccreditationPage(),
+    );
+  }
 }
 
-class _AccreditationScreenState extends State<AccreditationScreen> {
+class AccreditationPage extends StatefulWidget {
+  const AccreditationPage({super.key});
+
+  @override
+  AccreditationPageState createState() => AccreditationPageState();
+}
+
+class AccreditationPageState extends State<AccreditationPage> {
+  bool showProfile = true;
+
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter(
-      routes: const [
-        ListOfAccreditationRoute(),
-        CopcRoute(),
-      ],
-      builder: (context, child) {
-        final tabsRouter = AutoTabsRouter.of(context);
-
-        return Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            titleSpacing: 0,
-            centerTitle: false,
-            title: AppHeaderContainer(
-              child: Row(
-                children: [
-                  AppCustomButton(
-                    ontab: () {
-                      tabsRouter.setActiveIndex(0);
-                    },
-                    text: "Accreditation",
-                    isActive: tabsRouter.activeIndex == 0,
+    return Scaffold(
+      backgroundColor: Colors.grey.shade200,
+      appBar: AppBar(
+        title: Text('Accreditation and COPC', style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
+      body: Column(
+        children: [
+          Container(
+            color: Colors.white,
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            child: Row(
+              children: [
+                _buildTabButton('Accreditation', true),
+                SizedBox(width: 10),
+                _buildTabButton('COPC', false),
+                Spacer(),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange.shade400,
                   ),
-                  const Gap(20),
-                  AppCustomButton(
-                    ontab: () {
-                      tabsRouter.setActiveIndex(1);
-                    },
-                    text: "Copc",
-                    isActive: tabsRouter.activeIndex == 1,
-                  ),
-                ],
-              ),
+                  child: Text('Add', style: TextStyle(color: Colors.white)),
+                ),
+              ],
             ),
           ),
-          body: AppBodyContainer(child: child),
-        );
+          Expanded(
+            child: showProfile ? _buildProfileTable() : _buildReportsTable(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTabButton(String title, bool isProfile) {
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          showProfile = isProfile;
+        });
       },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: showProfile == isProfile ? Colors.orange.shade400 : Colors.orange.shade100,
+      ),
+      child: Text(title, style: TextStyle(color: Colors.black)),
+    );
+  }
+
+  Widget _buildProfileTable() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: DataTable(
+        columnSpacing: 20,
+        headingRowColor: WidgetStateColor.resolveWith((states) => Colors.orange.shade400),
+        columns: [
+          DataColumn(label: Text('Name', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('Gender', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('Civil Status', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('Employment Status', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('Date Started', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('Department', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('Degree', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('Specialization', style: TextStyle(color: Colors.white))),
+        ],
+        rows: [
+          DataRow(cells: [
+            DataCell(Text('Juan Dela Cruz')),
+            DataCell(Text('Male')),
+            DataCell(Text('Single')),
+            DataCell(Text('Permanent')),
+            DataCell(Text('June 20, 2024')),
+            DataCell(Text('CSD')),
+            DataCell(Text('Masters')),
+            DataCell(Text('Data Analyst')),
+          ]),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReportsTable() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: DataTable(
+        columnSpacing: 20,
+        headingRowColor: WidgetStateColor.resolveWith((states) => Colors.orange.shade400),
+        columns: [
+          DataColumn(label: Text('Date Started', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('Department', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('Degree', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('Specialization', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('PWD', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('Senior Citizen', style: TextStyle(color: Colors.white))),
+          DataColumn(label: Text('Action', style: TextStyle(color: Colors.white))),
+        ],
+        rows: [
+          DataRow(cells: [
+            DataCell(Text('June 20, 2024')),
+            DataCell(Text('CSD')),
+            DataCell(Text('Masters')),
+            DataCell(Text('Data Analyst')),
+            DataCell(Text('Yes')),
+            DataCell(Text('No')),
+            DataCell(
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                child: Text('Delete', style: TextStyle(color: Colors.white)),
+              ),
+            ),
+          ]),
+        ],
+      ),
     );
   }
 }

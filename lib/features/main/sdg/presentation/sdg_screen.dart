@@ -53,3 +53,7 @@ class SdgScreen extends StatelessWidget {
     );
   }
 }
+
+class ReportScreen {
+  const ReportScreen();
+}

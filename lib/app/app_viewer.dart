@@ -1,12 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:ipqaia/app/routes/router.gr.dart';
-import 'package:ipqaia/app/themes/colors.dart';
-import 'package:ipqaia/core/extensions/theme_extensions.dart';
-import 'package:ipqaia/core/shared/app_containers/app_container.dart';
-import 'package:ipqaia/core/shared/app_dialog.dart';
-import 'package:ipqaia/gen/assets.gen.dart';
+import 'package:ipqaia/features/main/accounts/presentation/create_account_screen.dart';
+import 'package:ipqaia/features/main/personnel_profile/presentation/personel_profile.dart';
+import 'package:ipqaia/features/main/personnel_profile/presentation/personnel_profile_screen.dart';
 
 @RoutePage()
 class MainAppScreen extends StatefulWidget {
@@ -17,143 +13,105 @@ class MainAppScreen extends StatefulWidget {
 }
 
 class _MainAppScreenState extends State<MainAppScreen> {
+  String selectedMenu = "Account"; // Default selected menu
+
+  // 🔹 Navigation List
   final List<Map<String, dynamic>> navList = [
-    {"title": "Dashboard", "icon": Icons.home, "route": DashboardRoute()},
-    {
-      "title": "Academic Offerings",
-      "icon": Icons.school,
-      "route": AcademicOfferingsRoute()
-    },
-    {
-      "title": "Accreditation and COPC",
-      "icon": Icons.assignment,
-      "route": AccreditationRoute()
-    },
-    {
-      "title": "Student Life and Facilities",
-      "icon": Icons.people,
-      "route": StudentLifeRoute()
-    },
-    {
-      "title": "Personnel Profile",
-      "icon": Icons.person,
-      "route": PersonnelProfileRoute()
-    },
-    {"title": "SDG", "icon": Icons.public, "route": SdgRoute()},
-    {"title": "Account", "icon": Icons.account_circle, "route": AccountRoute()},
-    {"title": "Logout", "icon": Icons.logout},
+    {"title": "Dashboard", "icon": Icons.home},
+    {"title": "Academic Offerings", "icon": Icons.school},
+    {"title": "Accreditation and COPC", "icon": Icons.assignment},
+    {"title": "Student Life and Facilities", "icon": Icons.people},
+    {"title": "Personnel Profile", "icon": Icons.person},
+    {"title": "SDG", "icon": Icons.public},
+    {"title": "Account", "icon": Icons.account_circle},
+    {"title": "Logout", "icon": Icons.exit_to_app},
   ];
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter(
-      // Filter out null routes and cast to PageRouteInfo
-      routes: navList
-          .where((item) => item['route'] != null)
-          .map((item) => item['route'] as PageRouteInfo)
-          .toList(),
-      builder: (context, child) {
-        final tabsRouter = AutoTabsRouter.of(context);
-        final activeIndex = tabsRouter.activeIndex;
-
-        return Scaffold(
-          body: Row(
-            children: [
-              // Sidebar Navigation
-              Container(
-                width: 275,
-                color: AppColors.secondary,
-                child: Column(
-                  children: [
-                    const Gap(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          Assets.images.logo.path,
-                          width: 65,
-                          height: 65,
-                        ),
-                        Text(
-                          "IPQAIA SYSTEM",
-                          style: context.textTheme.titleLarge!
-                              .copyWith(fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    const Gap(20),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: navList.length,
-                        itemBuilder: (context, index) {
-                          final isSelected = activeIndex == index;
-                          final item = navList[index];
-
-                          return GestureDetector(
-                            // Check for route presence instead of title
-                            onTap: () {
-                              if (item['route'] == null) {
-                                AppDialog.showLogoutDialog(context);
-                              } else {
-                                tabsRouter.setActiveIndex(index);
-                              }
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: isSelected
-                                    ? AppColors.primary
-                                    : Colors.transparent,
-                              ),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 20),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      item['icon'],
-                                      color: isSelected
-                                          ? Colors.white
-                                          : Colors.black,
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        item['title'],
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                                color: isSelected
-                                                    ? Colors.white
-                                                    : Colors.black,
-                                                fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    const Gap(20),
-                  ],
+    return Scaffold(
+      body: Row(
+        children: [
+          // Left Sidebar
+          Container(
+            width: 250,
+            color: Colors.orange.shade200,
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: navList.length,
+                    itemBuilder: (context, index) {
+                      return _buildMenuItem(
+                        navList[index]["title"],
+                        navList[index]["icon"],
+                      );
+                    },
+                  ),
                 ),
-              ),
-              // Main Content
-              Expanded(
-                child: AppContainer(
-                  // Safe to use activeIndex since routes are filtered in order
-                  title: navList[tabsRouter.activeIndex]['title'],
-                  child: child,
-                ),
-              ),
-            ],
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
+
+          // Right Main Content
+          Expanded(
+            child: _buildMainContent(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 🔹 Build Main Content Based on Selected Menu
+  Widget _buildMainContent() {
+    switch (selectedMenu) {
+      case "Account":
+        return const CreateAccountScreen();
+      case "Personnel Profile":
+        return const PersonnelProfileScreen();
+      default:
+        return Center(
+          child: Text(
+            "$selectedMenu Page Coming Soon...",
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         );
+    }
+  }
+
+  // 🔹 Build Sidebar Menu Item
+  Widget _buildMenuItem(String title, IconData icon) {
+    bool isSelected = selectedMenu == title;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedMenu = title;
+        });
       },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.deepOrange : Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: isSelected ? Colors.white : Colors.black),
+            const SizedBox(width: 10),
+            Text(
+              title,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

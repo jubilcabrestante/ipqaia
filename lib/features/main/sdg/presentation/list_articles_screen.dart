@@ -103,15 +103,14 @@ class _ListArticlesScreenState extends State<ListArticlesScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Center(
-                  child: SizedBox(
-                    width: 300,
-                    child: CustomSearchBar(
-                      controller: searchController,
-                      onSearchPressed: () {
-                        sdgCubit.searchArticle(searchController.text);
-                      },
-                    ),
+                Container(
+                  padding: EdgeInsets.only(left: 20),
+                  width: 350,
+                  child: CustomSearchBar(
+                    controller: searchController,
+                    onSearchPressed: () {
+                      sdgCubit.searchArticle(searchController.text);
+                    }, onChanged: (String query) {  },
                   ),
                 ),
                 Row(
