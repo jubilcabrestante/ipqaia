@@ -1,16 +1,19 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ipqaia/features/main/accounts/repository/models/account_creation.dto.dart';
 part 'account_creation_vm.g.dart';
 
 @JsonSerializable()
 class AccountVm {
+  final String? uid;
   final String name;
   final String email;
   final String role;
   final String gender;
   final int age;
+  final String? createdAt;
 
   const AccountVm({
+    this.uid,
+    this.createdAt,
     required this.name,
     required this.email,
     required this.role,
@@ -18,18 +21,19 @@ class AccountVm {
     required this.age,
   });
 
-  factory AccountVm.fromDto(AccountDto dto) {
-    return AccountVm(
-      name: dto.name,
-      email: dto.email,
-      gender: dto.gender,
-      role: dto.role,
-      age: dto.age,
-    );
-  }
-
   factory AccountVm.fromJson(Map<String, dynamic> json) =>
       _$AccountVmFromJson(json);
 
   Map<String, dynamic> toJson() => _$AccountVmToJson(this);
+
+  factory AccountVm.fromFirebaseUser(
+      {required String role, String? name, String? email, int? age}) {
+    return AccountVm(
+      name: name ?? '',
+      email: email ?? '',
+      role: role,
+      gender: '',
+      age: age ?? 0,
+    );
+  }
 }

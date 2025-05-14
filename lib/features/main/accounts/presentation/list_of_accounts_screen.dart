@@ -1,5 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
+import 'package:ipqaia/app/themes/colors.dart';
+import 'package:ipqaia/core/domain/cubit/auth_cubit.dart';
+import 'package:ipqaia/core/enum/enum_action_method.dart';
+import 'package:ipqaia/core/extensions/theme_extensions.dart';
+import 'package:ipqaia/core/shared/app_custom_button.dart';
+import 'package:ipqaia/core/shared/app_custom_loading_indicator.dart';
+import 'package:ipqaia/core/shared/app_custom_textfield.dart';
+import 'package:ipqaia/core/shared/app_dialog.dart';
+import 'package:ipqaia/core/shared/app_drop_down_field.dart';
+import 'package:ipqaia/core/shared/search_bar.dart';
+import 'package:ipqaia/features/main/accounts/models/account_creation_vm.dart';
+import 'package:ipqaia/talker_service.dart';
 
 @RoutePage()
 class ListOfAccountsScreen extends StatefulWidget {
@@ -10,191 +24,381 @@ class ListOfAccountsScreen extends StatefulWidget {
 }
 
 class _ListOfAccountsScreenState extends State<ListOfAccountsScreen> {
-  // Sample list of accounts
-  List<Map<String, String>> accounts = [
-    {
-      'Name': 'John Doe',
-      'Email': 'john.doe@example.com',
-      'Role': 'Admin',
-      'Gender': 'Male',
-      'Age': '30',
-    },
-    {
-      'Name': 'Jane Smith',
-      'Email': 'jane.smith@example.com',
-      'Role': 'User',
-      'Gender': 'Female',
-      'Age': '25',
-    },
-    {
-      'Name': 'Sam Brown',
-      'Email': 'sam.brown@example.com',
-      'Role': 'Manager',
-      'Gender': 'Male',
-      'Age': '35',
-    },
+  final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final List<String> _columnnames = [
+    'Full Name',
+    'Email',
+    'Age',
+    'Role',
+    'Gender',
+    'Actions'
   ];
 
-  // Function to handle reset password action
-  void _resetPassword(String email) {
-    // Show confirmation dialog before resetting the password
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Confirm Password Reset'),
-        content: Text('Are you sure you want to reset the password for $email?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context); // Close the dialog
-            },
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              // Perform the reset password logic here
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Password reset for $email')),
-              );
-              Navigator.pop(context); // Close the dialog after action
-            },
-            child: const Text('Confirm', style: TextStyle(color: Colors.green)),
-          ),
-        ],
-      ),
-    );
-  }
+  void _showAccountForm({Method? method, AccountVm? account}) {
+    final authCubit = context.read<AuthCubit>();
 
-  // Function to handle delete action
-  void _deleteAccount(int index) {
-    // Show confirmation dialog before deleting the account
-    showDialog(
+    final TextEditingController nameController =
+        TextEditingController(text: account?.name ?? '');
+    final TextEditingController emailController =
+        TextEditingController(text: account?.email ?? '');
+    final TextEditingController ageController =
+        TextEditingController(text: account?.age.toString() ?? '');
+    AppDialog.showCustomFormDialog(
+      width: 600,
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Confirm Deletion'),
-        content: const Text('Are you sure you want to delete this account?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context); // Close the dialog
-            },
-            child: const Text('Cancel'),
+      onClose: () => Navigator.of(context, rootNavigator: true).pop(),
+      isLoading: authCubit.state.isLoading,
+      formFields: [
+        BlocProvider.value(
+          value: authCubit,
+          child: AccountForms(
+            method: method!,
+            account: account,
+            password: _passwordController,
+            nameController: nameController,
+            emailController: emailController,
+            ageController: ageController,
+            confirmPasswordController: _confirmPasswordController,
+            formKey: _formKey,
           ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                accounts.removeAt(index);
-              });
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Account deleted')),
-              );
-              Navigator.pop(context); // Close the dialog after action
-            },
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      ),
+        )
+      ],
+      onSubmit: () {
+        if (_formKey.currentState!.validate()) {
+          // Validate form
+          if (method == Method.add) {
+            final newAccount = AccountVm(
+              name: nameController.text,
+              email: emailController.text,
+              role: authCubit.state.selectedRole,
+              gender: authCubit.state.selectedGender,
+              age: int.parse(ageController.text),
+            );
+            TalkerService.talker
+                .debug(newAccount.toJson(), _passwordController.text);
+
+            context
+                .read<AuthCubit>()
+                .createAccount(newAccount, _passwordController.text);
+          } else {
+            // context.read<AuthCubit>().updateAccount(account);
+          }
+        }
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final authCubit = context.read<AuthCubit>();
+
     return Scaffold(
+      backgroundColor: AppColors.backgroundSecondary,
       appBar: AppBar(
-        title: const Text('List of Accounts'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columnSpacing: 60,
-            columns: [
-              DataColumn(
-                label: Center(
-                  child: Container(
-                    width: 150, // Adjust the width for the Name column
-                    child: const Text('Name'),
-                  ),
+        automaticallyImplyLeading: false,
+        backgroundColor: AppColors.backgroundSecondary,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: CustomSearchBar(
+                  controller: _searchController,
+                  onSearchPressed: () {
+                    // TODO: Implement search functionality
+                    // authCubit.searchAccounts(_searchController.text);
+                  },
                 ),
               ),
-              DataColumn(
-                label: Center(
-                  child: Container(
-                    width: 250, // Adjust the width for the Email column
-                    child: const Text('Email'),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Center(
-                  child: Container(
-                    width: 100, // Adjust the width for the Role column
-                    child: const Text('Role'),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Center(
-                  child: Container(
-                    width: 100, // Adjust the width for the Gender column
-                    child: const Text('Gender'),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Center(
-                  child: Container(
-                    width: 80, // Adjust the width for the Age column
-                    child: const Text('Age'),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Center(
-                  child: Container(
-                    width: 60, // Adjust the width for the Actions column
-                    child: const Text('Actions'),
-                  ),
-                ),
-              ),
-            ],
-            rows: List.generate(
-              accounts.length,
-              (index) {
-                final account = accounts[index];
-                return DataRow(cells: [
-                  DataCell(Center(child: Container(width: 150, child: Text(account['Name']!)))),
-                  DataCell(Center(child: Container(width: 250, child: Text(account['Email']!)))),
-                  DataCell(Center(child: Container(width: 100, child: Text(account['Role']!)))),
-                  DataCell(Center(child: Container(width: 100, child: Text(account['Gender']!)))),
-                  DataCell(Center(child: Container(width: 80, child: Text(account['Age']!)))),
-                  DataCell(
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.lock_reset, color: Colors.blue),
-                            iconSize: 30,  // Adjust the size of the reset icon
-                            onPressed: () => _resetPassword(account['Email']!),
-                          ),
-                          const SizedBox(width: 2), // Adjust the spacing between icons
-                          IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.red),
-                            iconSize: 30,  // Adjust the size of the delete icon
-                            onPressed: () => _deleteAccount(index),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ]);
-              },
             ),
-          ),
+            AppCustomButton(
+              ontab: () => _showAccountForm(method: Method.add),
+              backgroundColor: AppColors.primary,
+              text: "Add Account",
+            ),
+          ],
         ),
       ),
+      body: BlocConsumer<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state.errorMessage != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.errorMessage!)),
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state.isLoadingAccounts) {
+            return const AppCustomLoadingIndicator();
+          }
+
+          if (state.accounts.isEmpty) {
+            return const Center(child: Text("No accounts found"));
+          }
+
+          return LayoutBuilder(builder: (context, constraints) {
+            return Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minWidth: constraints.maxWidth,
+                    minHeight: constraints.maxHeight,
+                  ),
+                  child: DataTable(
+                    headingRowColor: WidgetStateProperty.all(AppColors.primary),
+                    headingTextStyle: context.textTheme.bodyMedium!.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                    columns: [
+                      for (var name in _columnnames)
+                        DataColumn(
+                          label: Expanded(
+                            child: Center(
+                              child: Text(
+                                name,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                    rows: state.accounts.map((account) {
+                      return DataRow(
+                        cells: [
+                          DataCell(Center(child: Text(account.name))),
+                          DataCell(Center(child: Text(account.email))),
+                          DataCell(Center(child: Text(account.age.toString()))),
+                          DataCell(Center(child: Text(account.role))),
+                          DataCell(Center(child: Text(account.gender))),
+                          DataCell(
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  AppCustomButton(
+                                    ontab: () => _showAccountForm(
+                                      method: Method.update,
+                                      account: account,
+                                    ),
+                                    backgroundColor: AppColors.secondary,
+                                    text: "edit",
+                                  ),
+                                  const Gap(15),
+                                  AppCustomButton(
+                                    ontab: () =>
+                                        AppDialog.showCustomAlertDialog(
+                                      context,
+                                      'Delete Account',
+                                      'Are you sure you want to delete this account?',
+                                      buttonText: "delete",
+                                      showCancelButton: true,
+                                      onPressed: () {
+                                        authCubit.deleteUser(account.uid!);
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    backgroundColor: AppColors.delete,
+                                    text: "delete",
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+            );
+          });
+        },
+      ),
+    );
+  }
+}
+
+class AccountForms extends StatefulWidget {
+  final Method method;
+  final AccountVm? account;
+  final GlobalKey<FormState> formKey;
+  final TextEditingController? nameController;
+  final TextEditingController? emailController;
+  final TextEditingController? ageController;
+  final TextEditingController? confirmPasswordController;
+  final TextEditingController? password;
+
+  const AccountForms({
+    super.key,
+    required this.method,
+    this.account,
+    this.password,
+    required this.formKey,
+    this.nameController,
+    this.emailController,
+    this.ageController,
+    this.confirmPasswordController,
+  });
+
+  @override
+  State<AccountForms> createState() => _AccountFormsState();
+}
+
+class _AccountFormsState extends State<AccountForms> {
+  String? _selectedGender;
+  String? _selectedRole;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state.isSuccess) {
+          Navigator.of(context, rootNavigator: true).pop();
+        }
+      },
+      builder: (context, state) {
+        final authCubit = context.read<AuthCubit>();
+        return Form(
+          key: widget.formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: AppCustomTextfield(
+                        controller: widget.nameController!,
+                        label: "Full Name",
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Full name is required';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    const Gap(10),
+                    Expanded(
+                      flex: 2,
+                      child: AppCustomTextfield(
+                        controller: widget.emailController!,
+                        label: "Email",
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Email is required';
+                          }
+                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                              .hasMatch(value)) {
+                            return 'Enter valid email';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    const Gap(10),
+                    Expanded(
+                      flex: 1,
+                      child: AppCustomTextfield(
+                        controller: widget.ageController!,
+                        label: "Age",
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Age is required';
+                          }
+                          if (int.tryParse(value) == null) {
+                            return 'Enter valid number';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const Gap(20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppDropdownField(
+                        title: "Role",
+                        value: _selectedRole,
+                        options: const ["Staff", "Admin"],
+                        optionLabel: (value) => value,
+                        onChanged: (value) =>
+                            authCubit.updateSelectedRole(value!),
+                        validator: (value) =>
+                            value == null ? "Select role" : null,
+                      ),
+                    ),
+                    const Gap(20),
+                    Expanded(
+                      child: AppDropdownField(
+                        title: "Gender",
+                        value: _selectedGender,
+                        options: const ["Male", "Female"],
+                        optionLabel: (value) => value,
+                        onChanged: (value) =>
+                            authCubit.updateSelectedGender(value!),
+                        validator: (value) =>
+                            value == null ? "Select gender" : null,
+                      ),
+                    ),
+                    const Gap(20),
+                  ],
+                ),
+                const Gap(20),
+                if (widget.method == Method.add) ...[
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AppCustomTextfield(
+                          controller: widget.password!,
+                          label: "Password",
+                          isPassword: true,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Password required';
+                            }
+                            if (value.length < 8) {
+                              return 'Minimum 8 characters';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      const Gap(20),
+                      Expanded(
+                        child: AppCustomTextfield(
+                          controller: widget.confirmPasswordController!,
+                          label: "Confirm Password",
+                          isPassword: true,
+                          validator: (value) {
+                            if (value != widget.password?.text) {
+                              return 'Passwords mismatch';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

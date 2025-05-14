@@ -5,6 +5,7 @@ import 'package:ipqaia/app/routes/router.gr.dart';
 import 'package:ipqaia/app/themes/colors.dart';
 import 'package:ipqaia/core/extensions/theme_extensions.dart';
 import 'package:ipqaia/core/shared/app_containers/app_container.dart';
+import 'package:ipqaia/core/shared/app_dialog.dart';
 import 'package:ipqaia/gen/assets.gen.dart';
 
 @RoutePage()
@@ -40,12 +41,17 @@ class _MainAppScreenState extends State<MainAppScreen> {
     },
     {"title": "SDG", "icon": Icons.public, "route": SdgRoute()},
     {"title": "Account", "icon": Icons.account_circle, "route": AccountRoute()},
+    {"title": "Logout", "icon": Icons.logout},
   ];
 
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter(
-      routes: navList.map((item) => item['route'] as PageRouteInfo).toList(),
+      // Filter out null routes and cast to PageRouteInfo
+      routes: navList
+          .where((item) => item['route'] != null)
+          .map((item) => item['route'] as PageRouteInfo)
+          .toList(),
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
         final activeIndex = tabsRouter.activeIndex;
@@ -55,11 +61,11 @@ class _MainAppScreenState extends State<MainAppScreen> {
             children: [
               // Sidebar Navigation
               Container(
-                width: 300,
+                width: 275,
                 color: AppColors.secondary,
                 child: Column(
                   children: [
-                    Gap(20),
+                    const Gap(20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -70,21 +76,27 @@ class _MainAppScreenState extends State<MainAppScreen> {
                         ),
                         Text(
                           "IPQAIA SYSTEM",
-                          style: context.textTheme.titleMedium!.copyWith(
-                              fontWeight: FontWeight.bold, fontSize: 21),
+                          style: context.textTheme.titleLarge!
+                              .copyWith(fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
-                    Gap(20),
+                    const Gap(20),
                     Expanded(
                       child: ListView.builder(
                         itemCount: navList.length,
                         itemBuilder: (context, index) {
                           final isSelected = activeIndex == index;
+                          final item = navList[index];
 
                           return GestureDetector(
+                            // Check for route presence instead of title
                             onTap: () {
-                              tabsRouter.setActiveIndex(index);
+                              if (item['route'] == null) {
+                                AppDialog.showLogoutDialog(context);
+                              } else {
+                                tabsRouter.setActiveIndex(index);
+                              }
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -95,24 +107,27 @@ class _MainAppScreenState extends State<MainAppScreen> {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 15, horizontal: 20),
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 10),
                                 child: Row(
                                   children: [
                                     Icon(
-                                      navList[index]['icon'],
+                                      item['icon'],
                                       color: isSelected
                                           ? Colors.white
                                           : Colors.black,
                                     ),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      navList[index]['title'],
-                                      style: TextStyle(
-                                        color: isSelected
-                                            ? Colors.white
-                                            : Colors.black,
-                                        fontWeight: FontWeight.bold,
+                                    const SizedBox(width: 5),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        item['title'],
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(
+                                                color: isSelected
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                                fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                   ],
@@ -123,16 +138,18 @@ class _MainAppScreenState extends State<MainAppScreen> {
                         },
                       ),
                     ),
-                    Gap(20),
+                    const Gap(20),
                   ],
                 ),
               ),
               // Main Content
               Expanded(
-                  child: AppContainer(
-                title: navList[tabsRouter.activeIndex]['title'],
-                child: child,
-              )),
+                child: AppContainer(
+                  // Safe to use activeIndex since routes are filtered in order
+                  title: navList[tabsRouter.activeIndex]['title'],
+                  child: child,
+                ),
+              ),
             ],
           ),
         );

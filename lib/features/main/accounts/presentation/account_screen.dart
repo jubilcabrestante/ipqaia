@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:ipqaia/app/routes/router.gr.dart';
 import 'package:ipqaia/core/shared/app_containers/app_body_container.dart';
 import 'package:ipqaia/core/shared/app_containers/app_header_container.dart';
@@ -15,7 +14,6 @@ class AccountScreen extends StatelessWidget {
     return AutoTabsRouter(
       routes: const [
         ListOfAccountsRoute(),
-        CreateAccountRoute(),
       ],
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
@@ -32,12 +30,6 @@ class AccountScreen extends StatelessWidget {
                     ontab: () => tabsRouter.setActiveIndex(0),
                     text: "List of Accounts",
                     isActive: tabsRouter.activeIndex == 0,
-                  ),
-                  const Gap(20),
-                  AppCustomButton(
-                    ontab: () => tabsRouter.setActiveIndex(1),
-                    text: "Create Account",
-                    isActive: tabsRouter.activeIndex == 1,
                   ),
                 ],
               ),

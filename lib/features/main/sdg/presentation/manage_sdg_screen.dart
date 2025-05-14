@@ -167,9 +167,10 @@ class _ManageSdgScreenState extends State<ManageSdgScreen> {
                                               DataColumn(
                                                 label: Expanded(
                                                   child: Center(
-                                                    child: Text(
-                                                      title,
-                                                    ),
+                                                    child: Text(title,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyMedium!),
                                                   ),
                                                 ),
                                               ),
@@ -368,8 +369,9 @@ class _SdgFormsState extends State<SdgForms> {
             controller: widget.titleController,
             label: "Title",
             validator: (value) {
-              if (value == null || value.isEmpty)
+              if (value == null || value.isEmpty) {
                 return 'Please enter SDG title';
+              }
               return null;
             },
           ),

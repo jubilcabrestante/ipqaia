@@ -11,9 +11,9 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
         // HomeScreen is generated as HomeRoute because
         // of the replaceInRouteName property
-        AutoRoute(page: LoginRoute.page, path: '/', initial: true),
-        AutoRoute(page: ForgotPasswordRoute.page, path: '/'),
-        AutoRoute(page: MainAppRoute.page, path: '/', children: [
+        AutoRoute(page: LoginRoute.page, path: '/login', initial: true),
+        AutoRoute(page: ForgotPasswordRoute.page, path: '/forgot-password'),
+        AutoRoute(page: MainAppRoute.page, path: '/main', children: [
           //Dashboard
           AutoRoute(
               page: DashboardRoute.page, path: "dashboard", initial: true),
@@ -24,8 +24,17 @@ class AppRouter extends RootStackRouter {
               path: "academic-offerings",
               children: [
                 AutoRoute(
-                    page: StudentProfileRoute.page, path: "student-profile"),
-                AutoRoute(page: ProgramsRoute.page, path: "program"),
+                    page: StudentProfileRoute.page,
+                    path: "student-profile",
+                    children: [
+                      AutoRoute(page: StudentMainRoute.page, path: "main"),
+                      AutoRoute(
+                          page: StudentExternalRoute.page, path: "external")
+                    ]),
+                AutoRoute(page: ProgramsRoute.page, path: "program", children: [
+                  AutoRoute(page: ProgramsMainRoute.page, path: "main"),
+                  AutoRoute(page: ProgramsExternalRoute.page, path: "external")
+                ]),
                 AutoRoute(
                     page: AcademicReportsRoute.page, path: "academic-reports")
               ]),
@@ -69,7 +78,6 @@ class AppRouter extends RootStackRouter {
           //Accounts
           AutoRoute(page: AccountRoute.page, path: "accounts", children: [
             AutoRoute(page: ListOfAccountsRoute.page, path: "list-of-accounts"),
-            AutoRoute(page: CreateAccountRoute.page, path: "create-account")
           ]),
         ]),
       ];

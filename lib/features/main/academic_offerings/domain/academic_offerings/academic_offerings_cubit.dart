@@ -13,12 +13,11 @@ class AcademicOfferingsCubit extends Cubit<AcademicOfferingsState> {
   AcademicOfferingsCubit(this._repository)
       : super(const AcademicOfferingsState());
 
-  Future<void> addStudentProfile(StudentProfileVm studentProfile) async {
+  Future<void> addStudentProfileMain(StudentProfileVm studentProfile) async {
     emit(state.copyWith(isLoading: true));
     try {
-      await _repository.addStudentProfile(studentProfile);
+      await _repository.addStudentProfileMain(studentProfile);
 
-      await getStudentProfiles(); // getStudentProfiles para maka kuha ng update uli
       emit(state.copyWith(isLoading: false, isSuccess: true));
     } catch (e) {
       emit(state.copyWith(
@@ -29,12 +28,12 @@ class AcademicOfferingsCubit extends Cubit<AcademicOfferingsState> {
     }
   }
 
-  Future<void> addProgram(ProgramVm program) async {
+  Future<void> addStudentProfileExternal(
+      StudentProfileVm studentProfile) async {
     emit(state.copyWith(isLoading: true));
     try {
-      await _repository.addProgram(program);
+      await _repository.addStudentProfileExternal(studentProfile);
 
-      await getPrograms(); // await getPrograms(); para makakuha uli programs na bago
       emit(state.copyWith(isLoading: false, isSuccess: true));
     } catch (e) {
       emit(state.copyWith(
@@ -45,12 +44,56 @@ class AcademicOfferingsCubit extends Cubit<AcademicOfferingsState> {
     }
   }
 
-  Future<void> deleteStudentProfile(String studentProfileId) async {
+  Future<void> addProgramMain(ProgramVm program) async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      await _repository.addProgramMain(program);
+
+      emit(state.copyWith(isLoading: false, isSuccess: true));
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> addProgramExternal(ProgramVm program) async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      await _repository.addProgramExternal(program);
+
+      emit(state.copyWith(isLoading: false, isSuccess: true));
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> deleteStudentProfileMain(String studentProfileId) async {
     emit(state.copyWith(isLoading: true));
     try {
       await _repository.deleteStudentProfile(studentProfileId);
 
-      await getStudentProfiles(); // getStudentProfiles para maka kuha ng update uli
+      emit(state.copyWith(isLoading: false, isSuccess: true));
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> deleteStudentProfileExternal(String studentProfileId) async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      await _repository.deleteStudentProfile(studentProfileId);
+
       emit(state.copyWith(isLoading: false, isSuccess: true));
     } catch (e) {
       emit(state.copyWith(
@@ -66,7 +109,7 @@ class AcademicOfferingsCubit extends Cubit<AcademicOfferingsState> {
     try {
       await _repository.deleteProgram(programId);
 
-      await getPrograms(); // await getPrograms(); para makakuha uli na programs after delete
+      await getProgramsMain();
       emit(state.copyWith(isLoading: false, isSuccess: true));
     } catch (e) {
       emit(state.copyWith(
@@ -77,11 +120,10 @@ class AcademicOfferingsCubit extends Cubit<AcademicOfferingsState> {
     }
   }
 
-  // 🔹 New method: Get all student profiles
-  Future<void> getStudentProfiles() async {
+  Future<void> getStudentProfilesMain() async {
     emit(state.copyWith(isLoading: true));
     try {
-      final students = await _repository.getStudentProfiles();
+      final students = await _repository.getStudentProfilesMain();
       emit(state.copyWith(
         isLoading: false,
         isSuccess: true,
@@ -96,11 +138,28 @@ class AcademicOfferingsCubit extends Cubit<AcademicOfferingsState> {
     }
   }
 
-  // 🔹 New method: Get all programs
-  Future<void> getPrograms() async {
+  Future<void> getStudentProfilesExternal() async {
     emit(state.copyWith(isLoading: true));
     try {
-      final programs = await _repository.getPrograms();
+      final students = await _repository.getStudentProfilesExternal();
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: true,
+        studentProfile: students,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> getProgramsMain() async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      final programs = await _repository.getProgramsMain();
       emit(state.copyWith(
         isLoading: false,
         isSuccess: true,
@@ -113,5 +172,31 @@ class AcademicOfferingsCubit extends Cubit<AcademicOfferingsState> {
         errorMessage: e.toString(),
       ));
     }
+  }
+
+  Future<void> getProgramsExternal() async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      final programs = await _repository.getProgramsExternal();
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: true,
+        program: programs,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  updateSelectedProgram(String program) {
+    emit(state.copyWith(selectedProgram: program));
+  }
+
+  updateSelectedYear(String year) {
+    emit(state.copyWith(selectedYear: year));
   }
 }

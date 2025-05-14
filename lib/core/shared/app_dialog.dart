@@ -1,6 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:ipqaia/app/routes/router.gr.dart';
 import 'package:ipqaia/app/themes/colors.dart';
+import 'package:ipqaia/core/domain/cubit/auth_cubit.dart';
 import 'package:ipqaia/core/extensions/theme_extensions.dart';
 import 'package:ipqaia/core/shared/app_custom_button.dart';
 
@@ -9,12 +13,13 @@ class AppDialog {
     BuildContext context,
     String title,
     String content, {
-    String buttonText = 'OK',
+    String? buttonText,
     Color? buttonColor,
     Color? textColor,
     TextStyle? titleStyle,
     TextStyle? contentStyle,
     VoidCallback? onPressed,
+    bool showCancelButton = false,
   }) {
     final Color resolvedButtonColor = buttonColor ?? AppColors.primary;
     final Color resolvedTextColor = textColor ?? AppColors.textSecondary;
@@ -49,49 +54,49 @@ class AppDialog {
                 Text(content,
                     style: resolvedContentStyle, textAlign: TextAlign.center),
                 const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: resolvedTextColor,
-                          backgroundColor: resolvedButtonColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
+                if (buttonText != null || showCancelButton)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (showCancelButton) ...[
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: resolvedTextColor,
+                              backgroundColor: Colors.grey[300],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            onPressed: () => Navigator.of(dialogContext).pop(),
+                            child: const Text('Cancel',
+                                style: TextStyle(fontSize: 16)),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
-                        onPressed: () => Navigator.of(dialogContext).pop(),
-                        child: const Text('Cancel',
-                            style: TextStyle(fontSize: 16)),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.grey,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
+                        const SizedBox(width: 10),
+                      ],
+                      if (buttonText != null)
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: resolvedButtonColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            onPressed: () {
+                              Navigator.of(dialogContext).pop();
+                              onPressed?.call();
+                            },
+                            child: Text(buttonText,
+                                style: const TextStyle(fontSize: 16)),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
-                        onPressed: () {
-                          Navigator.of(dialogContext).pop();
-                          if (onPressed != null) {
-                            onPressed();
-                          }
-                        },
-                        child: Text(buttonText,
-                            style: const TextStyle(
-                              fontSize: 16,
-                            )),
-                      ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
               ],
             ),
           ),
@@ -101,6 +106,7 @@ class AppDialog {
   }
 
   static Future<void> showLogoutDialog(BuildContext context) async {
+    final authCubit = context.read<AuthCubit>();
     return showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -108,30 +114,13 @@ class AppDialog {
           borderRadius: BorderRadius.circular(25),
         ),
         child: SizedBox(
-          width: 300, // Ensure a defined width
+          width: 300,
           child: Padding(
             padding: const EdgeInsets.all(30),
-            // child: BlocConsumer<AuthenticationCubit, AuthenticationState>(
-            //   listener: (context, state) {
-            //     if (state.isAuthenticated == false) {
-            //       context.router.replaceAll([MainAppRoute()]);
-            //     }
-            //   },
-            //   builder: (context, state) {
-            //     final authCubit = context.read<AuthenticationCubit>();
             child: IntrinsicHeight(
-              // Ensure the content is wrapped properly
               child: Column(
-                mainAxisSize:
-                    MainAxisSize.min, // Important to prevent layout issues
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Text(
-                  //   "Log Out",
-                  //   style: context
-                  //       .textTheme
-                  //       .titleLarge!s
-                  //       .copyWith(fontWeight: FontWeight.bold),
-                  // ),
                   Text(
                     "Are you sure you want to logout?",
                     style: context.textTheme.bodyLarge,
@@ -144,34 +133,41 @@ class AppDialog {
                       Expanded(
                         child: TextButton(
                           style: TextButton.styleFrom(
-                            backgroundColor: AppColors.backgroundPrimary,
+                            backgroundColor: AppColors.primary,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25),
+                              borderRadius: BorderRadius.circular(15),
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             "Cancel",
-                            style: TextStyle(color: AppColors.textPrimary),
+                            style: context.textTheme.bodyLarge!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.textSecondary),
                           ),
                           onPressed: () => Navigator.pop(context),
                         ),
                       ),
                       Gap(10),
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.backgroundPrimary,
-                          ),
-                          child: Text(
-                            "Log Out",
-                            style: context.textTheme.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.bold, fontSize: 17),
-                          ),
-                          onPressed: () {
-                            // authCubit.signOut();
-                            Navigator.pop(context);
-                          },
-                        ),
+                      BlocBuilder<AuthCubit, AuthState>(
+                        builder: (context, state) {
+                          return Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.backgroundPrimary,
+                              ),
+                              child: Text(
+                                "Log Out",
+                                style: context.textTheme.bodyMedium!,
+                              ),
+                              onPressed: () {
+                                authCubit.logOut();
+
+                                context.router.replaceAll([LoginRoute()]);
+                                Navigator.pop(context);
+                              },
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -183,8 +179,6 @@ class AppDialog {
       ),
     );
   }
-
-//TODO: Add App dialog for the sdg entry and update
 
   static Future<void> showCustomFormDialog({
     required BuildContext context,

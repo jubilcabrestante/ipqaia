@@ -19,7 +19,9 @@ mixin _$AcademicOfferingsState {
   bool get isSuccess;
   String get errorMessage;
   List<StudentProfileVm> get studentProfile;
-  List<ProgramVm>? get program;
+  List<ProgramVm> get program;
+  String get selectedProgram;
+  String get selectedYear;
 
   /// Create a copy of AcademicOfferingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -42,7 +44,11 @@ mixin _$AcademicOfferingsState {
                 other.errorMessage == errorMessage) &&
             const DeepCollectionEquality()
                 .equals(other.studentProfile, studentProfile) &&
-            const DeepCollectionEquality().equals(other.program, program));
+            const DeepCollectionEquality().equals(other.program, program) &&
+            (identical(other.selectedProgram, selectedProgram) ||
+                other.selectedProgram == selectedProgram) &&
+            (identical(other.selectedYear, selectedYear) ||
+                other.selectedYear == selectedYear));
   }
 
   @override
@@ -52,11 +58,13 @@ mixin _$AcademicOfferingsState {
       isSuccess,
       errorMessage,
       const DeepCollectionEquality().hash(studentProfile),
-      const DeepCollectionEquality().hash(program));
+      const DeepCollectionEquality().hash(program),
+      selectedProgram,
+      selectedYear);
 
   @override
   String toString() {
-    return 'AcademicOfferingsState(isLoading: $isLoading, isSuccess: $isSuccess, errorMessage: $errorMessage, studentProfile: $studentProfile, program: $program)';
+    return 'AcademicOfferingsState(isLoading: $isLoading, isSuccess: $isSuccess, errorMessage: $errorMessage, studentProfile: $studentProfile, program: $program, selectedProgram: $selectedProgram, selectedYear: $selectedYear)';
   }
 }
 
@@ -71,7 +79,9 @@ abstract mixin class $AcademicOfferingsStateCopyWith<$Res> {
       bool isSuccess,
       String errorMessage,
       List<StudentProfileVm> studentProfile,
-      List<ProgramVm>? program});
+      List<ProgramVm> program,
+      String selectedProgram,
+      String selectedYear});
 }
 
 /// @nodoc
@@ -91,7 +101,9 @@ class _$AcademicOfferingsStateCopyWithImpl<$Res>
     Object? isSuccess = null,
     Object? errorMessage = null,
     Object? studentProfile = null,
-    Object? program = freezed,
+    Object? program = null,
+    Object? selectedProgram = null,
+    Object? selectedYear = null,
   }) {
     return _then(_self.copyWith(
       isLoading: null == isLoading
@@ -110,10 +122,18 @@ class _$AcademicOfferingsStateCopyWithImpl<$Res>
           ? _self.studentProfile
           : studentProfile // ignore: cast_nullable_to_non_nullable
               as List<StudentProfileVm>,
-      program: freezed == program
+      program: null == program
           ? _self.program
           : program // ignore: cast_nullable_to_non_nullable
-              as List<ProgramVm>?,
+              as List<ProgramVm>,
+      selectedProgram: null == selectedProgram
+          ? _self.selectedProgram
+          : selectedProgram // ignore: cast_nullable_to_non_nullable
+              as String,
+      selectedYear: null == selectedYear
+          ? _self.selectedYear
+          : selectedYear // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -126,7 +146,9 @@ class _AcademicOfferingsState implements AcademicOfferingsState {
       this.isSuccess = false,
       this.errorMessage = '',
       final List<StudentProfileVm> studentProfile = const [],
-      final List<ProgramVm>? program = const []})
+      final List<ProgramVm> program = const [],
+      this.selectedProgram = '',
+      this.selectedYear = ''})
       : _studentProfile = studentProfile,
         _program = program;
 
@@ -148,16 +170,21 @@ class _AcademicOfferingsState implements AcademicOfferingsState {
     return EqualUnmodifiableListView(_studentProfile);
   }
 
-  final List<ProgramVm>? _program;
+  final List<ProgramVm> _program;
   @override
   @JsonKey()
-  List<ProgramVm>? get program {
-    final value = _program;
-    if (value == null) return null;
+  List<ProgramVm> get program {
     if (_program is EqualUnmodifiableListView) return _program;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_program);
   }
+
+  @override
+  @JsonKey()
+  final String selectedProgram;
+  @override
+  @JsonKey()
+  final String selectedYear;
 
   /// Create a copy of AcademicOfferingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -181,7 +208,11 @@ class _AcademicOfferingsState implements AcademicOfferingsState {
                 other.errorMessage == errorMessage) &&
             const DeepCollectionEquality()
                 .equals(other._studentProfile, _studentProfile) &&
-            const DeepCollectionEquality().equals(other._program, _program));
+            const DeepCollectionEquality().equals(other._program, _program) &&
+            (identical(other.selectedProgram, selectedProgram) ||
+                other.selectedProgram == selectedProgram) &&
+            (identical(other.selectedYear, selectedYear) ||
+                other.selectedYear == selectedYear));
   }
 
   @override
@@ -191,11 +222,13 @@ class _AcademicOfferingsState implements AcademicOfferingsState {
       isSuccess,
       errorMessage,
       const DeepCollectionEquality().hash(_studentProfile),
-      const DeepCollectionEquality().hash(_program));
+      const DeepCollectionEquality().hash(_program),
+      selectedProgram,
+      selectedYear);
 
   @override
   String toString() {
-    return 'AcademicOfferingsState(isLoading: $isLoading, isSuccess: $isSuccess, errorMessage: $errorMessage, studentProfile: $studentProfile, program: $program)';
+    return 'AcademicOfferingsState(isLoading: $isLoading, isSuccess: $isSuccess, errorMessage: $errorMessage, studentProfile: $studentProfile, program: $program, selectedProgram: $selectedProgram, selectedYear: $selectedYear)';
   }
 }
 
@@ -212,7 +245,9 @@ abstract mixin class _$AcademicOfferingsStateCopyWith<$Res>
       bool isSuccess,
       String errorMessage,
       List<StudentProfileVm> studentProfile,
-      List<ProgramVm>? program});
+      List<ProgramVm> program,
+      String selectedProgram,
+      String selectedYear});
 }
 
 /// @nodoc
@@ -232,7 +267,9 @@ class __$AcademicOfferingsStateCopyWithImpl<$Res>
     Object? isSuccess = null,
     Object? errorMessage = null,
     Object? studentProfile = null,
-    Object? program = freezed,
+    Object? program = null,
+    Object? selectedProgram = null,
+    Object? selectedYear = null,
   }) {
     return _then(_AcademicOfferingsState(
       isLoading: null == isLoading
@@ -251,10 +288,18 @@ class __$AcademicOfferingsStateCopyWithImpl<$Res>
           ? _self._studentProfile
           : studentProfile // ignore: cast_nullable_to_non_nullable
               as List<StudentProfileVm>,
-      program: freezed == program
+      program: null == program
           ? _self._program
           : program // ignore: cast_nullable_to_non_nullable
-              as List<ProgramVm>?,
+              as List<ProgramVm>,
+      selectedProgram: null == selectedProgram
+          ? _self.selectedProgram
+          : selectedProgram // ignore: cast_nullable_to_non_nullable
+              as String,
+      selectedYear: null == selectedYear
+          ? _self.selectedYear
+          : selectedYear // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
