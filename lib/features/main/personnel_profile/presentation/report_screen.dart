@@ -1,66 +1,90 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ipqaia/app/themes/colors.dart';
+import 'package:ipqaia/core/shared/search_bar.dart';
 
 @RoutePage()
-class ReportScreen extends StatefulWidget {
-  const ReportScreen({super.key});
+class ReportScreen extends StatelessWidget {
+  ReportScreen({super.key});
 
-  @override
-  State<ReportScreen> createState() => _ReportScreenState();
-}
+  final searchController = TextEditingController();
 
-class _ReportScreenState extends State<ReportScreen> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        columnSpacing: 20,
-        headingRowColor:
-            WidgetStateColor.resolveWith((states) => AppColors.primary),
-        columns: [
-          DataColumn(
-              label: Text('Date Started',
-                  style: TextStyle(color: AppColors.textSecondary))),
-          DataColumn(
-              label: Text('Department',
-                  style: TextStyle(color: AppColors.textSecondary))),
-          DataColumn(
-              label: Text('Degree',
-                  style: TextStyle(color: AppColors.textSecondary))),
-          DataColumn(
-              label: Text('Specialization',
-                  style: TextStyle(color: AppColors.textSecondary))),
-          DataColumn(
-              label: Text('PWD',
-                  style: TextStyle(color: AppColors.textSecondary))),
-          DataColumn(
-              label: Text('Senior Citizen',
-                  style: TextStyle(color: AppColors.textSecondary))),
-          DataColumn(
-              label: Text('Action',
-                  style: TextStyle(color: AppColors.textSecondary))),
-        ],
-        rows: [
-          DataRow(cells: [
-            DataCell(Text('June 20, 2024')),
-            DataCell(Text('CSD')),
-            DataCell(Text('Masters')),
-            DataCell(Text('Data Analyst')),
-            DataCell(Text('Yes')),
-            DataCell(Text('No')),
-            DataCell(
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary),
-                child: Text('Delete',
-                    style: TextStyle(color: AppColors.textSecondary)),
-              ),
-            ),
-          ]),
-        ],
+    final List<String> columnTitles = [
+      'Department name',
+      'Date Started',
+      'With Bachelors degree',
+      'With Masters degree',
+      'With Doctorate',
+      'Lgbtq',
+      'Senior Citizen',
+      'Male/Female',
+      'Number of personnel Pwd',
+    ];
+
+    final List<List<String>> data = [
+      [
+        'Department name',
+        'Date Started',
+        'With Bachelors degree',
+        'With Masters degree',
+        'With Doctorate',
+        'Lgbtq',
+        'Senior Citizen',
+        'Male/Female',
+        'Number of personnel Pwd',
+      ],
+      [
+        'Department name',
+        'Date Started',
+        'With Bachelors degree',
+        'With Masters degree',
+        'With Doctorate',
+        'Lgbtq',
+        'Senior Citizen',
+        'Male/Female',
+        'Number of personnel Pwd',
+      ],
+    ];
+
+    return Scaffold(
+      backgroundColor: AppColors.backgroundSecondary,
+      appBar: AppBar(
+        title: SizedBox(
+          width: 300,
+          child: Row(
+            children: [
+              Expanded(child: CustomSearchBar(controller: searchController)),
+            ],
+          ),
+        ),
+        foregroundColor: AppColors.textSecondary,
+      ),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: DataTable(
+          headingRowColor: WidgetStateProperty.all(AppColors.primary),
+          columnSpacing: 20,
+          columns: columnTitles
+              .map(
+                (title) => DataColumn(
+                  label: Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ),
+              )
+              .toList(),
+          rows: data.map((row) {
+            return DataRow(
+              cells: row.map((value) => DataCell(Text(value))).toList(),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
