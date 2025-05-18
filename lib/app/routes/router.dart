@@ -57,7 +57,7 @@ class AppRouter extends RootStackRouter {
               path: "personnel-profile",
               children: [
                 AutoRoute(page: ProfileRoute.page, path: "profile"),
-                AutoRoute(page: ReportRoute.page, path: "reports")
+                AutoRoute(page: PersonnelProfileRoute.page, path: "reports")
               ]),
 
           // Sustainable Development Goals

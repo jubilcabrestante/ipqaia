@@ -1,10 +1,20 @@
 import 'dart:developer';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:ipqaia/app/themes/colors.dart';
+import 'package:ipqaia/core/domain/cubit/auth_cubit.dart';
+import 'package:ipqaia/core/enum/enum_action_method.dart' show Method;
 import 'package:ipqaia/core/extensions/theme_extensions.dart';
 import 'package:ipqaia/core/shared/app_custom_button.dart';
+import 'package:ipqaia/core/shared/app_custom_loading_indicator.dart';
+import 'package:ipqaia/core/shared/app_custom_textfield.dart';
+import 'package:ipqaia/core/shared/app_dialog.dart';
+import 'package:ipqaia/core/shared/app_drop_down_field.dart';
 import 'package:ipqaia/core/shared/search_bar.dart';
+import 'package:ipqaia/features/main/accounts/models/account_creation_vm.dart';
+import 'package:ipqaia/talker_service.dart';
 
 @RoutePage()
 class ListOfAccountsScreen extends StatefulWidget {
@@ -104,7 +114,9 @@ class _ListOfAccountsScreenState extends State<ListOfAccountsScreen> {
                   onSearchPressed: () {
                     // TODO: Implement search functionality
                     // authCubit.searchAccounts(_searchController.text);
-                  },
+                  }, onChanged: (String query) { 
+                  
+                   },
                 ),
               ),
             ),

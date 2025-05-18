@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:ipqaia/features/main/accounts/presentation/create_account_screen.dart';
+import 'package:ipqaia/features/main/accounts/presentation/list_of_accounts_screen.dart';
 import 'package:ipqaia/features/main/personnel_profile/presentation/personel_profile.dart';
 import 'package:ipqaia/features/main/personnel_profile/presentation/personnel_profile_screen.dart';
 
@@ -68,7 +68,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
   Widget _buildMainContent() {
     switch (selectedMenu) {
       case "Account":
-        return const CreateAccountScreen();
+        return const ListOfAccountsScreen();
       case "Personnel Profile":
         return const PersonnelProfileScreen();
       default:
