@@ -8,7 +8,7 @@ part of 'program_vm.dart';
 
 ProgramVm _$ProgramVmFromJson(Map<String, dynamic> json) => ProgramVm(
       id: json['id'] as String?,
-      campus: json['campus'] as String,
+      campus: json['campus'] as String?,
       cluster: json['cluster'] as String,
       college: json['college'] as String?,
       program: json['program'] as String,

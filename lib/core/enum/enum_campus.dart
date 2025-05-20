@@ -1,0 +1,1 @@
+enum Campus { main, external }

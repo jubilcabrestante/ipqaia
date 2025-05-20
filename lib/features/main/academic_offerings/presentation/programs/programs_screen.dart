@@ -44,13 +44,6 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
                     ),
                   );
                 }),
-                const Spacer(),
-                AppCustomButton(
-                  text: 'Add Program',
-                  ontab: () {
-                    // TODO: Implement add student functionality
-                  },
-                ),
               ],
             ),
           ),

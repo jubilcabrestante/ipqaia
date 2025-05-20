@@ -5,7 +5,7 @@ part 'program_vm.g.dart';
 @JsonSerializable()
 class ProgramVm {
   final String? id;
-  final String campus;
+  final String? campus;
   final String cluster;
   final String? college;
   final String program;
@@ -14,7 +14,7 @@ class ProgramVm {
   // Correct constructor
   const ProgramVm({
     this.id,
-    required this.campus,
+    this.campus,
     required this.cluster,
     this.college,
     required this.program,
