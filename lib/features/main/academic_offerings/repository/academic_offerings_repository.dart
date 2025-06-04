@@ -16,16 +16,6 @@ class AcademicOfferingsRepository implements IAcademicOfferingsRepository {
       : _firestore = firestore ?? FirebaseFirestore.instance;
 
   // ADD FUNCTION FOR ADD
-  @override
-  Future<void> addStudentProfileMain(StudentProfileVm studentProfile) async {
-    try {
-      await _firestore
-          .collection(dbNameStudentProfile)
-          .add(studentProfile.toJson());
-    } catch (e) {
-      throw e.toString();
-    }
-  }
 
   @override
   Future<void> addProgramMain(ProgramVm program) async {
@@ -216,7 +206,17 @@ class AcademicOfferingsRepository implements IAcademicOfferingsRepository {
     }
   }
 
-  // ADD FUNCTION FOR DELETE
+  @override
+  Future<void> addStudentProfile(StudentProfileVm studentProfile) async {
+    try {
+      await _firestore
+          .collection(dbNameStudentProfile)
+          .add(studentProfile.toJson());
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   @override
   Future<void> deleteStudentProfile(String studentProfileId) async {
     try {
@@ -230,7 +230,7 @@ class AcademicOfferingsRepository implements IAcademicOfferingsRepository {
   }
 
   @override
-  Future<List<StudentProfileVm>> getStudentProfilesMain() async {
+  Future<List<StudentProfileVm>> getStudentProfiles() async {
     try {
       final snapshot = await _firestore.collection(dbNameStudentProfile).get();
       return snapshot.docs

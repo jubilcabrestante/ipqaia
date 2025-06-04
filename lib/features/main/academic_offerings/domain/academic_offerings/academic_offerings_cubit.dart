@@ -15,10 +15,10 @@ class AcademicOfferingsCubit extends Cubit<AcademicOfferingsState> {
     getPrograms();
   }
 
-  Future<void> addStudentProfileMain(StudentProfileVm studentProfile) async {
+  Future<void> addStudentProfile(StudentProfileVm studentProfile) async {
     emit(state.copyWith(isLoading: true));
     try {
-      await _repository.addStudentProfileMain(studentProfile);
+      await _repository.addStudentProfile(studentProfile);
 
       emit(state.copyWith(isLoading: false, isSuccess: true));
     } catch (e) {
@@ -106,7 +106,7 @@ class AcademicOfferingsCubit extends Cubit<AcademicOfferingsState> {
   Future<void> getStudentProfilesMain() async {
     emit(state.copyWith(isLoading: true));
     try {
-      final students = await _repository.getStudentProfilesMain();
+      final students = await _repository.getStudentProfiles();
       emit(state.copyWith(
         isLoading: false,
         isSuccess: true,

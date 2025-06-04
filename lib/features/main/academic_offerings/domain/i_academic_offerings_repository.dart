@@ -2,7 +2,7 @@ import 'package:ipqaia/features/main/academic_offerings/repository/program_model
 import 'package:ipqaia/features/main/academic_offerings/repository/student_profile_model/student_profile_vm.dart';
 
 abstract class IAcademicOfferingsRepository {
-  Future<void> addStudentProfileMain(StudentProfileVm studentProfile);
+  Future<void> addStudentProfile(StudentProfileVm studentProfile);
 
   Future<void> addProgramMain(ProgramVm program);
 
@@ -16,7 +16,7 @@ abstract class IAcademicOfferingsRepository {
     String majorName,
   );
 
-  Future<List<StudentProfileVm>> getStudentProfilesMain();
+  Future<List<StudentProfileVm>> getStudentProfiles();
 
   Future<List<ProgramVm>> getPrograms();
 }
