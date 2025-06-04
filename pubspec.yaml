@@ -33,6 +33,7 @@ dependencies:
   talker_flutter: ^4.7.2
   data_table_2: ^2.6.0
   freezed_annotation: ^3.0.0
+  retrofit: ^4.4.2
 
 
 dev_dependencies:

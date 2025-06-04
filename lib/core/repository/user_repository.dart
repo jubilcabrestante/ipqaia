@@ -86,8 +86,11 @@ class UserRepository implements IUserRepository {
   Future<List<AccountVm>> getUserList() async {
     try {
       final snapshot = await _firestore.collection(adminCollection).get();
-      final List<AccountVm> userList =
-          snapshot.docs.map((doc) => AccountVm.fromJson(doc.data())).toList();
+      final List<AccountVm> userList = snapshot.docs.map((doc) {
+        final data = doc.data();
+        data['uid'] = doc.id;
+        return AccountVm.fromJson(data);
+      }).toList();
 
       return userList;
     } catch (e) {
@@ -102,6 +105,19 @@ class UserRepository implements IUserRepository {
       await _firestore.collection(adminCollection).doc(uid).delete();
     } catch (e) {
       log("Failed to delete user: ${e.toString()}");
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> updateUser(AccountVm user) async {
+    try {
+      await _firestore
+          .collection(adminCollection)
+          .doc(user.uid)
+          .update(user.toJson());
+    } catch (e) {
+      log("Failed to update user: ${e.toString()}");
       rethrow;
     }
   }

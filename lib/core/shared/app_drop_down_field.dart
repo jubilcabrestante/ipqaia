@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppDropdownField<T> extends StatelessWidget {
-  final String title;
+  final String? title;
   final List<T> options;
   final T? value;
   final ValueChanged<T?> onChanged;
@@ -10,7 +10,7 @@ class AppDropdownField<T> extends StatelessWidget {
 
   const AppDropdownField({
     super.key,
-    required this.title,
+    this.title,
     required this.options,
     required this.value,
     required this.onChanged,
@@ -37,6 +37,9 @@ class AppDropdownField<T> extends StatelessWidget {
                 child: Text(
                   optionLabel(option),
                   style: Theme.of(context).textTheme.bodySmall,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  softWrap: false,
                 ),
               );
             }).toList(),

@@ -49,6 +49,23 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  updateAccount(AccountVm user) async {
+    emit(state.copyWith(
+      isLoading: true,
+    ));
+
+    try {
+      await _iUserRepository.updateUser(user);
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: true,
+      ));
+      _getAccounts();
+    } catch (e) {
+      emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
+    }
+  }
+
   Future<void> logOut() async {
     emit(state.copyWith(isLoading: true, errorMessage: null));
     try {

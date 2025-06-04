@@ -6,6 +6,8 @@ abstract class IUserRepository {
 
   Future<void> createUserWithEmailAndPassword(AccountVm user, String password);
 
+  Future<void> updateUser(AccountVm user);
+
   Future<void> signOut();
 
   Future<List<AccountVm>> getUserList();

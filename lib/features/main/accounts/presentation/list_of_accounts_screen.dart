@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,8 +86,16 @@ class _ListOfAccountsScreenState extends State<ListOfAccountsScreen> {
             context
                 .read<AuthCubit>()
                 .createAccount(newAccount, _passwordController.text);
-          } else {
-            // context.read<AuthCubit>().updateAccount(account);
+          } else if (method == Method.update && account != null) {
+            final updatedAccount = AccountVm(
+              uid: account.uid,
+              name: nameController.text,
+              email: emailController.text,
+              role: authCubit.state.selectedRole,
+              gender: authCubit.state.selectedGender,
+              age: int.parse(ageController.text),
+            );
+            context.read<AuthCubit>().updateAccount(updatedAccount);
           }
         }
       },
@@ -186,10 +196,13 @@ class _ListOfAccountsScreenState extends State<ListOfAccountsScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   AppCustomButton(
-                                    ontab: () => _showAccountForm(
-                                      method: Method.update,
-                                      account: account,
-                                    ),
+                                    ontab: () {
+                                      _showAccountForm(
+                                        method: Method.update,
+                                        account: account,
+                                      );
+                                      log("account: ${account.uid}");
+                                    },
                                     backgroundColor: AppColors.secondary,
                                     text: "edit",
                                   ),
@@ -257,6 +270,15 @@ class AccountForms extends StatefulWidget {
 class _AccountFormsState extends State<AccountForms> {
   String? _selectedGender;
   String? _selectedRole;
+
+  @override
+  void dispose() {
+    widget.nameController?.clear();
+    widget.emailController?.clear();
+    widget.ageController?.clear();
+    widget.confirmPasswordController?.clear();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -31,10 +31,8 @@ class AppRouter extends RootStackRouter {
                       AutoRoute(
                           page: StudentExternalRoute.page, path: "external")
                     ]),
-                AutoRoute(page: ProgramsRoute.page, path: "program", children: [
-                  AutoRoute(page: ProgramsMainRoute.page, path: "main"),
-                  AutoRoute(page: ProgramsExternalRoute.page, path: "external")
-                ]),
+                AutoRoute(
+                    page: ProgramsRoute.page, path: "program", children: []),
                 AutoRoute(
                     page: AcademicReportsRoute.page, path: "academic-reports")
               ]),

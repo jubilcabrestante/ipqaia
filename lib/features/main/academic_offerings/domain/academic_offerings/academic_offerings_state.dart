@@ -8,6 +8,6 @@ abstract class AcademicOfferingsState with _$AcademicOfferingsState {
       @Default('') String errorMessage,
       @Default([]) List<StudentProfileVm> studentProfile,
       @Default([]) List<ProgramVm> program,
-      @Default('') String selectedProgram,
-      @Default('') String selectedYear}) = _AcademicOfferingsState;
+      @Default('') String selectedCluster,
+      @Default('') String selectedCampus}) = _AcademicOfferingsState;
 }
