@@ -10,9 +10,11 @@ class StudentProfileVm {
   final String? major;
   final String studentId;
   final String yearEnrolled;
-  final String? ethnicGroup;
+  final String? yearGraduate;
+  final String citizenship;
   final String? financialAssistance;
-  final String? pwd;
+  final bool? ethnicGroup;
+  final bool? pwd;
 
   const StudentProfileVm({
     required this.studentId,
@@ -20,8 +22,10 @@ class StudentProfileVm {
     required this.cluster,
     required this.campus,
     required this.program,
-    this.major,
+    required this.citizenship,
     this.ethnicGroup,
+    this.major,
+    this.yearGraduate,
     this.financialAssistance,
     this.pwd,
   });

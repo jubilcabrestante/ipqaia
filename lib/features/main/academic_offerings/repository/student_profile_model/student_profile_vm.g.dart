@@ -13,10 +13,12 @@ StudentProfileVm _$StudentProfileVmFromJson(Map<String, dynamic> json) =>
       cluster: json['cluster'] as String,
       campus: json['campus'] as String,
       program: json['program'] as String,
+      citizenship: json['citizenship'] as String,
+      ethnicGroup: json['ethnicGroup'] as bool?,
       major: json['major'] as String?,
-      ethnicGroup: json['ethnicGroup'] as String?,
+      yearGraduate: json['yearGraduate'] as String?,
       financialAssistance: json['financialAssistance'] as String?,
-      pwd: json['pwd'] as String?,
+      pwd: json['pwd'] as bool?,
     );
 
 Map<String, dynamic> _$StudentProfileVmToJson(StudentProfileVm instance) =>
@@ -27,7 +29,9 @@ Map<String, dynamic> _$StudentProfileVmToJson(StudentProfileVm instance) =>
       'major': instance.major,
       'studentId': instance.studentId,
       'yearEnrolled': instance.yearEnrolled,
-      'ethnicGroup': instance.ethnicGroup,
+      'yearGraduate': instance.yearGraduate,
+      'citizenship': instance.citizenship,
       'financialAssistance': instance.financialAssistance,
+      'ethnicGroup': instance.ethnicGroup,
       'pwd': instance.pwd,
     };

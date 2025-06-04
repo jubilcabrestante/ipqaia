@@ -233,9 +233,10 @@ class AcademicOfferingsRepository implements IAcademicOfferingsRepository {
   Future<List<StudentProfileVm>> getStudentProfiles() async {
     try {
       final snapshot = await _firestore.collection(dbNameStudentProfile).get();
-      return snapshot.docs
-          .map((doc) => StudentProfileVm.fromJson(doc.data()))
-          .toList();
+      return snapshot.docs.map((doc) {
+        TalkerService.talker.debug("Document data: ${doc.data()}"); // Add this
+        return StudentProfileVm.fromJson(doc.data());
+      }).toList();
     } catch (e) {
       throw e.toString();
     }
