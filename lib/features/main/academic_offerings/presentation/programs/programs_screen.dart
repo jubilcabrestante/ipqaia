@@ -12,7 +12,6 @@ import 'package:ipqaia/features/main/academic_offerings/domain/academic_offering
 import 'package:ipqaia/features/main/academic_offerings/repository/program_model/program_vm.dart';
 import 'package:ipqaia/core/enum/enum_academics_action.dart';
 import 'package:ipqaia/core/shared/app_custom_textfield.dart';
-import 'package:ipqaia/talker_service.dart';
 
 @RoutePage()
 class ProgramsScreen extends StatefulWidget {
@@ -59,39 +58,13 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
     );
   }
 
-  // Helper method to extract all majors with their hierarchy
-  List<Map<String, String>> getAllData(List<ProgramVm> clusters) {
-    final majors = <Map<String, String>>[];
-
-    for (final cluster in clusters) {
-      for (final campus in cluster.campuses) {
-        for (final college in campus.colleges) {
-          for (final program in college.programs ?? []) {
-            for (final major in program.majors ?? []) {
-              majors.add({
-                'cluster': cluster.cluster,
-                'campus': campus.campusName,
-                'college': college.collegeName,
-                'program': program.programName,
-                'major': major.majorName,
-              });
-            }
-          }
-        }
-      }
-    }
-
-    return majors;
-  }
-
   @override
   Widget build(BuildContext context) {
     final acadCubit = context.read<AcademicOfferingsCubit>();
     return BlocConsumer<AcademicOfferingsCubit, AcademicOfferingsState>(
       listener: (context, state) {},
       builder: (context, state) {
-        final allMajors = getAllData(state.program);
-        TalkerService.talker.debug(allMajors);
+        final academicData = acadCubit.getFlattenedAcademicStructure();
 
         return Scaffold(
           appBar: AppBar(
@@ -112,6 +85,7 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
                       if (value == 'All') {
                         acadCubit.getPrograms();
                       } else {
+                        // TODO: Add search data using cluster
                         acadCubit.updateSelectedCluster(value!);
                       }
                     },
@@ -148,6 +122,7 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
                           if (value == 'All') {
                             acadCubit.updateSelectedCampus('');
                           } else {
+                            // TODO: Add search data using campus
                             acadCubit.updateSelectedCampus(value!);
                           }
                         },
@@ -197,18 +172,18 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
                           ),
                         );
                       }).toList(),
-                      rows: allMajors.map((major) {
+                      rows: academicData.map((entry) {
                         return DataRow(
                           cells: [
                             DataCell(
-                                Center(child: Text(major['cluster'] ?? ''))),
+                                Center(child: Text(entry['cluster'] ?? ''))),
                             DataCell(
-                                Center(child: Text(major['campus'] ?? ''))),
+                                Center(child: Text(entry['campus'] ?? ''))),
                             DataCell(
-                                Center(child: Text(major['college'] ?? ''))),
+                                Center(child: Text(entry['college'] ?? ''))),
                             DataCell(
-                                Center(child: Text(major['program'] ?? ''))),
-                            DataCell(Center(child: Text(major['major'] ?? ''))),
+                                Center(child: Text(entry['program'] ?? ''))),
+                            DataCell(Center(child: Text(entry['major'] ?? ''))),
                             DataCell(
                               Padding(
                                 padding:
@@ -216,6 +191,7 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
+                                    // TODO: Fix delete program or major here
                                     AppCustomButton(
                                       ontab: () =>
                                           AppDialog.showCustomAlertDialog(
@@ -225,8 +201,13 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
                                         buttonText: "Delete",
                                         showCancelButton: true,
                                         onPressed: () {
-                                          // This needs to be implemented
-                                          // acadCubit.deleteMajor(...);
+                                          // acadCubit.deleteMajor(
+                                          //   programId: entry['programId'] ?? '',
+                                          //   campusName: entry['campus'] ?? '',
+                                          //   collegeName: entry['college'] ?? '',
+                                          //   programName: entry['program'] ?? '',
+                                          //   majorName: entry['major'] ?? '',
+                                          // );
                                           Navigator.of(context).pop();
                                         },
                                       ),
@@ -505,16 +486,23 @@ class _ProgramsFormState extends State<ProgramsForm> {
             _buildCollegeDropdown(),
             const Gap(10),
           ],
-          if (selectedCollege != null) ...[
+          // Show Program dropdown ONLY if College dropdown is set to 'None' (null)
+          if (selectedCollege == null) ...[
             _buildProgramDropdown(),
             const Gap(10),
           ],
           AppCustomTextfield(
             controller: majorController,
             label: 'New Major Name',
-            validator: (value) => value == null || value.isEmpty
-                ? 'Major name is required'
-                : null,
+            validator: (value) {
+              if (!(selectedCollege == null && selectedProgram != null)) {
+                return 'Please select "None" for College and a Program first';
+              }
+              if (value == null || value.isEmpty) {
+                return 'Major name is required';
+              }
+              return null;
+            },
           ),
         ]);
         break;
@@ -559,9 +547,16 @@ class _ProgramsFormState extends State<ProgramsForm> {
   Widget _buildCollegeDropdown() {
     final colleges = selectedCampus?.colleges ?? [];
 
+    // Filter out colleges where collegeName is null or empty or just whitespace
+    final filteredColleges =
+        colleges.where((c) => c.collegeName.trim().isNotEmpty).toList();
+
     return AppDropdownField<College?>(
       title: 'Select College',
-      options: [null, ...colleges],
+      options: [
+        null,
+        ...filteredColleges
+      ], // keep the null option if you want 'None'
       value: selectedCollege,
       onChanged: (value) => setState(() {
         selectedCollege = value;
@@ -573,13 +568,26 @@ class _ProgramsFormState extends State<ProgramsForm> {
   }
 
   Widget _buildProgramDropdown() {
+    List<Program> programsToShow = [];
+
+    if (selectedCampus != null) {
+      if (selectedCollege == null) {
+        // Show all programs across all colleges under this campus
+        for (var college in selectedCampus!.colleges) {
+          programsToShow.addAll(college.programs!);
+        }
+      } else {
+        // Show programs inside the selected college only
+        programsToShow = selectedCollege!.programs!;
+      }
+    }
+
     return AppDropdownField<Program>(
       title: 'Select Program',
-      options: selectedCollege?.programs ?? [],
+      options: programsToShow,
       value: selectedProgram,
       onChanged: (value) => setState(() {
         selectedProgram = value;
-        // Reset dependent dropdown
         selectedMajor = null;
       }),
       optionLabel: (value) => value.programName,

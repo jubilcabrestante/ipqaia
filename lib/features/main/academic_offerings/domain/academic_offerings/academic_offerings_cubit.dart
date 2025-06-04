@@ -75,10 +75,22 @@ class AcademicOfferingsCubit extends Cubit<AcademicOfferingsState> {
     }
   }
 
-  Future<void> deleteProgram(String programId) async {
+  Future<void> deleteMajor({
+    required String programId,
+    required String campusName,
+    required String collegeName,
+    required String programName,
+    required String majorName,
+  }) async {
     emit(state.copyWith(isLoading: true));
     try {
-      await _repository.deleteProgram(programId);
+      await _repository.deleteMajor(
+        programId,
+        campusName,
+        collegeName,
+        programName,
+        majorName,
+      );
 
       await getPrograms();
       emit(state.copyWith(isLoading: false, isSuccess: true));
@@ -134,5 +146,77 @@ class AcademicOfferingsCubit extends Cubit<AcademicOfferingsState> {
 
   updateSelectedCampus(String campus) {
     emit(state.copyWith(selectedCampus: campus));
+  }
+
+  List<Map<String, String>> getFlattenedAcademicStructure() {
+    final data = <Map<String, String>>[];
+
+    for (final cluster in state.program) {
+      // Handle cluster with no campuses
+      if (cluster.campuses.isEmpty) {
+        data.add({
+          'cluster': cluster.cluster,
+          'campus': '',
+          'college': '',
+          'program': '',
+          'major': '',
+        });
+        continue;
+      }
+
+      for (final campus in cluster.campuses) {
+        // Handle campus with no colleges
+        if (campus.colleges.isEmpty) {
+          data.add({
+            'cluster': cluster.cluster,
+            'campus': campus.campusName,
+            'college': '',
+            'program': '',
+            'major': '',
+          });
+          continue;
+        }
+
+        for (final college in campus.colleges) {
+          // Handle college with no programs
+          if (college.programs?.isEmpty ?? true) {
+            data.add({
+              'cluster': cluster.cluster,
+              'campus': campus.campusName,
+              'college': college.collegeName,
+              'program': '',
+              'major': '',
+            });
+            continue;
+          }
+
+          for (final program in college.programs!) {
+            // Handle program with no majors
+            if (program.majors?.isEmpty ?? true) {
+              data.add({
+                'cluster': cluster.cluster,
+                'campus': campus.campusName,
+                'college': college.collegeName,
+                'program': program.programName,
+                'major': '',
+              });
+            } else {
+              // Add rows for each major
+              for (final major in program.majors!) {
+                data.add({
+                  'cluster': cluster.cluster,
+                  'campus': campus.campusName,
+                  'college': college.collegeName,
+                  'program': program.programName,
+                  'major': major.majorName,
+                });
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return data;
   }
 }

@@ -8,7 +8,13 @@ abstract class IAcademicOfferingsRepository {
 
   Future<void> deleteStudentProfile(String studentProfileId);
 
-  Future<void> deleteProgram(String programId);
+  Future<void> deleteMajor(
+    String programId,
+    String campusName,
+    String collegeName,
+    String programName,
+    String majorName,
+  );
 
   Future<List<StudentProfileVm>> getStudentProfilesMain();
 

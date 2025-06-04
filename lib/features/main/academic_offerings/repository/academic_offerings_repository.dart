@@ -30,19 +30,15 @@ class AcademicOfferingsRepository implements IAcademicOfferingsRepository {
   @override
   Future<void> addProgramMain(ProgramVm program) async {
     try {
-      // Get the existing document if it exists
       final docRef = _firestore.collection(dbNameProgram).doc(program.id);
       final existingDoc = await docRef.get();
 
       if (existingDoc.exists) {
-        // For existing documents, we need to merge the nested arrays carefully
         await _updateExistingProgram(docRef, existingDoc.data()!, program);
       } else {
-        // For new documents, just set the data
         final data = _programToMap(program);
         data["id"] = program.id ?? docRef.id;
-        final processedData = _convertFieldsToLowerCase(data);
-        await docRef.set(processedData);
+        await docRef.set(data); // Removed lowercase conversion here
       }
 
       TalkerService.talker.log("Saved program: ${program.toString()}");
@@ -114,29 +110,6 @@ class AcademicOfferingsRepository implements IAcademicOfferingsRepository {
     };
   }
 
-// Helper function to convert string fields to lowercase
-  Map<String, dynamic> _convertFieldsToLowerCase(Map<String, dynamic> data) {
-    return data.map((key, value) {
-      if (value is String) {
-        return MapEntry(key, value.toLowerCase());
-      } else if (value is Map<String, dynamic>) {
-        return MapEntry(key, _convertFieldsToLowerCase(value));
-      } else if (value is List) {
-        return MapEntry(
-            key,
-            value.map((item) {
-              if (item is Map<String, dynamic>) {
-                return _convertFieldsToLowerCase(item);
-              } else if (item is String) {
-                return item.toLowerCase();
-              }
-              return item;
-            }).toList());
-      }
-      return MapEntry(key, value);
-    });
-  }
-
   @override
   Future<List<ProgramVm>> getPrograms() async {
     try {
@@ -203,9 +176,41 @@ class AcademicOfferingsRepository implements IAcademicOfferingsRepository {
   }
 
   @override
-  Future<void> deleteProgram(String programId) async {
+  Future<void> deleteMajor(
+    String programId,
+    String campusName,
+    String collegeName,
+    String programName,
+    String majorName,
+  ) async {
     try {
-      await _firestore.collection(dbNameProgram).doc(programId).delete();
+      final docRef = _firestore.collection(dbNameProgram).doc(programId);
+      final snapshot = await docRef.get();
+
+      if (!snapshot.exists) throw 'Program not found';
+
+      final data = snapshot.data()!;
+      final campuses = data['campuses'] as List<dynamic>;
+
+      for (var campus in campuses) {
+        if (campus['campusName'] == campusName) {
+          for (var college in campus['colleges']) {
+            if (college['collegeName'] == collegeName) {
+              final programs = college['programs'] as List<dynamic>;
+              for (var program in programs) {
+                if (program['programName'] == programName) {
+                  final majors = program['majors'] as List<dynamic>;
+                  program['majors'] = majors
+                      .where((major) => major['name'] != majorName)
+                      .toList();
+                }
+              }
+            }
+          }
+        }
+      }
+
+      await docRef.update({'campuses': campuses});
     } catch (e) {
       throw e.toString();
     }
