@@ -208,7 +208,7 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
                                           //   programName: entry['program'] ?? '',
                                           //   majorName: entry['major'] ?? '',
                                           // );
-                                          Navigator.of(context).pop();
+                                          // Navigator.of(context).pop();
                                         },
                                       ),
                                       backgroundColor: AppColors.delete,
@@ -487,7 +487,7 @@ class _ProgramsFormState extends State<ProgramsForm> {
             const Gap(10),
           ],
           // Show Program dropdown ONLY if College dropdown is set to 'None' (null)
-          if (selectedCollege == null) ...[
+          if (selectedCollege == null || selectedCollege != null) ...[
             _buildProgramDropdown(),
             const Gap(10),
           ],
