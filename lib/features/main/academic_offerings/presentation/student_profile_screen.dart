@@ -22,12 +22,6 @@ class StudentProfileScreen extends StatefulWidget {
 }
 
 class _StudentProfileScreenState extends State<StudentProfileScreen> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<AcademicOfferingsCubit>().getStudentProfiles();
-  }
-
   final List<String> _columnTitle = [
     'Cluster',
     'Campus',
@@ -62,10 +56,9 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
         TalkerService.talker.debug(student);
         if (student != null) {
           acadCubit.addStudentProfile(student);
-          // Reset filters to show all students including the new one
           acadCubit.updateSelectedCluster('');
           acadCubit.updateSelectedCampus('');
-          acadCubit.getStudentProfiles(); // Refresh data
+          acadCubit.getStudentProfiles();
         }
         Navigator.of(context).pop();
       },
