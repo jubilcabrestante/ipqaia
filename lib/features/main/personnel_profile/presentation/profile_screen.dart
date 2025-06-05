@@ -210,11 +210,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              width: 350,
-              child: CustomSearchBar(
-                controller: searchController,
-                onSearchPressed: () => _filterAccounts(searchController.text),
+            Expanded(
+              child: SizedBox(
+                width: 350,
+                child: CustomSearchBar(
+                  controller: searchController,
+                  onSearchPressed: () => _filterAccounts(searchController.text),
+                ),
               ),
             ),
             AppCustomButton(

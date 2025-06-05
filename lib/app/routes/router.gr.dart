@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i25;
+import 'package:flutter/material.dart' as _i26;
 import 'package:ipqaia/app/app_viewer.dart' as _i15;
 import 'package:ipqaia/features/main/academic_offerings/presentation/academic_offerings_screen.dart'
     as _i1;
@@ -363,18 +364,36 @@ class ProgramsRoute extends _i25.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i20.ReportScreen]
-class ReportRoute extends _i25.PageRouteInfo<void> {
-  const ReportRoute({List<_i25.PageRouteInfo>? children})
-    : super(ReportRoute.name, initialChildren: children);
+class ReportRoute extends _i25.PageRouteInfo<ReportRouteArgs> {
+  ReportRoute({_i26.Key? key, List<_i25.PageRouteInfo>? children})
+    : super(
+        ReportRoute.name,
+        args: ReportRouteArgs(key: key),
+        initialChildren: children,
+      );
 
   static const String name = 'ReportRoute';
 
   static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
-      return const _i20.ReportScreen();
+      final args = data.argsAs<ReportRouteArgs>(
+        orElse: () => const ReportRouteArgs(),
+      );
+      return _i20.ReportScreen(key: args.key);
     },
   );
+}
+
+class ReportRouteArgs {
+  const ReportRouteArgs({this.key});
+
+  final _i26.Key? key;
+
+  @override
+  String toString() {
+    return 'ReportRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for

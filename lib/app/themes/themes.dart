@@ -63,7 +63,7 @@ class AppThemes {
     // Button Themes
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.darkGreen,
         foregroundColor: AppColors.textPrimary,
         textStyle: _getTextTheme()
             .bodyLarge!
